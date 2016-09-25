@@ -10,7 +10,11 @@ import Cocoa
 
 class PropertyListHandler: NSObject {
     class func parseFilePath(_ filePath: String) -> [String: Any]? {
-        let url = URL(fileURLWithPath: filePath)
+        
+        var url = URL(fileURLWithPath: filePath)
+        if url.pathExtension == "xcodeproj" {
+            url.appendPathComponent("project.pbxproj")
+        }
         
         do {
             let fileData = try Data(contentsOf: url)

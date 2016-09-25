@@ -12,6 +12,7 @@ class ViewController: NSViewController {
 
     @IBOutlet weak var filePathTF: NSTextField!
     @IBOutlet weak var resultTable: NSOutlineView!
+    @IBOutlet weak var selectBtn: NSButton!
     var propertyList : [String: Any] = [:]
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,64 +25,60 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-}
-
-extension ViewController: NSTextFieldDelegate {
-    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        if control == filePathTF {
-            if let data = PropertyListHandler.parseFilePath(filePathTF.stringValue) {
-                propertyList = data;
-                resultTable.reloadData()
+    
+    
+    @IBAction func selectFile(_ sender: NSButton) {
+        let openPanel = NSOpenPanel()
+        openPanel.prompt = "Select"
+        openPanel.canChooseFiles = true
+        openPanel.canChooseDirectories = false
+        openPanel.allowsMultipleSelection = false
+        openPanel.allowedFileTypes = ["pbxproj", "xcodeproj"]
+        
+        if openPanel.runModal() == NSFileHandlingPanelOKButton {
+            if let path = openPanel.url?.path {
+                filePathTF.stringValue = path
+                if let data = PropertyListHandler.parseFilePath(path) {
+                    propertyList = data;
+                    resultTable.reloadData()
+                }
             }
         }
-        return true
     }
 }
 
 //MARK: - NSOutlineViewDataSource
 extension ViewController: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        if item == nil {
-            return propertyList.keys.count
-        }
-        else {
-            return (item as? [String: Any])?.count ?? 0
-        }
+        let children = item == nil ? propertyList : ((item as? (String, Any))?.1 as? [String: Any]) ?? [:]
+        return children.count
     }
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        return item is [String: Any]
+        let children = ((item as? (String, Any))?.1 as? [String: Any]) ?? [String: Any]()
+        return children.count > 0
     }
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        let parent = item ?? propertyList
-        if let values = (parent as? [String: Any])?.values {
-            let value = Array(values)[index]
-            if value is [String: Any] {
-                return value
-            }
-            else {
-                if let keys = (parent as? [String: Any])?.keys {
-                    let key = Array(keys)[index]
-                    return (key, value)
-                }
-            }
-        }
-        return "error"
+        let children = item == nil ? propertyList : ((item as? (String, Any))?.1 as? [String: Any]) ?? [String: Any]()
+        let keys = Array(children.keys)
+        let key = keys[index]
+        let value = children[key] ?? ""
+        return (key, value)
     }
     
     func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
-        if item is [String: Any] {
+        if let pair = item as? (String, Any) {
             if tableColumn?.identifier == "Key" {
-                return (item as? (String, Any))?.0
+                return pair.0
             }
-        }
-        else if item is (String, Any) {
-            if tableColumn?.identifier == "Key" {
-                return (item as? (String, Any))?.0
-            }
-            else {
-                return (item as? (String, Any))?.1
+            else if tableColumn?.identifier == "Value"{
+                if let value = pair.1 as? [String: Any] {
+                    return "Dictionary \(value.count) elements"
+                }
+                else {
+                    return pair.1
+                }
             }
         }
         return nil
