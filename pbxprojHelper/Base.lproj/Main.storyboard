@@ -687,13 +687,13 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2MK-B2-lCb">
-                                <rect key="frame" x="20" y="20" width="410" height="221"/>
+                                <rect key="frame" x="20" y="20" width="410" height="203"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Blx-2E-gHH">
-                                    <rect key="frame" x="1" y="0.0" width="408" height="220"/>
+                                    <rect key="frame" x="1" y="0.0" width="408" height="202"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" multipleSelection="NO" autosaveColumns="NO" headerView="skh-Wz-bZX" indentationPerLevel="16" outlineTableColumn="13S-Or-OXc" id="vLd-t0-Omm">
-                                            <rect key="frame" x="0.0" y="0.0" width="408" height="197"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="408" height="179"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -787,18 +787,60 @@
                                     <action selector="selectFile:" target="XfG-lQ-9wD" id="TxY-kt-4b4"/>
                                 </connections>
                             </button>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="m3e-Kj-9pc">
+                                <rect key="frame" x="223" y="231" width="207" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Filter" drawsBackground="YES" id="8vR-qg-CB7">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="XfG-lQ-9wD" id="hs5-Hz-DfU"/>
+                                </connections>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MWm-AP-Yed">
+                                <rect key="frame" x="20" y="232" width="116" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="116" id="NCY-8d-Dbi"/>
+                                    <constraint firstAttribute="height" constant="18" id="bZD-hG-ZT7"/>
+                                </constraints>
+                                <buttonCell key="cell" type="roundRect" title="Choose JSON File" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xyy-Mj-hsn">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="cellTitle"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="chooseJSONFile:" target="XfG-lQ-9wD" id="wwF-1K-O7H"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7X1-H4-mEk">
+                                <rect key="frame" x="156" y="232" width="47" height="19"/>
+                                <buttonCell key="cell" type="roundRect" title="Apply" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GWI-Kl-xIU">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="cellTitle"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="applyJSONConfiguration:" target="XfG-lQ-9wD" id="WYe-t3-agM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Mkr-Kx-LOE" firstAttribute="leading" secondItem="vPF-zN-MSc" secondAttribute="leading" constant="20" id="1XA-sO-4CD"/>
                             <constraint firstItem="ET9-qh-2Q4" firstAttribute="leading" secondItem="YuV-hF-qe6" secondAttribute="trailing" constant="20" id="3gA-3S-3Wv"/>
                             <constraint firstItem="ET9-qh-2Q4" firstAttribute="centerY" secondItem="Mkr-Kx-LOE" secondAttribute="centerY" id="ABs-oZ-1tM"/>
+                            <constraint firstItem="MWm-AP-Yed" firstAttribute="centerY" secondItem="m3e-Kj-9pc" secondAttribute="centerY" id="DTK-as-Djz"/>
+                            <constraint firstItem="MWm-AP-Yed" firstAttribute="leading" secondItem="vPF-zN-MSc" secondAttribute="leading" constant="20" id="Hri-eS-nDc"/>
+                            <constraint firstItem="2MK-B2-lCb" firstAttribute="top" secondItem="m3e-Kj-9pc" secondAttribute="bottom" constant="8" id="HxK-LG-3x7"/>
+                            <constraint firstItem="m3e-Kj-9pc" firstAttribute="leading" secondItem="7X1-H4-mEk" secondAttribute="trailing" constant="20" id="LU1-lG-3Ka"/>
                             <constraint firstAttribute="bottom" secondItem="2MK-B2-lCb" secondAttribute="bottom" constant="20" id="MGs-tP-B97"/>
                             <constraint firstItem="2MK-B2-lCb" firstAttribute="leading" secondItem="vPF-zN-MSc" secondAttribute="leading" constant="20" id="OsA-rg-qZf"/>
+                            <constraint firstItem="7X1-H4-mEk" firstAttribute="centerY" secondItem="m3e-Kj-9pc" secondAttribute="centerY" id="YHC-Ks-Ad8"/>
                             <constraint firstAttribute="trailing" secondItem="ET9-qh-2Q4" secondAttribute="trailing" constant="20" id="ZFT-dU-hhM"/>
+                            <constraint firstItem="m3e-Kj-9pc" firstAttribute="top" secondItem="YuV-hF-qe6" secondAttribute="bottom" constant="8" id="ZNy-6D-LKG"/>
                             <constraint firstAttribute="trailing" secondItem="2MK-B2-lCb" secondAttribute="trailing" constant="20" id="f0M-Oc-qev"/>
+                            <constraint firstAttribute="trailing" secondItem="m3e-Kj-9pc" secondAttribute="trailing" constant="20" id="fzV-bD-ia6"/>
                             <constraint firstItem="YuV-hF-qe6" firstAttribute="centerY" secondItem="Mkr-Kx-LOE" secondAttribute="centerY" id="jiq-2T-cwu"/>
                             <constraint firstItem="Mkr-Kx-LOE" firstAttribute="top" secondItem="vPF-zN-MSc" secondAttribute="top" constant="20" id="ogy-5T-mFZ"/>
-                            <constraint firstItem="2MK-B2-lCb" firstAttribute="top" secondItem="YuV-hF-qe6" secondAttribute="bottom" constant="20" id="pXO-aV-GNB"/>
+                            <constraint firstItem="7X1-H4-mEk" firstAttribute="leading" secondItem="MWm-AP-Yed" secondAttribute="trailing" constant="20" id="qMo-7Z-qzL"/>
                             <constraint firstItem="YuV-hF-qe6" firstAttribute="leading" secondItem="Mkr-Kx-LOE" secondAttribute="trailing" constant="20" id="qxU-aQ-IWv"/>
                         </constraints>
                     </visualEffectView>

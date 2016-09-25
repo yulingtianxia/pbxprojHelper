@@ -13,6 +13,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var filePathTF: NSTextField!
     @IBOutlet weak var resultTable: NSOutlineView!
     @IBOutlet weak var selectBtn: NSButton!
+    
     var propertyList : [String: Any] = [:]
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,26 +24,6 @@ class ViewController: NSViewController {
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
-        }
-    }
-    
-    
-    @IBAction func selectFile(_ sender: NSButton) {
-        let openPanel = NSOpenPanel()
-        openPanel.prompt = "Select"
-        openPanel.canChooseFiles = true
-        openPanel.canChooseDirectories = false
-        openPanel.allowsMultipleSelection = false
-        openPanel.allowedFileTypes = ["pbxproj", "xcodeproj"]
-        
-        if openPanel.runModal() == NSFileHandlingPanelOKButton {
-            if let path = openPanel.url?.path {
-                filePathTF.stringValue = path
-                if let data = PropertyListHandler.parseFilePath(path) {
-                    propertyList = data;
-                    resultTable.reloadData()
-                }
-            }
         }
     }
     
@@ -67,6 +48,48 @@ class ViewController: NSViewController {
             let item = searchKey(selectedObject, inItem: nil) {
             sender.expandItem(item)
         }
+    }
+}
+
+//MARK: - User Action
+
+extension ViewController {
+    @IBAction func selectFile(_ sender: NSButton) {
+        let openPanel = NSOpenPanel()
+        openPanel.prompt = "Select"
+        openPanel.canChooseFiles = true
+        openPanel.canChooseDirectories = false
+        openPanel.allowsMultipleSelection = false
+        openPanel.allowedFileTypes = ["pbxproj", "xcodeproj"]
+        
+        if openPanel.runModal() == NSFileHandlingPanelOKButton {
+            if let url = openPanel.url {
+                filePathTF.stringValue = url.path
+                if let data = PropertyListHandler.parseProjectFileURL(url) {
+                    propertyList = data;
+                    resultTable.reloadData()
+                }
+            }
+        }
+    }
+    
+    @IBAction func chooseJSONFile(_ sender: NSButton) {
+        let openPanel = NSOpenPanel()
+        openPanel.prompt = "Select"
+        openPanel.canChooseFiles = true
+        openPanel.canChooseDirectories = false
+        openPanel.allowsMultipleSelection = false
+        if openPanel.runModal() == NSFileHandlingPanelOKButton {
+            if let url = openPanel.url,
+            let data = PropertyListHandler.parseJSONFileURL(url) as? [String: [String: Any]] {
+                PropertyListHandler.apply(json: data, onProjectData: &propertyList)
+                resultTable.reloadData()
+            }
+        }
+    }
+    
+    @IBAction func applyJSONConfiguration(_ sender: NSButton) {
+        
     }
 }
 
