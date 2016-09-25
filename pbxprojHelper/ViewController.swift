@@ -50,21 +50,35 @@ class ViewController: NSViewController {
 //MARK: - NSOutlineViewDataSource
 extension ViewController: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        let children = item == nil ? propertyList : ((item as? (String, Any))?.1 as? [String: Any]) ?? [:]
-        return children.count
+        if item == nil {
+            return propertyList.count
+        }
+        let itemValue = (item as? (String, Any))?.1
+        if let dictionary = itemValue as? [String: Any] {
+            return dictionary.count
+        }
+        if let array = itemValue as? [Any] {
+            return array.count
+        }
+        return 0
     }
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        let children = ((item as? (String, Any))?.1 as? [String: Any]) ?? [String: Any]()
-        return children.count > 0
+        return self.outlineView(outlineView, numberOfChildrenOfItem: item) > 0
     }
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        let children = item == nil ? propertyList : ((item as? (String, Any))?.1 as? [String: Any]) ?? [String: Any]()
-        let keys = Array(children.keys)
-        let key = keys[index]
-        let value = children[key] ?? ""
-        return (key, value)
+        let itemValue = (item as? (String, Any))?.1
+        if let dictionary = item == nil ? propertyList : (itemValue as? [String: Any]) {
+            let keys = Array(dictionary.keys)
+            let key = keys[index]
+            let value = dictionary[key] ?? ""
+            return (key, value)
+        }
+        if let array = (itemValue as? [String]) {
+            return (array[index], "")
+        }
+        return ("", "")
     }
     
     func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
@@ -72,13 +86,22 @@ extension ViewController: NSOutlineViewDataSource {
             if tableColumn?.identifier == "Key" {
                 return pair.0
             }
-            else if tableColumn?.identifier == "Value"{
+            if tableColumn?.identifier == "Value" {
                 if let value = pair.1 as? [String: Any] {
                     return "Dictionary \(value.count) elements"
                 }
-                else {
-                    return pair.1
+                if let value = pair.1 as? [Any] {
+                    return "Array \(value.count) elements"
                 }
+                return pair.1
+            }
+        }
+        if let pair = item as? (String, String) {
+            if tableColumn?.identifier == "Key" {
+                return pair.0
+            }
+            if tableColumn?.identifier == "Value"{
+                return pair.1
             }
         }
         return nil

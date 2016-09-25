@@ -15,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A44D7BD71D97BE120090D2E6 /* pbxprojHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pbxprojHelper.entitlements; sourceTree = "<group>"; };
 		A4B82F321D96CC3700141B8E /* pbxprojHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pbxprojHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4B82F351D96CC3700141B8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A4B82F371D96CC3700141B8E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +55,7 @@
 		A4B82F341D96CC3700141B8E /* pbxprojHelper */ = {
 			isa = PBXGroup;
 			children = (
+				A44D7BD71D97BE120090D2E6 /* pbxprojHelper.entitlements */,
 				A4B82F351D96CC3700141B8E /* AppDelegate.swift */,
 				A4B82F371D96CC3700141B8E /* ViewController.swift */,
 				A4B82F441D96E38600141B8E /* PropertyListHandler.swift */,
@@ -98,6 +100,11 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = D3RCVUP6VH;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -250,6 +257,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = pbxprojHelper/pbxprojHelper.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = D3RCVUP6VH;
@@ -265,6 +273,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = pbxprojHelper/pbxprojHelper.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = D3RCVUP6VH;

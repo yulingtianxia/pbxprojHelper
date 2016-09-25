@@ -687,21 +687,21 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2MK-B2-lCb">
-                                <rect key="frame" x="20" y="20" width="410" height="233"/>
+                                <rect key="frame" x="20" y="20" width="410" height="221"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="Blx-2E-gHH">
-                                    <rect key="frame" x="1" y="0.0" width="408" height="232"/>
+                                    <rect key="frame" x="1" y="0.0" width="408" height="220"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" headerView="skh-Wz-bZX" indentationPerLevel="16" outlineTableColumn="13S-Or-OXc" id="vLd-t0-Omm">
-                                            <rect key="frame" x="0.0" y="0.0" width="408" height="209"/>
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" multipleSelection="NO" autosaveColumns="NO" headerView="skh-Wz-bZX" indentationPerLevel="16" outlineTableColumn="13S-Or-OXc" id="vLd-t0-Omm">
+                                            <rect key="frame" x="0.0" y="0.0" width="408" height="197"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                             <tableViewGridLines key="gridStyleMask" vertical="YES"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn identifier="Key" width="209" minWidth="40" maxWidth="1000" id="13S-Or-OXc">
-                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Key">
+                                                <tableColumn identifier="Key" width="242" minWidth="40" maxWidth="1000" id="13S-Or-OXc">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Element or Key">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -713,8 +713,8 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                 </tableColumn>
-                                                <tableColumn identifier="Value" width="193" minWidth="40" maxWidth="1000" id="aFO-dk-tuB">
-                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Value">
+                                                <tableColumn identifier="Value" width="160" minWidth="40" maxWidth="1000" id="aFO-dk-tuB">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Description or Value">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -798,7 +798,7 @@
                             <constraint firstAttribute="trailing" secondItem="2MK-B2-lCb" secondAttribute="trailing" constant="20" id="f0M-Oc-qev"/>
                             <constraint firstItem="YuV-hF-qe6" firstAttribute="centerY" secondItem="Mkr-Kx-LOE" secondAttribute="centerY" id="jiq-2T-cwu"/>
                             <constraint firstItem="Mkr-Kx-LOE" firstAttribute="top" secondItem="vPF-zN-MSc" secondAttribute="top" constant="20" id="ogy-5T-mFZ"/>
-                            <constraint firstItem="2MK-B2-lCb" firstAttribute="top" secondItem="YuV-hF-qe6" secondAttribute="bottom" constant="8" id="pXO-aV-GNB"/>
+                            <constraint firstItem="2MK-B2-lCb" firstAttribute="top" secondItem="YuV-hF-qe6" secondAttribute="bottom" constant="20" id="pXO-aV-GNB"/>
                             <constraint firstItem="YuV-hF-qe6" firstAttribute="leading" secondItem="Mkr-Kx-LOE" secondAttribute="trailing" constant="20" id="qxU-aQ-IWv"/>
                         </constraints>
                     </visualEffectView>
