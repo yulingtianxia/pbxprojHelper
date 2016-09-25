@@ -45,6 +45,29 @@ class ViewController: NSViewController {
             }
         }
     }
+    
+    func searchKey(_ key:String, inItem item:Any?) -> Any? {
+        for i in 0 ..< resultTable.numberOfChildren(ofItem: item) {
+            if let child = resultTable.child(i, ofItem: item) as? (String, Any) {
+                if child.0 == key {
+                    return child
+                }
+                else if let result = searchKey(key, inItem: child) as? (String, Any), result.0 == key {
+                    return result
+                }
+            }
+        }
+        return nil
+    }
+    
+    @IBAction func click(_ sender: NSOutlineView) {
+        let item = sender.item(atRow: sender.clickedRow)
+        let column = sender.tableColumns[sender.clickedColumn]
+        if let selectedObject = self.outlineView(sender, objectValueFor: column, byItem: item) as? String,
+            let item = searchKey(selectedObject, inItem: nil) {
+            sender.expandItem(item)
+        }
+    }
 }
 
 //MARK: - NSOutlineViewDataSource
@@ -88,10 +111,10 @@ extension ViewController: NSOutlineViewDataSource {
             }
             if tableColumn?.identifier == "Value" {
                 if let value = pair.1 as? [String: Any] {
-                    return "Dictionary \(value.count) elements"
+                    return "Dictionary (\(value.count) elements)"
                 }
                 if let value = pair.1 as? [Any] {
-                    return "Array \(value.count) elements"
+                    return "Array (\(value.count) elements)"
                 }
                 return pair.1
             }
@@ -105,5 +128,21 @@ extension ViewController: NSOutlineViewDataSource {
             }
         }
         return nil
+    }
+}
+
+//MARK: - NSOutlineViewDelegate
+
+extension ViewController: NSOutlineViewDelegate {
+    
+//    func outlineView(_ outlineView: NSOutlineView, shouldEdit tableColumn: NSTableColumn?, item: Any) -> Bool {
+//        
+//    }
+    
+    func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
+        if control == resultTable, let text = fieldEditor.string {
+            
+        }
+        return true
     }
 }

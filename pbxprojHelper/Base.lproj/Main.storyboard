@@ -728,7 +728,10 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
+                                                <action selector="click:" target="XfG-lQ-9wD" id="Fqr-Ma-O3T"/>
+                                                <action trigger="doubleAction" selector="doubleClick:" target="XfG-lQ-9wD" id="uhQ-FS-qZS"/>
                                                 <outlet property="dataSource" destination="XfG-lQ-9wD" id="dfs-Po-ckK"/>
+                                                <outlet property="delegate" destination="XfG-lQ-9wD" id="6bN-NV-U9j"/>
                                             </connections>
                                         </outlineView>
                                     </subviews>
@@ -769,9 +772,6 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
-                                <connections>
-                                    <outlet property="delegate" destination="XfG-lQ-9wD" id="bwe-43-9Nf"/>
-                                </connections>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ET9-qh-2Q4">
                                 <rect key="frame" x="375" y="262" width="55" height="19"/>
