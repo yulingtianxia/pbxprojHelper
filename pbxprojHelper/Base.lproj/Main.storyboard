@@ -728,8 +728,8 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <action selector="click:" target="XfG-lQ-9wD" id="Fqr-Ma-O3T"/>
-                                                <action trigger="doubleAction" selector="doubleClick:" target="XfG-lQ-9wD" id="uhQ-FS-qZS"/>
+                                                <action selector="click:" target="XfG-lQ-9wD" id="Tc7-OQ-wdq"/>
+                                                <action trigger="doubleAction" selector="doubleClick:" target="XfG-lQ-9wD" id="0Zz-3m-pmK"/>
                                                 <outlet property="dataSource" destination="XfG-lQ-9wD" id="dfs-Po-ckK"/>
                                                 <outlet property="delegate" destination="XfG-lQ-9wD" id="6bN-NV-U9j"/>
                                             </connections>

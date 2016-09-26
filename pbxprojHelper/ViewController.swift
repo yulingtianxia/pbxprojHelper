@@ -8,13 +8,21 @@
 
 import Cocoa
 
+typealias Item = (key: String, value: Any, parent: Any?)
+
 class ViewController: NSViewController {
 
     @IBOutlet weak var filePathTF: NSTextField!
     @IBOutlet weak var resultTable: NSOutlineView!
     @IBOutlet weak var selectBtn: NSButton!
     
-    var propertyList : [String: Any] = [:]
+    var propertyListURL: URL?
+    
+    var originalPropertyList: [String: Any] = [:]
+    var currentProperyList: [String: Any] = [:]
+    var filterPropertyList: [String: Any] = [:]
+    var jsonPropertyList: [String: Any] = [:]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,13 +35,13 @@ class ViewController: NSViewController {
         }
     }
     
-    func searchKey(_ key:String, inItem item:Any?) -> Any? {
+    func search(key:String, inItem item:Any?) -> Any? {
         for i in 0 ..< resultTable.numberOfChildren(ofItem: item) {
-            if let child = resultTable.child(i, ofItem: item) as? (String, Any) {
-                if child.0 == key {
+            if let child = resultTable.child(i, ofItem: item) as? Item {
+                if child.key == key {
                     return child
                 }
-                else if let result = searchKey(key, inItem: child) as? (String, Any), result.0 == key {
+                else if let result = search(key: key, inItem: child) as? Item, result.key == key {
                     return result
                 }
             }
@@ -41,19 +49,35 @@ class ViewController: NSViewController {
         return nil
     }
     
-    @IBAction func click(_ sender: NSOutlineView) {
-        let item = sender.item(atRow: sender.clickedRow)
-        let column = sender.tableColumns[sender.clickedColumn]
-        if let selectedObject = self.outlineView(sender, objectValueFor: column, byItem: item) as? String,
-            let item = searchKey(selectedObject, inItem: nil) {
-            sender.expandItem(item)
+    func keyPath(forItem item: Any) -> String {
+        let key: String
+        let parent: Any?
+        if let tupleItem = item as? Item {
+            key = tupleItem.key
+            parent = tupleItem.parent
         }
+        else {
+            key = ""
+            parent = nil
+        }
+        
+        if let parentItem = parent {
+            return "\(keyPath(forItem: parentItem)).\(key)"
+        }
+        return "\(key)"
     }
+    
+    func writePasteboard(_ location: String) {
+        NSPasteboard.general().declareTypes([NSStringPboardType], owner: nil)
+        NSPasteboard.general().setString(location, forType: NSStringPboardType)
+    }
+    
 }
 
 //MARK: - User Action
 
 extension ViewController {
+    
     @IBAction func selectFile(_ sender: NSButton) {
         let openPanel = NSOpenPanel()
         openPanel.prompt = "Select"
@@ -65,8 +89,12 @@ extension ViewController {
         if openPanel.runModal() == NSFileHandlingPanelOKButton {
             if let url = openPanel.url {
                 filePathTF.stringValue = url.path
-                if let data = PropertyListHandler.parseProjectFileURL(url) {
-                    propertyList = data;
+                propertyListURL = url
+                if let data = PropertyListHandler.parseProject(fileURL: url) {
+                    originalPropertyList = data;
+                    currentProperyList = data;
+                    jsonPropertyList = data;
+                    filterPropertyList = data;
                     resultTable.reloadData()
                 }
             }
@@ -82,24 +110,42 @@ extension ViewController {
         if openPanel.runModal() == NSFileHandlingPanelOKButton {
             if let url = openPanel.url,
             let data = PropertyListHandler.parseJSONFileURL(url) as? [String: [String: Any]] {
-                PropertyListHandler.apply(json: data, onProjectData: &propertyList)
+                PropertyListHandler.apply(json: data, onProjectData: &jsonPropertyList)
+                currentProperyList = jsonPropertyList
                 resultTable.reloadData()
             }
         }
     }
     
     @IBAction func applyJSONConfiguration(_ sender: NSButton) {
-        
+        if let url = propertyListURL {
+            PropertyListHandler.generateProject(fileURL: url, withPropertyList: jsonPropertyList)
+        }
+    }
+    
+    @IBAction func click(_ sender: NSOutlineView) {
+        let item = sender.item(atRow: sender.clickedRow)
+        let column = sender.tableColumns[sender.clickedColumn]
+        if let selectedString = self.outlineView(sender, objectValueFor: column, byItem: item) as? String {
+            writePasteboard(selectedString)
+        }
+    }
+    
+    @IBAction func doubleClick(_ sender: NSOutlineView) {
+        let item = sender.item(atRow: sender.clickedRow)
+        let path = keyPath(forItem: item)
+        writePasteboard(path)
     }
 }
 
 //MARK: - NSOutlineViewDataSource
 extension ViewController: NSOutlineViewDataSource {
+    
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if item == nil {
-            return propertyList.count
+            return currentProperyList.count
         }
-        let itemValue = (item as? (String, Any))?.1
+        let itemValue = (item as? Item)?.value
         if let dictionary = itemValue as? [String: Any] {
             return dictionary.count
         }
@@ -114,40 +160,32 @@ extension ViewController: NSOutlineViewDataSource {
     }
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        let itemValue = (item as? (String, Any))?.1
-        if let dictionary = item == nil ? propertyList : (itemValue as? [String: Any]) {
+        let itemValue = (item as? Item)?.value
+        if let dictionary = item == nil ? currentProperyList : (itemValue as? [String: Any]) {
             let keys = Array(dictionary.keys)
             let key = keys[index]
             let value = dictionary[key] ?? ""
-            return (key, value)
+            return Item(key: key, value: value, parent: item)
         }
         if let array = (itemValue as? [String]) {
-            return (array[index], "")
+            return Item(key: array[index], value: "", parent: item)
         }
-        return ("", "")
+        return Item(key: "", value: "", parent: item)
     }
     
     func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
-        if let pair = item as? (String, Any) {
+        if let pair = item as? Item {
             if tableColumn?.identifier == "Key" {
-                return pair.0
+                return pair.key
             }
             if tableColumn?.identifier == "Value" {
-                if let value = pair.1 as? [String: Any] {
+                if let value = pair.value as? [String: Any] {
                     return "Dictionary (\(value.count) elements)"
                 }
-                if let value = pair.1 as? [Any] {
+                if let value = pair.value as? [Any] {
                     return "Array (\(value.count) elements)"
                 }
-                return pair.1
-            }
-        }
-        if let pair = item as? (String, String) {
-            if tableColumn?.identifier == "Key" {
-                return pair.0
-            }
-            if tableColumn?.identifier == "Value"{
-                return pair.1
+                return pair.value
             }
         }
         return nil
@@ -158,14 +196,16 @@ extension ViewController: NSOutlineViewDataSource {
 
 extension ViewController: NSOutlineViewDelegate {
     
-//    func outlineView(_ outlineView: NSOutlineView, shouldEdit tableColumn: NSTableColumn?, item: Any) -> Bool {
-//        
-//    }
+    func outlineView(_ outlineView: NSOutlineView, shouldEdit tableColumn: NSTableColumn?, item: Any) -> Bool {
+        return false
+    }
+}
+
+//MARK: - NSTextFieldDelegate
+extension ViewController: NSTextFieldDelegate {
     
     func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        if control == resultTable, let text = fieldEditor.string {
-            
-        }
+        
         return true
     }
 }
