@@ -14,15 +14,14 @@ class ViewController: NSViewController {
 
     @IBOutlet weak var filePathTF: NSTextField!
     @IBOutlet weak var resultTable: NSOutlineView!
-    @IBOutlet weak var selectBtn: NSButton!
+    @IBOutlet weak var chooseJSONFileBtn: NSButton!
+    
     
     var propertyListURL: URL?
     var filterKeyWord = ""
     
     var originalPropertyList: [String: Any] = [:]
     var currentProperyList: [String: Any] = [:]
-    var filterPropertyList: [String: Any] = [:]
-    var jsonPropertyList: [String: Any] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,11 +132,11 @@ extension ViewController {
             if let url = openPanel.url {
                 filePathTF.stringValue = url.path
                 propertyListURL = url
+                originalPropertyList = [:];
+                currentProperyList = [:];
                 if let data = PropertyListHandler.parseProject(fileURL: url) {
                     originalPropertyList = data;
                     currentProperyList = data;
-                    jsonPropertyList = data;
-                    filterPropertyList = data;
                     resultTable.reloadData()
                 }
             }
@@ -153,8 +152,17 @@ extension ViewController {
         if openPanel.runModal() == NSFileHandlingPanelOKButton {
             if let url = openPanel.url,
                 let data = PropertyListHandler.parseJSON(fileURL: url) as? [String: [String: Any]] {
-                PropertyListHandler.apply(json: data, onProjectData: &jsonPropertyList)
-                currentProperyList = jsonPropertyList
+                currentProperyList = PropertyListHandler.apply(json: data, onProjectData: originalPropertyList)
+//                test
+                let jsonObject = PropertyListHandler.compare(project: currentProperyList, withOtherProject: originalPropertyList)
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+                    try jsonData.write(to: URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("newConfig.json"), options: .atomic)
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+                
+                chooseJSONFileBtn.title = url.lastPathComponent
                 resultTable.reloadData()
             }
         }
@@ -162,12 +170,22 @@ extension ViewController {
     
     @IBAction func applyJSONConfiguration(_ sender: NSButton) {
         if let url = propertyListURL {
-            PropertyListHandler.generateProject(fileURL: url, withPropertyList: jsonPropertyList)
+            PropertyListHandler.generateProject(fileURL: url, withPropertyList: currentProperyList)
         }
     }
     
     @IBAction func revertPropertyList(_ sender: NSButton) {
-        
+        if let url = propertyListURL {
+            if PropertyListHandler.revertProject(fileURL: url), let data = PropertyListHandler.parseProject(fileURL: url) {
+                originalPropertyList = data;
+                currentProperyList = data;
+            }
+            else {
+                currentProperyList = originalPropertyList
+            }
+            chooseJSONFileBtn.title = "Choose JSON File"
+            resultTable.reloadData()
+        }
     }
     
     @IBAction func click(_ sender: NSOutlineView) {

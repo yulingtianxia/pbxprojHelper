@@ -20,17 +20,39 @@ class PropertyListHandler: NSObject {
             let fileData = try Data(contentsOf: url)
             let plist = try PropertyListSerialization.propertyList(from: fileData, options: .mutableContainersAndLeaves, format: nil)
             return plist as? [String:Any]
-        } catch _ {
+        } catch let error {
+            print("read project file failed. error: \(error.localizedDescription)")
             return nil
         }
     }
     
-    class func generateProject(fileURL: URL, withPropertyList list: Any) {
-        var url = fileURL
+    /// 返回指定文件对应的备份文件路径
+    ///
+    /// - parameter url: 文件 URL，如果是工程文件，会被修改为 project.pbxproj 文件
+    ///
+    /// - returns: 备份文件路径
+    fileprivate class func backupURLOf(projectURL url: inout URL) -> URL {
+        var backupURL = URL(fileURLWithPath: NSHomeDirectory())
         if url.pathExtension == "xcodeproj" {
+            backupURL.appendPathComponent(url.lastPathComponent)
+            backupURL.appendPathExtension("project.pbxproj")
             url.appendPathComponent("project.pbxproj")
         }
-        let backupURL = url.appendingPathExtension("backup")
+        else {
+            let count = url.pathComponents.count
+            if count > 1 {
+                backupURL.appendPathComponent(url.pathComponents[count-2])
+                backupURL.appendPathExtension(url.pathComponents[count-1])
+            }
+        }
+        backupURL.appendPathExtension("backup")
+        return backupURL
+    }
+    
+    class func generateProject(fileURL: URL, withPropertyList list: Any) {
+        var url = fileURL
+        let backupURL = backupURLOf(projectURL: &url)
+        
         do {
             if FileManager().fileExists(atPath: backupURL.path) {
                 try FileManager().removeItem(at: backupURL)
@@ -43,9 +65,25 @@ class PropertyListHandler: NSObject {
                 print("generate new project file failed: \(error.localizedDescription), try to roll back project file!")
                 try FileManager().moveItem(at: backupURL, to: url)
             } catch _ {
-                print("roll back project file failed! backup file url: \(backupURL)")
+                print("roll back project file failed! backup file url: \(backupURL), error: \(error.localizedDescription)")
             }
         }
+    }
+    
+    class func revertProject(fileURL: URL) -> Bool {
+        var url = fileURL
+        let backupURL = backupURLOf(projectURL: &url)
+        do {
+            if FileManager().fileExists(atPath: url.path) && FileManager().fileExists(atPath: backupURL.path) {
+                try FileManager().removeItem(at: url)
+                try FileManager().moveItem(at: backupURL, to: url)
+                return true
+            }
+        } catch let error {
+            print("roll back project file failed! backup file url: \(backupURL), error: \(error.localizedDescription)")
+            return false
+        }
+        return false
     }
     
     class func parseJSON(fileURL url: URL) -> Any? {
@@ -63,7 +101,8 @@ class PropertyListHandler: NSObject {
     ///
     /// - parameter json:        配置文件数据，用于对工程文件的增删改操作
     /// - parameter projectData: 工程文件数据，project.pbxproj 的内容
-    class func apply(json: [String: [String: Any]], onProjectData projectData: inout [String: Any]) {
+    class func apply(json: [String: [String: Any]], onProjectData projectData: [String: Any]) -> [String: Any] {
+        var appliedData = projectData
         for (command, arguments) in json {
             for (keyPath, data) in arguments {
                 let keys = keyPath.components(separatedBy: ".")
@@ -94,7 +133,7 @@ class PropertyListHandler: NSObject {
                     return nil
                 }
                 
-                if let result = walkIn(atIndex: 0, withCurrentValue: projectData, complete: { (value) -> Any? in
+                if let result = walkIn(atIndex: 0, withCurrentValue: appliedData, complete: { (value) -> Any? in
                     
                     switch command {
                     case "insert":
@@ -121,13 +160,17 @@ class PropertyListHandler: NSObject {
                             }
                             return dictionary
                         }
-                        if var array = value as? [Any],
+                        if var array = value as? [String],
                             let arrayData = data as? [Any] {
                             for removeData in arrayData {
                                 if let removeIndex = removeData as? Int {
                                     if (0 ..< array.count).contains(removeIndex) {
                                         array.remove(at: removeIndex)
                                     }
+                                }
+                                if let removeElement = removeData as? String,
+                                    let removeIndex = array.index(of: removeElement) {
+                                    array.remove(at: removeIndex)
                                 }
                             }
                             return array
@@ -136,13 +179,89 @@ class PropertyListHandler: NSObject {
                     case "modify":
                         return data
                     default:
-                        return projectData
+                        return appliedData
                     }
                     
                 }) as? [String: Any] {
-                    projectData = result
+                    appliedData = result
                 }
             }
         }
+        return appliedData
+    }
+    
+    /// 将 project 与 other project 做比较
+    ///
+    /// - parameter project1: 作为比较的 project
+    /// - parameter project2: 被参照的 project
+    ///
+    /// - returns: project1 相对于 project2 的变化
+    class func compare(project project1: [String: Any], withOtherProject project2: [String: Any]) -> Any {
+        
+        var difference = ["insert": [String: Any](), "remove": [String: Any](), "modify": [String: Any]()]
+        
+        func compare(data data1: Any, withOtherData data2: Any, parentKeyPath: String) {
+            if let dictionary1 = data1 as? [String: Any], let dictionary2 = data2 as? [String: Any] {
+                let set1 = Set(dictionary1.map { $0.key })
+                let set2 = Set(dictionary2.map { $0.key })
+                for key in set1.subtracting(set2) {
+                    let keyPath = parentKeyPath == "" ? key : "\(parentKeyPath).\(key)"
+                    if let value = dictionary1[key], difference["insert"]?[keyPath] == nil {
+                        difference["insert"]?[keyPath] = [value]
+                    }
+                    else if let value = dictionary1[key], var insertArray = difference["insert"]?[keyPath] as? [Any] {
+                        insertArray.append(value)
+                        difference["insert"]?[keyPath] = insertArray
+                    }
+                }
+                for key in set2.subtracting(set1) {
+                    let keyPath = parentKeyPath == "" ? key : "\(parentKeyPath).\(key)"
+                    if let value = dictionary2[key], difference["remove"]?[keyPath] == nil {
+                        difference["remove"]?[keyPath] = [value]
+                    }
+                    else if let value = dictionary2[key], var insertArray = difference["remove"]?[keyPath] as? [Any] {
+                        insertArray.append(value)
+                        difference["remove"]?[keyPath] = insertArray
+                    }
+                }
+                for key in set1.intersection(set2) {
+                    let keyPath = parentKeyPath == "" ? key : "\(parentKeyPath).\(key)"
+                    // values are both String, leaf node
+                    if let str1 = dictionary1[key] as? String,
+                        let str2 = dictionary2[key] as? String {
+                        if str1 != str2 {
+                            difference["modify"]?[keyPath] = str1
+                        }
+                    }
+                    else { // continue compare subtrees
+                        compare(data: dictionary1[key], withOtherData: dictionary2[key], parentKeyPath: keyPath)
+                    }
+                }
+            }
+            if let array1 = data1 as? [String], let array2 = data2 as? [String] {
+                let set1 = Set(array1.map { $0 })
+                let set2 = Set(array2.map { $0 })
+                for element in set1.subtracting(set2) {
+                    if difference["insert"]?[parentKeyPath] == nil {
+                        difference["insert"]?[parentKeyPath] = [element]
+                    }
+                    else if var insertArray = difference["insert"]?[parentKeyPath] as? [Any] {
+                        insertArray.append(element)
+                        difference["insert"]?[parentKeyPath] = insertArray
+                    }
+                }
+                for element in set2.subtracting(set1) {
+                    if difference["remove"]?[parentKeyPath] == nil {
+                        difference["remove"]?[parentKeyPath] = [element]
+                    }
+                    else if var insertArray = difference["remove"]?[parentKeyPath] as? [Any] {
+                        insertArray.append(element)
+                        difference["remove"]?[parentKeyPath] = insertArray
+                    }
+                }
+            }
+        }
+        compare(data: project1, withOtherData: project2, parentKeyPath: "")
+        return difference
     }
 }

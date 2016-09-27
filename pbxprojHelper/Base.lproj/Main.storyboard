@@ -798,7 +798,7 @@
                                     <outlet property="delegate" destination="XfG-lQ-9wD" id="hs5-Hz-DfU"/>
                                 </connections>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MWm-AP-Yed">
+                            <button toolTip="Choose JSON File" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MWm-AP-Yed">
                                 <rect key="frame" x="20" y="232" width="116" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="116" id="NCY-8d-Dbi"/>
@@ -812,7 +812,7 @@
                                     <action selector="chooseJSONFile:" target="XfG-lQ-9wD" id="wwF-1K-O7H"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7X1-H4-mEk">
+                            <button toolTip="Apply JSON Configuration on project.pbxproj" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7X1-H4-mEk">
                                 <rect key="frame" x="156" y="232" width="47" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="47" id="Qfw-sm-9Rf"/>
@@ -826,7 +826,7 @@
                                     <action selector="applyJSONConfiguration:" target="XfG-lQ-9wD" id="WYe-t3-agM"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YLB-EZ-if5">
+                            <button toolTip="Revert project.pbxproj to Last Version" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YLB-EZ-if5">
                                 <rect key="frame" x="223" y="232" width="51" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="bPL-nW-zX4"/>
@@ -865,6 +865,7 @@
                         </constraints>
                     </visualEffectView>
                     <connections>
+                        <outlet property="chooseJSONFileBtn" destination="MWm-AP-Yed" id="y2m-jJ-TQ6"/>
                         <outlet property="filePathTF" destination="YuV-hF-qe6" id="fxZ-Mr-RIr"/>
                         <outlet property="resultTable" destination="vLd-t0-Omm" id="vlW-8y-Paf"/>
                         <outlet property="selectBtn" destination="ET9-qh-2Q4" id="Ev1-BA-PtW"/>
