@@ -663,7 +663,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="pbxprojHelper" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="XcodeProjectHelper" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
@@ -756,7 +756,7 @@
                                     <constraint firstAttribute="width" constant="105" id="C00-Tb-Lla"/>
                                     <constraint firstAttribute="height" constant="17" id="Nvp-cS-umJ"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="pbxproj File Path" drawsBackground="YES" id="Lwc-ll-oqq">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Project File Path" drawsBackground="YES" id="Lwc-ll-oqq">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -788,7 +788,7 @@
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="m3e-Kj-9pc">
-                                <rect key="frame" x="223" y="231" width="207" height="22"/>
+                                <rect key="frame" x="294" y="231" width="136" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Filter" drawsBackground="YES" id="8vR-qg-CB7">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -814,6 +814,10 @@
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7X1-H4-mEk">
                                 <rect key="frame" x="156" y="232" width="47" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="47" id="Qfw-sm-9Rf"/>
+                                    <constraint firstAttribute="height" constant="18" id="m7A-2P-MGM"/>
+                                </constraints>
                                 <buttonCell key="cell" type="roundRect" title="Apply" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GWI-Kl-xIU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
@@ -822,15 +826,29 @@
                                     <action selector="applyJSONConfiguration:" target="XfG-lQ-9wD" id="WYe-t3-agM"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YLB-EZ-if5">
+                                <rect key="frame" x="223" y="232" width="51" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="bPL-nW-zX4"/>
+                                    <constraint firstAttribute="width" constant="51" id="tIW-Z2-J4e"/>
+                                </constraints>
+                                <buttonCell key="cell" type="roundRect" title="Revert" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hxs-Lz-JYq">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="cellTitle"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="revertPropertyList:" target="XfG-lQ-9wD" id="dNi-Jg-cgb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="m3e-Kj-9pc" firstAttribute="leading" secondItem="YLB-EZ-if5" secondAttribute="trailing" constant="20" id="0dL-If-asz"/>
                             <constraint firstItem="Mkr-Kx-LOE" firstAttribute="leading" secondItem="vPF-zN-MSc" secondAttribute="leading" constant="20" id="1XA-sO-4CD"/>
                             <constraint firstItem="ET9-qh-2Q4" firstAttribute="leading" secondItem="YuV-hF-qe6" secondAttribute="trailing" constant="20" id="3gA-3S-3Wv"/>
                             <constraint firstItem="ET9-qh-2Q4" firstAttribute="centerY" secondItem="Mkr-Kx-LOE" secondAttribute="centerY" id="ABs-oZ-1tM"/>
                             <constraint firstItem="MWm-AP-Yed" firstAttribute="centerY" secondItem="m3e-Kj-9pc" secondAttribute="centerY" id="DTK-as-Djz"/>
                             <constraint firstItem="MWm-AP-Yed" firstAttribute="leading" secondItem="vPF-zN-MSc" secondAttribute="leading" constant="20" id="Hri-eS-nDc"/>
                             <constraint firstItem="2MK-B2-lCb" firstAttribute="top" secondItem="m3e-Kj-9pc" secondAttribute="bottom" constant="8" id="HxK-LG-3x7"/>
-                            <constraint firstItem="m3e-Kj-9pc" firstAttribute="leading" secondItem="7X1-H4-mEk" secondAttribute="trailing" constant="20" id="LU1-lG-3Ka"/>
                             <constraint firstAttribute="bottom" secondItem="2MK-B2-lCb" secondAttribute="bottom" constant="20" id="MGs-tP-B97"/>
                             <constraint firstItem="2MK-B2-lCb" firstAttribute="leading" secondItem="vPF-zN-MSc" secondAttribute="leading" constant="20" id="OsA-rg-qZf"/>
                             <constraint firstItem="7X1-H4-mEk" firstAttribute="centerY" secondItem="m3e-Kj-9pc" secondAttribute="centerY" id="YHC-Ks-Ad8"/>
@@ -839,9 +857,11 @@
                             <constraint firstAttribute="trailing" secondItem="2MK-B2-lCb" secondAttribute="trailing" constant="20" id="f0M-Oc-qev"/>
                             <constraint firstAttribute="trailing" secondItem="m3e-Kj-9pc" secondAttribute="trailing" constant="20" id="fzV-bD-ia6"/>
                             <constraint firstItem="YuV-hF-qe6" firstAttribute="centerY" secondItem="Mkr-Kx-LOE" secondAttribute="centerY" id="jiq-2T-cwu"/>
+                            <constraint firstItem="YLB-EZ-if5" firstAttribute="centerY" secondItem="m3e-Kj-9pc" secondAttribute="centerY" id="law-FG-KZo"/>
                             <constraint firstItem="Mkr-Kx-LOE" firstAttribute="top" secondItem="vPF-zN-MSc" secondAttribute="top" constant="20" id="ogy-5T-mFZ"/>
                             <constraint firstItem="7X1-H4-mEk" firstAttribute="leading" secondItem="MWm-AP-Yed" secondAttribute="trailing" constant="20" id="qMo-7Z-qzL"/>
                             <constraint firstItem="YuV-hF-qe6" firstAttribute="leading" secondItem="Mkr-Kx-LOE" secondAttribute="trailing" constant="20" id="qxU-aQ-IWv"/>
+                            <constraint firstItem="YLB-EZ-if5" firstAttribute="leading" secondItem="7X1-H4-mEk" secondAttribute="trailing" constant="20" id="wA6-jS-v3t"/>
                         </constraints>
                     </visualEffectView>
                     <connections>

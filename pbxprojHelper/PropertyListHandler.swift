@@ -48,7 +48,7 @@ class PropertyListHandler: NSObject {
         }
     }
     
-    class func parseJSONFileURL(_ url: URL) -> Any? {
+    class func parseJSON(fileURL url: URL) -> Any? {
         
         do {
             let jsonData = try Data(contentsOf: url)

@@ -17,6 +17,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var selectBtn: NSButton!
     
     var propertyListURL: URL?
+    var filterKeyWord = ""
     
     var originalPropertyList: [String: Any] = [:]
     var currentProperyList: [String: Any] = [:]
@@ -35,18 +36,60 @@ class ViewController: NSViewController {
         }
     }
     
-    func search(key:String, inItem item:Any?) -> Any? {
-        for i in 0 ..< resultTable.numberOfChildren(ofItem: item) {
-            if let child = resultTable.child(i, ofItem: item) as? Item {
-                if child.key == key {
-                    return child
+    func isItem(_ item: Any, containsKeyWord word: String) -> Bool {
+        func checkAny(value: Any, equalsString string: String) -> Bool {
+            return ((value is String) && (value as! String).contains(string))
+        }
+        if let tupleItem = item as? Item {
+            if tupleItem.key.contains(word) || checkAny(value: tupleItem.value, equalsString: word) {
+                return true
+            }
+            func tfs(propertyList list: Any) -> Bool {
+                if let dictionary = list as? [String: Any] {
+                    for (key, value) in dictionary {
+                        if key.contains(word) || checkAny(value: value, equalsString: word) {
+                            return true
+                        }
+                        else if tfs(propertyList: value) {
+                            return true
+                        }
+                    }
                 }
-                else if let result = search(key: key, inItem: child) as? Item, result.key == key {
-                    return result
+                if let array = list as? [Any] {
+                    for value in array {
+                        if checkAny(value: value, equalsString: word) {
+                            return true
+                        }
+                        else if tfs(propertyList: value) {
+                            return true
+                        }
+                    }
                 }
+                return false
+            }
+            return tfs(propertyList: tupleItem.value)
+        }
+        return false
+    }
+    
+    func elementsOfDictionary(_ dictionary: [String: Any], containsKeyWord word: String) -> [String: Any] {
+        var filtResult = [String: Any]()
+        for (key, value) in dictionary {
+            if isItem(Item(key: key, value: value, parent: nil), containsKeyWord: word) {
+                filtResult[key] = value
             }
         }
-        return nil
+        return filtResult
+    }
+    
+    func elementsOfArray(_ array: [Any], containsKeyWord word: String) -> [Any] {
+        var filtResult = [Any]()
+        for value in array {
+            if isItem(Item(key: "", value: value, parent: nil), containsKeyWord: word) {
+                filtResult.append(value)
+            }
+        }
+        return filtResult
     }
     
     func keyPath(forItem item: Any) -> String {
@@ -109,7 +152,7 @@ extension ViewController {
         openPanel.allowsMultipleSelection = false
         if openPanel.runModal() == NSFileHandlingPanelOKButton {
             if let url = openPanel.url,
-            let data = PropertyListHandler.parseJSONFileURL(url) as? [String: [String: Any]] {
+                let data = PropertyListHandler.parseJSON(fileURL: url) as? [String: [String: Any]] {
                 PropertyListHandler.apply(json: data, onProjectData: &jsonPropertyList)
                 currentProperyList = jsonPropertyList
                 resultTable.reloadData()
@@ -123,18 +166,26 @@ extension ViewController {
         }
     }
     
+    @IBAction func revertPropertyList(_ sender: NSButton) {
+        
+    }
+    
     @IBAction func click(_ sender: NSOutlineView) {
-        let item = sender.item(atRow: sender.clickedRow)
-        let column = sender.tableColumns[sender.clickedColumn]
-        if let selectedString = self.outlineView(sender, objectValueFor: column, byItem: item) as? String {
-            writePasteboard(selectedString)
+        if sender.clickedRow >= 0 && sender.clickedColumn >= 0 {
+            let item = sender.item(atRow: sender.clickedRow)
+            let column = sender.tableColumns[sender.clickedColumn]
+            if let selectedString = self.outlineView(sender, objectValueFor: column, byItem: item) as? String {
+                writePasteboard(selectedString)
+            }
         }
     }
     
     @IBAction func doubleClick(_ sender: NSOutlineView) {
-        let item = sender.item(atRow: sender.clickedRow)
-        let path = keyPath(forItem: item)
-        writePasteboard(path)
+        if sender.selectedRow >= 0 {
+            let item = sender.item(atRow: sender.clickedRow)
+            let path = keyPath(forItem: item)
+            writePasteboard(path)
+        }
     }
 }
 
@@ -143,13 +194,23 @@ extension ViewController: NSOutlineViewDataSource {
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if item == nil {
+            if filterKeyWord != "" {
+                return elementsOfDictionary(currentProperyList, containsKeyWord: filterKeyWord).count
+            }
             return currentProperyList.count
         }
+        
         let itemValue = (item as? Item)?.value
         if let dictionary = itemValue as? [String: Any] {
+            if filterKeyWord != "" && filterKeyWord != (item as? Item)?.key {
+                return elementsOfDictionary(dictionary, containsKeyWord: filterKeyWord).count
+            }
             return dictionary.count
         }
         if let array = itemValue as? [Any] {
+            if filterKeyWord != "" && filterKeyWord != (item as? Item)?.key {
+                return elementsOfArray(array, containsKeyWord: filterKeyWord).count
+            }
             return array.count
         }
         return 0
@@ -161,13 +222,20 @@ extension ViewController: NSOutlineViewDataSource {
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         let itemValue = (item as? Item)?.value
-        if let dictionary = item == nil ? currentProperyList : (itemValue as? [String: Any]) {
+        if var dictionary = item == nil ? currentProperyList : (itemValue as? [String: Any]) {
+            if filterKeyWord != "" && filterKeyWord != (item as? Item)?.key {
+                dictionary = elementsOfDictionary(dictionary, containsKeyWord: filterKeyWord)
+            }
             let keys = Array(dictionary.keys)
             let key = keys[index]
             let value = dictionary[key] ?? ""
-            return Item(key: key, value: value, parent: item)
+            let childItem = Item(key: key, value: value, parent: item)
+            return childItem
         }
-        if let array = (itemValue as? [String]) {
+        if var array = (itemValue as? [String]) {
+            if filterKeyWord != "" {
+                array = elementsOfArray(array, containsKeyWord: filterKeyWord) as! [String]
+            }
             return Item(key: array[index], value: "", parent: item)
         }
         return Item(key: "", value: "", parent: item)
@@ -205,7 +273,11 @@ extension ViewController: NSOutlineViewDelegate {
 extension ViewController: NSTextFieldDelegate {
     
     func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        
+        if let text = fieldEditor.string {
+            filterKeyWord = text
+            resultTable.reloadData()
+            resultTable.expandItem(nil, expandChildren: true)
+        }
         return true
     }
 }
