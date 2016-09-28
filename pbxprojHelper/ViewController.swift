@@ -21,7 +21,7 @@ class ViewController: NSViewController {
     var filterKeyWord = ""
     
     var originalPropertyList: [String: Any] = [:]
-    var currentProperyList: [String: Any] = [:]
+    var currentPropertyList: [String: Any] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,11 +132,11 @@ extension ViewController {
             if let url = openPanel.url {
                 filePathTF.stringValue = url.path
                 propertyListURL = url
-                originalPropertyList = [:];
-                currentProperyList = [:];
+                originalPropertyList = [:]
+                currentPropertyList = [:]
                 if let data = PropertyListHandler.parseProject(fileURL: url) {
-                    originalPropertyList = data;
-                    currentProperyList = data;
+                    originalPropertyList = data
+                    currentPropertyList = data
                     resultTable.reloadData()
                 }
             }
@@ -152,16 +152,7 @@ extension ViewController {
         if openPanel.runModal() == NSFileHandlingPanelOKButton {
             if let url = openPanel.url,
                 let data = PropertyListHandler.parseJSON(fileURL: url) as? [String: [String: Any]] {
-                currentProperyList = PropertyListHandler.apply(json: data, onProjectData: originalPropertyList)
-//                test
-                let jsonObject = PropertyListHandler.compare(project: currentProperyList, withOtherProject: originalPropertyList)
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
-                    try jsonData.write(to: URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("newConfig.json"), options: .atomic)
-                } catch let error {
-                    print(error.localizedDescription)
-                }
-                
+                currentPropertyList = PropertyListHandler.apply(json: data, onProjectData: originalPropertyList)
                 chooseJSONFileBtn.title = url.lastPathComponent
                 resultTable.reloadData()
             }
@@ -170,18 +161,18 @@ extension ViewController {
     
     @IBAction func applyJSONConfiguration(_ sender: NSButton) {
         if let url = propertyListURL {
-            PropertyListHandler.generateProject(fileURL: url, withPropertyList: currentProperyList)
+            PropertyListHandler.generateProject(fileURL: url, withPropertyList: currentPropertyList)
         }
     }
     
     @IBAction func revertPropertyList(_ sender: NSButton) {
         if let url = propertyListURL {
             if PropertyListHandler.revertProject(fileURL: url), let data = PropertyListHandler.parseProject(fileURL: url) {
-                originalPropertyList = data;
-                currentProperyList = data;
+                originalPropertyList = data
+                currentPropertyList = data
             }
             else {
-                currentProperyList = originalPropertyList
+                currentPropertyList = originalPropertyList
             }
             chooseJSONFileBtn.title = "Choose JSON File"
             resultTable.reloadData()
@@ -213,9 +204,9 @@ extension ViewController: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if item == nil {
             if filterKeyWord != "" {
-                return elementsOfDictionary(currentProperyList, containsKeyWord: filterKeyWord).count
+                return elementsOfDictionary(currentPropertyList, containsKeyWord: filterKeyWord).count
             }
-            return currentProperyList.count
+            return currentPropertyList.count
         }
         
         let itemValue = (item as? Item)?.value
@@ -240,7 +231,7 @@ extension ViewController: NSOutlineViewDataSource {
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         let itemValue = (item as? Item)?.value
-        if var dictionary = item == nil ? currentProperyList : (itemValue as? [String: Any]) {
+        if var dictionary = item == nil ? currentPropertyList : (itemValue as? [String: Any]) {
             if filterKeyWord != "" && filterKeyWord != (item as? Item)?.key {
                 dictionary = elementsOfDictionary(dictionary, containsKeyWord: filterKeyWord)
             }

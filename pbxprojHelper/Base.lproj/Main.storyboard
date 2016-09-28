@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
     </dependencies>
     <scenes>
@@ -627,6 +626,13 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
+                                        <menuItem title="JSON Configuration Generator" keyEquivalent="0" id="ADF-aC-rSF">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <segue destination="yKK-lt-GaJ" kind="show" id="PFb-O2-KG6"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="9Nk-eS-vqt"/>
                                         <menuItem title="Bring All to Front" id="LE2-aR-0XJ">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -657,12 +663,12 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="pbxprojHelper" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="76" y="-56"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController showSeguePresentationStyle="single" id="B8D-0N-5wS" sceneMemberID="viewController">
                     <window key="window" title="XcodeProjectHelper" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -874,6 +880,146 @@
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="655"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="tWK-8f-x4i">
+            <objects>
+                <windowController showSeguePresentationStyle="single" id="yKK-lt-GaJ" sceneMemberID="viewController">
+                    <window key="window" title="JSON Configuration Generator" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="b5n-OD-zmE">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <rect key="contentRect" x="425" y="470" width="450" height="184"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
+                        <value key="minSize" type="size" width="450" height="184"/>
+                    </window>
+                    <connections>
+                        <segue destination="InE-2S-wJn" kind="relationship" relationship="window.shadowedContentViewController" id="Mh0-Uo-4Od"/>
+                    </connections>
+                </windowController>
+                <customObject id="RWY-Wt-TMM" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="710" y="250"/>
+        </scene>
+        <!--Generator Controller-->
+        <scene sceneID="vTa-Lr-arH">
+            <objects>
+                <viewController id="InE-2S-wJn" customClass="JSONGeneratorController" customModule="pbxprojHelper" customModuleProvider="target" sceneMemberID="viewController">
+                    <visualEffectView key="view" appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" id="QKc-ye-MdT">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="184"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8fC-K4-frN">
+                                <rect key="frame" x="194" y="142" width="236" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="m7U-8s-cYd">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KgQ-W9-Klt">
+                                <rect key="frame" x="194" y="100" width="236" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="owu-Tz-M8K">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ch7-DE-Qu2">
+                                <rect key="frame" x="20" y="143" width="154" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="ary-e6-IrG"/>
+                                    <constraint firstAttribute="width" constant="154" id="hAt-yB-MTu"/>
+                                </constraints>
+                                <buttonCell key="cell" type="roundRect" title="Latest Project File Path" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AeO-y4-3dE">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="cellTitle"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="openLatestProject:" target="InE-2S-wJn" id="urg-fo-bb5"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q6y-S8-JE2">
+                                <rect key="frame" x="20" y="101" width="154" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="154" id="WPB-0S-8XA"/>
+                                    <constraint firstAttribute="height" constant="18" id="XIl-7K-2dI"/>
+                                </constraints>
+                                <buttonCell key="cell" type="roundRect" title="Original Project File Path" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bXc-xB-9YV">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="cellTitle"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="openOriginalProject:" target="InE-2S-wJn" id="w7G-VZ-M6S"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="o6P-SS-FFH">
+                                <rect key="frame" x="20" y="59" width="154" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="154" id="SDB-ne-1Zc"/>
+                                    <constraint firstAttribute="height" constant="18" id="h9W-2G-TSs"/>
+                                </constraints>
+                                <buttonCell key="cell" type="roundRect" title="JSON File Save Path" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EUa-MW-1BB">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="cellTitle"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="chooseJSONSavePath:" target="InE-2S-wJn" id="Sg1-aI-DhV"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kwa-gj-KQD">
+                                <rect key="frame" x="194" y="58" width="236" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="nhk-C0-vx9">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f3J-ZT-5rZ">
+                                <rect key="frame" x="192" y="19" width="66" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="CUW-41-Vc2"/>
+                                    <constraint firstAttribute="width" constant="66" id="Gth-YR-dtd"/>
+                                </constraints>
+                                <buttonCell key="cell" type="roundRect" title="Generate" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="V26-X2-mAD">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="cellTitle"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="generateJSONFile:" target="InE-2S-wJn" id="Q2Z-Zj-hNB"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="f3J-ZT-5rZ" firstAttribute="centerX" secondItem="QKc-ye-MdT" secondAttribute="centerX" id="A5m-pE-i4v"/>
+                            <constraint firstItem="KgQ-W9-Klt" firstAttribute="top" secondItem="8fC-K4-frN" secondAttribute="bottom" constant="20" id="CGO-ol-F3L"/>
+                            <constraint firstItem="KgQ-W9-Klt" firstAttribute="top" secondItem="8fC-K4-frN" secondAttribute="bottom" constant="20" id="F0G-4n-t4w"/>
+                            <constraint firstItem="ch7-DE-Qu2" firstAttribute="centerY" secondItem="8fC-K4-frN" secondAttribute="centerY" id="GaX-RN-MLI"/>
+                            <constraint firstAttribute="trailing" secondItem="KgQ-W9-Klt" secondAttribute="trailing" constant="20" id="M3D-tT-etV"/>
+                            <constraint firstItem="ch7-DE-Qu2" firstAttribute="leading" secondItem="QKc-ye-MdT" secondAttribute="leading" constant="20" id="Qof-N1-4FU"/>
+                            <constraint firstAttribute="trailing" secondItem="8fC-K4-frN" secondAttribute="trailing" constant="20" id="XYp-Ms-Nb6"/>
+                            <constraint firstItem="q6y-S8-JE2" firstAttribute="leading" secondItem="QKc-ye-MdT" secondAttribute="leading" constant="20" id="abc-Ix-lsQ"/>
+                            <constraint firstItem="KgQ-W9-Klt" firstAttribute="leading" secondItem="q6y-S8-JE2" secondAttribute="trailing" constant="20" id="bjW-U5-e4I"/>
+                            <constraint firstItem="Kwa-gj-KQD" firstAttribute="leading" secondItem="o6P-SS-FFH" secondAttribute="trailing" constant="20" id="cIW-uI-5nn"/>
+                            <constraint firstAttribute="bottom" secondItem="f3J-ZT-5rZ" secondAttribute="bottom" constant="20" id="dwT-5l-uXf"/>
+                            <constraint firstItem="f3J-ZT-5rZ" firstAttribute="top" secondItem="Kwa-gj-KQD" secondAttribute="bottom" constant="20" id="fAg-x2-cjc"/>
+                            <constraint firstItem="8fC-K4-frN" firstAttribute="leading" secondItem="ch7-DE-Qu2" secondAttribute="trailing" constant="20" id="jcT-gf-Ed0"/>
+                            <constraint firstItem="8fC-K4-frN" firstAttribute="top" secondItem="QKc-ye-MdT" secondAttribute="top" constant="20" id="nP5-jC-lfn"/>
+                            <constraint firstItem="Kwa-gj-KQD" firstAttribute="top" secondItem="KgQ-W9-Klt" secondAttribute="bottom" constant="20" id="qMl-ML-Gba"/>
+                            <constraint firstItem="q6y-S8-JE2" firstAttribute="centerY" secondItem="KgQ-W9-Klt" secondAttribute="centerY" id="qaf-Le-HeH"/>
+                            <constraint firstAttribute="trailing" secondItem="Kwa-gj-KQD" secondAttribute="trailing" constant="20" id="qbL-Pp-CnI"/>
+                            <constraint firstItem="o6P-SS-FFH" firstAttribute="leading" secondItem="QKc-ye-MdT" secondAttribute="leading" constant="20" id="sHe-lT-kYq"/>
+                            <constraint firstItem="o6P-SS-FFH" firstAttribute="centerY" secondItem="Kwa-gj-KQD" secondAttribute="centerY" id="uNA-du-oqQ"/>
+                            <constraint firstItem="Kwa-gj-KQD" firstAttribute="leading" secondItem="o6P-SS-FFH" secondAttribute="trailing" constant="20" id="zrz-GK-JEy"/>
+                        </constraints>
+                    </visualEffectView>
+                    <connections>
+                        <outlet property="jsonFileSavePathTF" destination="Kwa-gj-KQD" id="HYy-dw-oSE"/>
+                        <outlet property="latestProjectFilePathTF" destination="8fC-K4-frN" id="bq9-Rc-wOp"/>
+                        <outlet property="originalProjectFilePathTF" destination="KgQ-W9-Klt" id="rbE-zk-OIx"/>
+                    </connections>
+                </viewController>
+                <customObject id="MQ7-AO-0oc" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="710" y="597"/>
         </scene>
     </scenes>
 </document>

@@ -12,6 +12,7 @@
 		A4B82F3A1D96CC3700141B8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4B82F391D96CC3700141B8E /* Assets.xcassets */; };
 		A4B82F3D1D96CC3700141B8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A4B82F3B1D96CC3700141B8E /* Main.storyboard */; };
 		A4B82F451D96E38600141B8E /* PropertyListHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B82F441D96E38600141B8E /* PropertyListHandler.swift */; };
+		A4BCBC2E1D9B7EE7007D5B19 /* JSONGeneratorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4BCBC2D1D9B7EE7007D5B19 /* JSONGeneratorController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		A4B82F3C1D96CC3700141B8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A4B82F3E1D96CC3700141B8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4B82F441D96E38600141B8E /* PropertyListHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyListHandler.swift; sourceTree = "<group>"; };
+		A4BCBC2D1D9B7EE7007D5B19 /* JSONGeneratorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONGeneratorController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 				A44D7BD71D97BE120090D2E6 /* pbxprojHelper.entitlements */,
 				A4B82F351D96CC3700141B8E /* AppDelegate.swift */,
 				A4B82F371D96CC3700141B8E /* ViewController.swift */,
+				A4BCBC2D1D9B7EE7007D5B19 /* JSONGeneratorController.swift */,
 				A4B82F441D96E38600141B8E /* PropertyListHandler.swift */,
 				A4B82F391D96CC3700141B8E /* Assets.xcassets */,
 				A4B82F3B1D96CC3700141B8E /* Main.storyboard */,
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4B82F451D96E38600141B8E /* PropertyListHandler.swift in Sources */,
+				A4BCBC2E1D9B7EE7007D5B19 /* JSONGeneratorController.swift in Sources */,
 				A4B82F381D96CC3700141B8E /* ViewController.swift in Sources */,
 				A4B82F361D96CC3700141B8E /* AppDelegate.swift in Sources */,
 			);
@@ -266,6 +270,7 @@
 				DEVELOPMENT_TEAM = D3RCVUP6VH;
 				INFOPLIST_FILE = pbxprojHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yulingtianxia.pbxprojHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -282,6 +287,7 @@
 				DEVELOPMENT_TEAM = D3RCVUP6VH;
 				INFOPLIST_FILE = pbxprojHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yulingtianxia.pbxprojHelper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
