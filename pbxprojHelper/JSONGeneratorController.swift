@@ -14,8 +14,9 @@ class JSONGeneratorController: NSViewController {
     @IBOutlet weak var originalProjectFilePathTF: NSTextField!
     @IBOutlet weak var jsonFileSavePathTF: NSTextField!
     
-    var latestPropertyList = [String: Any]()
-    var originalPropertyList = [String: Any]()
+    var latestProjectURL: URL?
+    var originalProjectURL: URL?
+    
     let openPanel = NSOpenPanel()
     
     override func viewDidLoad() {
@@ -32,10 +33,7 @@ class JSONGeneratorController: NSViewController {
         if openPanel.runModal() == NSFileHandlingPanelOKButton {
             if let url = openPanel.url {
                 latestProjectFilePathTF.stringValue = url.path
-                latestPropertyList = [:]
-                if let data = PropertyListHandler.parseProject(fileURL: url) {
-                    latestPropertyList = data
-                }
+                latestProjectURL = url
             }
         }
 
@@ -50,10 +48,7 @@ class JSONGeneratorController: NSViewController {
         if openPanel.runModal() == NSFileHandlingPanelOKButton {
             if let url = openPanel.url {
                 originalProjectFilePathTF.stringValue = url.path
-                originalPropertyList = [:]
-                if let data = PropertyListHandler.parseProject(fileURL: url) {
-                    originalPropertyList = data
-                }
+                originalProjectURL = url
             }
         }
     }
@@ -71,12 +66,20 @@ class JSONGeneratorController: NSViewController {
     }
     
     @IBAction func generateJSONFile(_ sender: NSButton) {
-        let jsonObject = PropertyListHandler.compare(project: latestPropertyList, withOtherProject: originalPropertyList)
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
-            try jsonData.write(to: URL(fileURLWithPath: jsonFileSavePathTF.stringValue).appendingPathComponent("JsonConfiguration.json"), options: .atomic)
-        } catch let error {
-            print("generate json file error: \(error.localizedDescription)")
+        guard latestProjectURL == nil || originalProjectURL == nil else {
+            DispatchQueue.global().async {
+                if let latestPropertyList = PropertyListHandler.parseProject(fileURL: self.latestProjectURL!),
+                    let originalPropertyList = PropertyListHandler.parseProject(fileURL: self.originalProjectURL!) {
+                    let jsonObject = PropertyListHandler.compare(project: latestPropertyList, withOtherProject: originalPropertyList)
+                    do {
+                        let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+                        try jsonData.write(to: URL(fileURLWithPath: self.jsonFileSavePathTF.stringValue).appendingPathComponent("JsonConfiguration.json"), options: .atomic)
+                    } catch let error {
+                        print("generate json file error: \(error.localizedDescription)")
+                    }
+                }
+            }
+            return
         }
     }
 }

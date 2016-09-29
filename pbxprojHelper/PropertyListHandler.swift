@@ -50,22 +50,63 @@ class PropertyListHandler: NSObject {
     }
     
     class func generateProject(fileURL: URL, withPropertyList list: Any) {
-        var url = fileURL
-        let backupURL = backupURLOf(projectURL: &url)
-        
-        do {
-            if FileManager().fileExists(atPath: backupURL.path) {
-                try FileManager().removeItem(at: backupURL)
+        DispatchQueue.global().async {
+            var url = fileURL
+            let backupURL = backupURLOf(projectURL: &url)
+            
+            func encodeString(_ str: String) -> String {
+                var result = ""
+                for scalar in str.unicodeScalars {
+                    if scalar.value > 0x4e00 && scalar.value < 0x9fff {
+                        result += String(format: "%c#%04d;", "&", scalar.value)
+                    }
+                    else {
+                        result += scalar.description
+                    }
+                }
+                return result
             }
-            try FileManager().moveItem(at: url, to: backupURL)
-            let data = try PropertyListSerialization.data(fromPropertyList: list, format: .xml, options: 0)
-            try data.write(to: url, options: .atomic)
-        } catch let error {
+            
+            func encodeForUnicode(propertyList: Any) -> Any {
+                if var dictionary = propertyList as? [String: Any] {
+                    for (key, value) in dictionary {
+                        if let str = value as? String {
+                            dictionary[key] = encodeString(str)
+                        }
+                        else {
+                            dictionary[key] = encodeForUnicode(propertyList: value)
+                        }
+                    }
+                    return dictionary
+                }
+                if var array = propertyList as? [Any] {
+                    for (index, element) in array.enumerated() {
+                        if let str = element as? String {
+                            array[index] = encodeString(str)
+                        }
+                        else {
+                            array[index] = encodeForUnicode(propertyList: element)
+                        }
+                    }
+                    return array
+                }
+                return propertyList
+            }
+            
             do {
-                print("generate new project file failed: \(error.localizedDescription), try to roll back project file!")
-                try FileManager().moveItem(at: backupURL, to: url)
-            } catch _ {
-                print("roll back project file failed! backup file url: \(backupURL), error: \(error.localizedDescription)")
+                if FileManager().fileExists(atPath: backupURL.path) {
+                    try FileManager().removeItem(at: backupURL)
+                }
+                try FileManager().moveItem(at: url, to: backupURL)
+                let data = try PropertyListSerialization.data(fromPropertyList: encodeForUnicode(propertyList: list), format: .xml, options: 0)
+                try data.write(to: url, options: .atomic)
+            } catch let error {
+                do {
+                    print("generate new project file failed: \(error.localizedDescription), try to roll back project file!")
+                    try FileManager().moveItem(at: backupURL, to: url)
+                } catch _ {
+                    print("roll back project file failed! backup file url: \(backupURL), error: \(error.localizedDescription)")
+                }
             }
         }
     }
@@ -74,8 +115,10 @@ class PropertyListHandler: NSObject {
         var url = fileURL
         let backupURL = backupURLOf(projectURL: &url)
         do {
-            if FileManager().fileExists(atPath: url.path) && FileManager().fileExists(atPath: backupURL.path) {
-                try FileManager().removeItem(at: url)
+            if FileManager().fileExists(atPath: backupURL.path) {
+                if FileManager().fileExists(atPath: url.path) {
+                    try FileManager().removeItem(at: url)
+                }
                 try FileManager().moveItem(at: backupURL, to: url)
                 return true
             }
