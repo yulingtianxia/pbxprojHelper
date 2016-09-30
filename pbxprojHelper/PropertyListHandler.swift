@@ -54,43 +54,26 @@ class PropertyListHandler: NSObject {
             var url = fileURL
             let backupURL = backupURLOf(projectURL: &url)
             
-            func encodeString(_ str: String) -> String {
-                var result = ""
-                for scalar in str.unicodeScalars {
-                    if scalar.value > 0x4e00 && scalar.value < 0x9fff {
-                        result += String(format: "%c#%04d;", "&", scalar.value)
-                    }
-                    else {
-                        result += scalar.description
-                    }
-                }
-                return result
-            }
-            
-            func encodeForUnicode(propertyList: Any) -> Any {
-                if var dictionary = propertyList as? [String: Any] {
-                    for (key, value) in dictionary {
-                        if let str = value as? String {
-                            dictionary[key] = encodeString(str)
+            func handleEncode(fileURL: URL) {
+                func encodeString(_ str: String) -> String {
+                    var result = ""
+                    for scalar in str.unicodeScalars {
+                        if scalar.value > 0x4e00 && scalar.value < 0x9fff {
+                            result += String(format: "&#%04d;", scalar.value)
                         }
                         else {
-                            dictionary[key] = encodeForUnicode(propertyList: value)
+                            result += scalar.description
                         }
                     }
-                    return dictionary
+                    return result
                 }
-                if var array = propertyList as? [Any] {
-                    for (index, element) in array.enumerated() {
-                        if let str = element as? String {
-                            array[index] = encodeString(str)
-                        }
-                        else {
-                            array[index] = encodeForUnicode(propertyList: element)
-                        }
-                    }
-                    return array
+                do {
+                    var txt = try String(contentsOf: fileURL, encoding: .utf8)
+                    txt = encodeString(txt)
+                    try txt.write(to: fileURL, atomically: true, encoding: .utf8)
+                } catch let error {
+                    print("translate chinese characters to mathematical symbols error: \(error.localizedDescription)")
                 }
-                return propertyList
             }
             
             do {
@@ -98,8 +81,9 @@ class PropertyListHandler: NSObject {
                     try FileManager().removeItem(at: backupURL)
                 }
                 try FileManager().moveItem(at: url, to: backupURL)
-                let data = try PropertyListSerialization.data(fromPropertyList: encodeForUnicode(propertyList: list), format: .xml, options: 0)
+                let data = try PropertyListSerialization.data(fromPropertyList: list, format: .xml, options: 0)
                 try data.write(to: url, options: .atomic)
+                handleEncode(fileURL: url)
             } catch let error {
                 do {
                     print("generate new project file failed: \(error.localizedDescription), try to roll back project file!")
