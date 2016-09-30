@@ -32,7 +32,7 @@ class PropertyListHandler: NSObject {
     ///
     /// - returns: 备份文件路径
     fileprivate class func backupURLOf(projectURL url: inout URL) -> URL {
-        var backupURL = URL(fileURLWithPath: NSHomeDirectory())
+        var backupURL = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents")
         if url.pathExtension == "xcodeproj" {
             backupURL.appendPathComponent(url.lastPathComponent)
             backupURL.appendPathExtension("project.pbxproj")
@@ -232,23 +232,21 @@ class PropertyListHandler: NSObject {
                 let set1 = Set(dictionary1.map { $0.key })
                 let set2 = Set(dictionary2.map { $0.key })
                 for key in set1.subtracting(set2) {
-                    let keyPath = parentKeyPath == "" ? key : "\(parentKeyPath).\(key)"
-                    if let value = dictionary1[key], difference["insert"]?[keyPath] == nil {
-                        difference["insert"]?[keyPath] = [value]
+                    if let value = dictionary1[key], difference["insert"]?[parentKeyPath] == nil {
+                        difference["insert"]?[parentKeyPath] = [key: value]
                     }
-                    else if let value = dictionary1[key], var insertArray = difference["insert"]?[keyPath] as? [Any] {
-                        insertArray.append(value)
-                        difference["insert"]?[keyPath] = insertArray
+                    else if let value = dictionary1[key], var insertDictionary = difference["insert"]?[parentKeyPath] as? [String: Any] {
+                        insertDictionary[key] = value
+                        difference["insert"]?[parentKeyPath] = insertDictionary
                     }
                 }
                 for key in set2.subtracting(set1) {
-                    let keyPath = parentKeyPath == "" ? key : "\(parentKeyPath).\(key)"
-                    if let value = dictionary2[key], difference["remove"]?[keyPath] == nil {
-                        difference["remove"]?[keyPath] = [value]
+                    if let value = dictionary2[key], difference["remove"]?[parentKeyPath] == nil {
+                        difference["remove"]?[parentKeyPath] = [key: value]
                     }
-                    else if let value = dictionary2[key], var insertArray = difference["remove"]?[keyPath] as? [Any] {
-                        insertArray.append(value)
-                        difference["remove"]?[keyPath] = insertArray
+                    else if let value = dictionary2[key], var insertDictionary = difference["remove"]?[parentKeyPath] as? [String: Any] {
+                        insertDictionary[key] = value
+                        difference["remove"]?[parentKeyPath] = insertDictionary
                     }
                 }
                 for key in set1.intersection(set2) {

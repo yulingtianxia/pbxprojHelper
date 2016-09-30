@@ -67,16 +67,24 @@ class JSONGeneratorController: NSViewController {
     
     @IBAction func generateJSONFile(_ sender: NSButton) {
         guard latestProjectURL == nil || originalProjectURL == nil else {
+            sender.title = "Generating"
             DispatchQueue.global().async {
                 if let latestPropertyList = PropertyListHandler.parseProject(fileURL: self.latestProjectURL!),
                     let originalPropertyList = PropertyListHandler.parseProject(fileURL: self.originalProjectURL!) {
                     let jsonObject = PropertyListHandler.compare(project: latestPropertyList, withOtherProject: originalPropertyList)
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
-                        try jsonData.write(to: URL(fileURLWithPath: self.jsonFileSavePathTF.stringValue).appendingPathComponent("JsonConfiguration.json"), options: .atomic)
+                        var jsonURL = URL(fileURLWithPath: self.jsonFileSavePathTF.stringValue)
+                        if jsonURL.pathExtension != "json" {
+                            jsonURL.appendPathComponent("JsonConfiguration.json")
+                        }
+                        try jsonData.write(to: jsonURL, options: .atomic)
                     } catch let error {
                         print("generate json file error: \(error.localizedDescription)")
                     }
+                }
+                DispatchQueue.main.async {
+                    sender.title = "Generate"
                 }
             }
             return

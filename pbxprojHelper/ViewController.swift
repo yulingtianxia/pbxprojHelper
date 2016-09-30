@@ -36,17 +36,17 @@ class ViewController: NSViewController {
     }
     
     func isItem(_ item: Any, containsKeyWord word: String) -> Bool {
-        func checkAny(value: Any, equalsString string: String) -> Bool {
-            return ((value is String) && (value as! String).contains(string))
+        func checkAny(value: Any, containsString string: String) -> Bool {
+            return ((value is String) && (value as! String).lowercased().contains(string.lowercased()))
         }
         if let tupleItem = item as? Item {
-            if tupleItem.key.contains(word) || checkAny(value: tupleItem.value, equalsString: word) {
+            if checkAny(value: tupleItem.key, containsString: word) || checkAny(value: tupleItem.value, containsString: word) {
                 return true
             }
             func tfs(propertyList list: Any) -> Bool {
                 if let dictionary = list as? [String: Any] {
                     for (key, value) in dictionary {
-                        if key.contains(word) || checkAny(value: value, equalsString: word) {
+                        if checkAny(value: key, containsString: word) || checkAny(value: value, containsString: word) {
                             return true
                         }
                         else if tfs(propertyList: value) {
@@ -56,7 +56,7 @@ class ViewController: NSViewController {
                 }
                 if let array = list as? [Any] {
                     for value in array {
-                        if checkAny(value: value, equalsString: word) {
+                        if checkAny(value: value, containsString: word) {
                             return true
                         }
                         else if tfs(propertyList: value) {
@@ -211,13 +211,13 @@ extension ViewController: NSOutlineViewDataSource {
         
         let itemValue = (item as? Item)?.value
         if let dictionary = itemValue as? [String: Any] {
-            if filterKeyWord != "" && filterKeyWord != (item as? Item)?.key {
+            if filterKeyWord != "" && !((item as? Item)?.key.lowercased().contains(filterKeyWord.lowercased()) ?? false) {
                 return elementsOfDictionary(dictionary, containsKeyWord: filterKeyWord).count
             }
             return dictionary.count
         }
         if let array = itemValue as? [Any] {
-            if filterKeyWord != "" && filterKeyWord != (item as? Item)?.key {
+            if filterKeyWord != "" && !((item as? Item)?.key.lowercased().contains(filterKeyWord.lowercased()) ?? false) {
                 return elementsOfArray(array, containsKeyWord: filterKeyWord).count
             }
             return array.count
@@ -232,7 +232,7 @@ extension ViewController: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         let itemValue = (item as? Item)?.value
         if var dictionary = item == nil ? currentPropertyList : (itemValue as? [String: Any]) {
-            if filterKeyWord != "" && filterKeyWord != (item as? Item)?.key {
+            if filterKeyWord != "" && !((item as? Item)?.key.lowercased().contains(filterKeyWord.lowercased()) ?? false) {
                 dictionary = elementsOfDictionary(dictionary, containsKeyWord: filterKeyWord)
             }
             let keys = Array(dictionary.keys)
@@ -242,7 +242,7 @@ extension ViewController: NSOutlineViewDataSource {
             return childItem
         }
         if var array = (itemValue as? [String]) {
-            if filterKeyWord != "" {
+            if filterKeyWord != "" && !((item as? Item)?.key.lowercased().contains(filterKeyWord.lowercased()) ?? false) {
                 array = elementsOfArray(array, containsKeyWord: filterKeyWord) as! [String]
             }
             return Item(key: array[index], value: "", parent: item)

@@ -267,6 +267,7 @@
 				CODE_SIGN_ENTITLEMENTS = pbxprojHelper/pbxprojHelper.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = D3RCVUP6VH;
 				INFOPLIST_FILE = pbxprojHelper/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";

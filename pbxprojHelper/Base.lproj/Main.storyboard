@@ -663,7 +663,7 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="pbxprojHelper" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="76" y="-56"/>
+            <point key="canvasLocation" x="76" y="-75"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -874,7 +874,6 @@
                         <outlet property="chooseJSONFileBtn" destination="MWm-AP-Yed" id="y2m-jJ-TQ6"/>
                         <outlet property="filePathTF" destination="YuV-hF-qe6" id="fxZ-Mr-RIr"/>
                         <outlet property="resultTable" destination="vLd-t0-Omm" id="vlW-8y-Paf"/>
-                        <outlet property="selectBtn" destination="ET9-qh-2Q4" id="Ev1-BA-PtW"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -887,9 +886,9 @@
                 <windowController showSeguePresentationStyle="single" id="yKK-lt-GaJ" sceneMemberID="viewController">
                     <window key="window" title="JSON Configuration Generator" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="b5n-OD-zmE">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-                        <rect key="contentRect" x="425" y="470" width="450" height="184"/>
+                        <rect key="contentRect" x="425" y="470" width="450" height="221"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
-                        <value key="minSize" type="size" width="450" height="184"/>
+                        <value key="minSize" type="size" width="450" height="221"/>
                     </window>
                     <connections>
                         <segue destination="InE-2S-wJn" kind="relationship" relationship="window.shadowedContentViewController" id="Mh0-Uo-4Od"/>
@@ -904,11 +903,11 @@
             <objects>
                 <viewController id="InE-2S-wJn" customClass="JSONGeneratorController" customModule="pbxprojHelper" customModuleProvider="target" sceneMemberID="viewController">
                     <visualEffectView key="view" appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" id="QKc-ye-MdT">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="184"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="221"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8fC-K4-frN">
-                                <rect key="frame" x="194" y="142" width="236" height="22"/>
+                                <rect key="frame" x="199" y="142" width="231" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="m7U-8s-cYd">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -916,7 +915,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KgQ-W9-Klt">
-                                <rect key="frame" x="194" y="100" width="236" height="22"/>
+                                <rect key="frame" x="199" y="100" width="231" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="owu-Tz-M8K">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -924,12 +923,12 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ch7-DE-Qu2">
-                                <rect key="frame" x="20" y="143" width="154" height="19"/>
+                                <rect key="frame" x="20" y="143" width="159" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="ary-e6-IrG"/>
-                                    <constraint firstAttribute="width" constant="154" id="hAt-yB-MTu"/>
+                                    <constraint firstAttribute="width" constant="159" id="hAt-yB-MTu"/>
                                 </constraints>
-                                <buttonCell key="cell" type="roundRect" title="Latest Project File Path" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AeO-y4-3dE">
+                                <buttonCell key="cell" type="roundRect" title="Modified Project File Path" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AeO-y4-3dE">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
@@ -938,9 +937,8 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q6y-S8-JE2">
-                                <rect key="frame" x="20" y="101" width="154" height="19"/>
+                                <rect key="frame" x="20" y="101" width="159" height="19"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="154" id="WPB-0S-8XA"/>
                                     <constraint firstAttribute="height" constant="18" id="XIl-7K-2dI"/>
                                 </constraints>
                                 <buttonCell key="cell" type="roundRect" title="Original Project File Path" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bXc-xB-9YV">
@@ -952,9 +950,8 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="o6P-SS-FFH">
-                                <rect key="frame" x="20" y="59" width="154" height="19"/>
+                                <rect key="frame" x="20" y="59" width="159" height="19"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="154" id="SDB-ne-1Zc"/>
                                     <constraint firstAttribute="height" constant="18" id="h9W-2G-TSs"/>
                                 </constraints>
                                 <buttonCell key="cell" type="roundRect" title="JSON File Save Path" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EUa-MW-1BB">
@@ -966,18 +963,26 @@
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kwa-gj-KQD">
-                                <rect key="frame" x="194" y="58" width="236" height="22"/>
+                                <rect key="frame" x="199" y="58" width="231" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="nhk-C0-vx9">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dnc-5m-noa">
+                                <rect key="frame" x="79" y="184" width="293" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Generate Differences between two project files" drawsBackground="YES" id="ja8-JG-Dw8">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f3J-ZT-5rZ">
-                                <rect key="frame" x="192" y="19" width="66" height="19"/>
+                                <rect key="frame" x="180" y="19" width="91" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="CUW-41-Vc2"/>
-                                    <constraint firstAttribute="width" constant="66" id="Gth-YR-dtd"/>
+                                    <constraint firstAttribute="width" constant="91" id="Gth-YR-dtd"/>
                                 </constraints>
                                 <buttonCell key="cell" type="roundRect" title="Generate" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="V26-X2-mAD">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -991,27 +996,32 @@
                         <constraints>
                             <constraint firstItem="f3J-ZT-5rZ" firstAttribute="centerX" secondItem="QKc-ye-MdT" secondAttribute="centerX" id="A5m-pE-i4v"/>
                             <constraint firstItem="KgQ-W9-Klt" firstAttribute="top" secondItem="8fC-K4-frN" secondAttribute="bottom" constant="20" id="CGO-ol-F3L"/>
+                            <constraint firstItem="8fC-K4-frN" firstAttribute="top" secondItem="dnc-5m-noa" secondAttribute="bottom" constant="20" id="D9T-Ju-57x"/>
                             <constraint firstItem="KgQ-W9-Klt" firstAttribute="top" secondItem="8fC-K4-frN" secondAttribute="bottom" constant="20" id="F0G-4n-t4w"/>
+                            <constraint firstItem="o6P-SS-FFH" firstAttribute="width" secondItem="ch7-DE-Qu2" secondAttribute="width" id="Foa-JS-UUE"/>
                             <constraint firstItem="ch7-DE-Qu2" firstAttribute="centerY" secondItem="8fC-K4-frN" secondAttribute="centerY" id="GaX-RN-MLI"/>
                             <constraint firstAttribute="trailing" secondItem="KgQ-W9-Klt" secondAttribute="trailing" constant="20" id="M3D-tT-etV"/>
                             <constraint firstItem="ch7-DE-Qu2" firstAttribute="leading" secondItem="QKc-ye-MdT" secondAttribute="leading" constant="20" id="Qof-N1-4FU"/>
                             <constraint firstAttribute="trailing" secondItem="8fC-K4-frN" secondAttribute="trailing" constant="20" id="XYp-Ms-Nb6"/>
+                            <constraint firstItem="q6y-S8-JE2" firstAttribute="width" secondItem="ch7-DE-Qu2" secondAttribute="width" id="Z72-g0-7H3"/>
                             <constraint firstItem="q6y-S8-JE2" firstAttribute="leading" secondItem="QKc-ye-MdT" secondAttribute="leading" constant="20" id="abc-Ix-lsQ"/>
                             <constraint firstItem="KgQ-W9-Klt" firstAttribute="leading" secondItem="q6y-S8-JE2" secondAttribute="trailing" constant="20" id="bjW-U5-e4I"/>
                             <constraint firstItem="Kwa-gj-KQD" firstAttribute="leading" secondItem="o6P-SS-FFH" secondAttribute="trailing" constant="20" id="cIW-uI-5nn"/>
                             <constraint firstAttribute="bottom" secondItem="f3J-ZT-5rZ" secondAttribute="bottom" constant="20" id="dwT-5l-uXf"/>
                             <constraint firstItem="f3J-ZT-5rZ" firstAttribute="top" secondItem="Kwa-gj-KQD" secondAttribute="bottom" constant="20" id="fAg-x2-cjc"/>
                             <constraint firstItem="8fC-K4-frN" firstAttribute="leading" secondItem="ch7-DE-Qu2" secondAttribute="trailing" constant="20" id="jcT-gf-Ed0"/>
-                            <constraint firstItem="8fC-K4-frN" firstAttribute="top" secondItem="QKc-ye-MdT" secondAttribute="top" constant="20" id="nP5-jC-lfn"/>
+                            <constraint firstItem="dnc-5m-noa" firstAttribute="centerX" secondItem="QKc-ye-MdT" secondAttribute="centerX" id="oOP-8h-01a"/>
                             <constraint firstItem="Kwa-gj-KQD" firstAttribute="top" secondItem="KgQ-W9-Klt" secondAttribute="bottom" constant="20" id="qMl-ML-Gba"/>
                             <constraint firstItem="q6y-S8-JE2" firstAttribute="centerY" secondItem="KgQ-W9-Klt" secondAttribute="centerY" id="qaf-Le-HeH"/>
                             <constraint firstAttribute="trailing" secondItem="Kwa-gj-KQD" secondAttribute="trailing" constant="20" id="qbL-Pp-CnI"/>
                             <constraint firstItem="o6P-SS-FFH" firstAttribute="leading" secondItem="QKc-ye-MdT" secondAttribute="leading" constant="20" id="sHe-lT-kYq"/>
+                            <constraint firstItem="dnc-5m-noa" firstAttribute="top" secondItem="QKc-ye-MdT" secondAttribute="top" constant="20" id="u58-mp-qVh"/>
                             <constraint firstItem="o6P-SS-FFH" firstAttribute="centerY" secondItem="Kwa-gj-KQD" secondAttribute="centerY" id="uNA-du-oqQ"/>
                             <constraint firstItem="Kwa-gj-KQD" firstAttribute="leading" secondItem="o6P-SS-FFH" secondAttribute="trailing" constant="20" id="zrz-GK-JEy"/>
                         </constraints>
                     </visualEffectView>
                     <connections>
+                        <outlet property="generateButton" destination="f3J-ZT-5rZ" id="Cfj-AX-aCq"/>
                         <outlet property="jsonFileSavePathTF" destination="Kwa-gj-KQD" id="HYy-dw-oSE"/>
                         <outlet property="latestProjectFilePathTF" destination="8fC-K4-frN" id="bq9-Rc-wOp"/>
                         <outlet property="originalProjectFilePathTF" destination="KgQ-W9-Klt" id="rbE-zk-OIx"/>
@@ -1019,7 +1029,7 @@
                 </viewController>
                 <customObject id="MQ7-AO-0oc" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="710" y="597"/>
+            <point key="canvasLocation" x="710" y="616.5"/>
         </scene>
     </scenes>
 </document>
