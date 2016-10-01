@@ -241,12 +241,12 @@ class PropertyListHandler: NSObject {
                     }
                 }
                 for key in set2.subtracting(set1) {
-                    if let value = dictionary2[key], difference["remove"]?[parentKeyPath] == nil {
-                        difference["remove"]?[parentKeyPath] = [key: value]
+                    if difference["remove"]?[parentKeyPath] == nil {
+                        difference["remove"]?[parentKeyPath] = [key]
                     }
-                    else if let value = dictionary2[key], var insertDictionary = difference["remove"]?[parentKeyPath] as? [String: Any] {
-                        insertDictionary[key] = value
-                        difference["remove"]?[parentKeyPath] = insertDictionary
+                    else if var removeArray = difference["remove"]?[parentKeyPath] as? [Any] {
+                        removeArray.append(key)
+                        difference["remove"]?[parentKeyPath] = removeArray
                     }
                 }
                 for key in set1.intersection(set2) {
@@ -279,9 +279,9 @@ class PropertyListHandler: NSObject {
                     if difference["remove"]?[parentKeyPath] == nil {
                         difference["remove"]?[parentKeyPath] = [element]
                     }
-                    else if var insertArray = difference["remove"]?[parentKeyPath] as? [Any] {
-                        insertArray.append(element)
-                        difference["remove"]?[parentKeyPath] = insertArray
+                    else if var removeArray = difference["remove"]?[parentKeyPath] as? [Any] {
+                        removeArray.append(element)
+                        difference["remove"]?[parentKeyPath] = removeArray
                     }
                 }
             }
