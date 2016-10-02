@@ -88,9 +88,13 @@ Conversely, you can use this json file when you want to apply these changes to c
 
 ## Backups
 
-Each time you Click "Apply" button on main window, pbxprojHelper will use original or last modified project file to create backup file with "backup" extension in "Documents" folder of sandbox first, and then apply changes on project file.
+Each time you click "Apply" button on main window, pbxprojHelper will use original or last modified project file to create backup file with "backup" extension in "Documents" folder of sandbox first, and then apply changes on project file.
 
 "Revert" button uses these backups to revert project file to the latest version.
+
+## Encoding
+
+When generating project.pbxproj file with xml format, chinese characters will be translated to Unicode mathematical symbols. For example, `"杨萧玉"` in OpenStep style file will be translated to `<string>&#26472;&#33831;&#29577;</string>` in XML style. This is because Xcode will encode XML content(regarded as ASCII encoding) into Unicode again when convert XML project file to OpenStep project file.
 
 ## LICENSE
 
