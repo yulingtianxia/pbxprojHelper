@@ -206,7 +206,7 @@ class PropertyListHandler: NSObject {
                     case "modify":
                         return data
                     default:
-                        return appliedData
+                        return value
                     }
                     
                 }) as? [String: Any] {
