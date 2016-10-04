@@ -8,7 +8,15 @@ pbxprojHelper lets you create and modify Xcode projects from Native UI App devel
 
 ## Installing pbxprojHelper
 
-You can download pbxprojHelper.app with its latest [Releases](https://github.com/yulingtianxia/pbxprojHelper/releases) on GitHub.
+### GitHub
+
+You can clone the [source code](https://github.com/yulingtianxia/pbxprojHelper/) of pbxprojHelper, then compile and run it by Xcode.
+
+You can also download pbxprojHelper.app with its latest [Releases](https://github.com/yulingtianxia/pbxprojHelper/releases) on GitHub.
+
+### App Store
+
+https://github.com/yulingtianxia/pbxprojHelper/
 
 ## Quickstart
 
