@@ -16,7 +16,7 @@ You can also download pbxprojHelper.app with its latest [Releases](https://githu
 
 ### App Store
 
-https://github.com/yulingtianxia/pbxprojHelper/
+https://itunes.apple.com/cn/app/pbxprojhelper/id1160801848
 
 ## Quickstart
 
