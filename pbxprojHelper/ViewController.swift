@@ -162,7 +162,7 @@ extension ViewController {
     @IBAction func applyJSONConfiguration(_ sender: NSButton) {
         if let url = propertyListURL {
             DispatchQueue.global().async {
-                PropertyListHandler.generateProject(fileURL: url, withPropertyList: currentPropertyList)
+                PropertyListHandler.generateProject(fileURL: url, withPropertyList: self.currentPropertyList)
             }
         }
     }
