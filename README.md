@@ -2,7 +2,7 @@
 
 # pbxprojHelper 
 
-pbxprojHelper lets you create and modify Xcode projects from Native UI App developed with Cocoa and Swift 3. You can also  use pbxproj as a command line tool in terminal.
+pbxprojHelper lets you create and modify Xcode projects from Native UI App developed with Cocoa and Swift 3. You can also  use `pbxproj` as a command line tool in terminal.
 
 ![Main Window](images/MainWindow@2x.png)
 
@@ -12,9 +12,11 @@ pbxprojHelper lets you create and modify Xcode projects from Native UI App devel
 
 You can clone the [source code](https://github.com/yulingtianxia/pbxprojHelper/) of pbxprojHelper, then compile and run it by Xcode.
 
-You can also download pbxprojHelper.app with its latest [Releases](https://github.com/yulingtianxia/pbxprojHelper/releases) on GitHub.
+You can also download pbxprojHelper.app and pbxproj tool with its latest [Releases](https://github.com/yulingtianxia/pbxprojHelper/releases) on GitHub.
 
 ### App Store
+
+Mac App Store link: (Only pbxprojHelper.app)
 
 https://itunes.apple.com/cn/app/pbxprojhelper/id1160801848
 
@@ -28,6 +30,10 @@ https://itunes.apple.com/cn/app/pbxprojhelper/id1160801848
 4. "Revert" button lets you revert your project file to latest version.
 
 ### Use pbxproj (Command Line Tool)
+
+You should move pbxproj to `/usr/local/bin/`, so you can execute `pbxproj` command conveniently in terminal.
+
+Here is the Usage:
 
 ```
 Usage: pbxproj [command_option] file
