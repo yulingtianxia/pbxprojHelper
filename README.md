@@ -6,6 +6,11 @@ pbxprojHelper lets you create and modify Xcode projects from Native UI App devel
 
 ![Main Window](images/MainWindow@2x.png)
 
+[![Language](https://img.shields.io/badge/language-Swift%203.0-orange.svg)](https://swift.org)
+
+## Languages
+[中文](Documentation/README_ZH.md)
+
 ## Installing pbxprojHelper
 
 ### GitHub
@@ -48,7 +53,7 @@ Command options are (-convert is the default):
 
 The outline view shows entire data of project.pbxproj file. You can expand an item if it's type is collection(dictionary or array). For example, the value for key `objects` is an dictionary which contains 34 key-value pairs. You can expand `objects` to view its content. For key-value pairs of dictionary, the 1st/2nd column means "Key"/"Value". If the value is a collection(not String or Number.ect), the 2nd column shows a description of the collection; For elements of array, the 1st column means "Element", but the 2nd column contains nothing.
 
-**You can paste the text in outline view by just a click on the text. If you want to paste the whole keypath from root node, double click it.**
+**You can copy the text in outline view by just a click on the text. If you want to copy the whole keypath from root node, double click it.**
 
 ## Filter
 
@@ -84,7 +89,7 @@ The configuration file contains a list of rules. Here is an example of configura
 }
 ```
 
-The root object is a dictionary with 3 key-value pairs. You can "insert", "remove" and "modify" values through their key paths in project.pbxproj file. All array datas are leaf nodes in project.pbxproj file, so I recommend that you should **modify the whole array** instead of *remove* elements. 
+The root object must be a dictionary with 3 key-value pairs. You can "insert", "remove" and "modify" values through their key paths in project.pbxproj file. 
 
 #### Insert
 
@@ -111,7 +116,7 @@ Programmer is lazy. I can't stand wasting my time on writing json files, so I cr
 
 You can use it in an oversimplified and crude way. Just select two project files and json save path, then click the "Generate" button, and you will get a json file containing changes between modified and original project file.
 
-Conversely, you can use this json file when you want to apply these changes to certain project file again.
+Conversely, you can use this json file when you want to apply these changes to certain project file again. Please take care of this json file.
 
 ## Backups
 
@@ -121,8 +126,8 @@ Each time you click "Apply" button on main window, pbxprojHelper will use origin
 
 ## Encoding
 
-When generating project.pbxproj file with xml format, chinese characters will be translated to Unicode mathematical symbols. For example, `"杨萧玉"` in OpenStep style file will be translated to `<string>&#26472;&#33831;&#29577;</string>` in XML style. This is because Xcode will encode XML content(regarded as ASCII encoding) into Unicode again when convert XML project file to OpenStep project file.
+When generating project.pbxproj file with xml format, chinese characters will be translated to Unicode mathematical symbols. For example, `"杨萧玉"` in OpenStep style file will be converted to `<string>&#26472;&#33831;&#29577;</string>` in XML style. This is because Xcode will encode XML content(regarded as ASCII encoding) into Unicode again when convert XML project file to OpenStep project file.
 
 ## LICENSE
 
-These works are available under the GNU General Public License. See the [LICENSE](https://github.com/yulingtianxia/pbxprojHelper/blob/master/LICENSE) file for more info.
+These works are available under the GNU General Public License. See the [LICENSE](LICENSE) file for more info.

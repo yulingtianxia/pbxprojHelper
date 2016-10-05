@@ -158,7 +158,7 @@ class PropertyListHandler: NSObject {
                     else {
                         return complete(value)
                     }
-                    return nil
+                    return value
                 }
                 
                 if let result = walkIn(atIndex: 0, withCurrentValue: appliedData, complete: { (value) -> Any? in
@@ -177,7 +177,7 @@ class PropertyListHandler: NSObject {
                             array.append(contentsOf: arrayData)
                             return array
                         }
-                        return nil
+                        return value
                     case "remove":
                         if var dictionary = value as? [String: Any],
                             let arrayData = data as? [Any] {
@@ -203,7 +203,7 @@ class PropertyListHandler: NSObject {
                             }
                             return array
                         }
-                        return nil
+                        return value
                     case "modify":
                         return data
                     default:

@@ -241,6 +241,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				DEVELOPMENT_TEAM = D3RCVUP6VH;
 				INFOPLIST_FILE = "$(SRCROOT)/pbxprojHelper/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yulingtianxia.pbxproj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -252,6 +253,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				DEVELOPMENT_TEAM = D3RCVUP6VH;
 				INFOPLIST_FILE = "$(SRCROOT)/pbxprojHelper/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yulingtianxia.pbxproj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
