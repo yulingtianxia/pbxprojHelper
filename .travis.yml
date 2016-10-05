@@ -1,3 +1,5 @@
 language: objective-c
 xcode_project: pbxprojHelper.xcodeproj
 xcode_scheme: pbxprojHelper
+script:
+  - xcodebuild [DEFAULT_OPTIONS] CODE_SIGNING_REQUIRED=NO
