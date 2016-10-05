@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>pbxprojhelper by yulingtianxia</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>pbxprojhelper</h1>
+          <h2>A macOS tool help you handling project.pbxproj files. Written in Swift 3!</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/yulingtianxia/pbxprojHelper/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/yulingtianxia/pbxprojHelper/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/yulingtianxia/pbxprojHelper" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <p><img src="https://github.com/yulingtianxia/pbxprojHelper/blob/master/images/appIcon.png?raw=true" alt=""></p>
+
+<h1>
+<a id="pbxprojhelper" class="anchor" href="#pbxprojhelper" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>pbxprojHelper</h1>
+
+<p>pbxprojHelper lets you create and modify Xcode projects from Native UI App developed with Cocoa and Swift 3. You can also  use <code>pbxproj</code> as a command line tool in terminal.</p>
+
+<p><img src="https://github.com/yulingtianxia/pbxprojHelper/blob/master/images/MainWindow@2x.png?raw=true" alt="Main Window"></p>
+
+<p><a href="https://swift.org"><img src="https://img.shields.io/badge/language-Swift%203.0-orange.svg" alt="Language"></a>
+<a href="https://travis-ci.org/yulingtianxia/pbxprojHelper"><img src="https://travis-ci.org/yulingtianxia/pbxprojHelper.svg?branch=master" alt="Build Status"></a></p>
+
+<h2>
+<a id="languages" class="anchor" href="#languages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Languages</h2>
+
+<p><a href="https://github.com/yulingtianxia/pbxprojHelper/blob/master/Documentation/README_ZH.md">中文</a></p>
+
+<h2>
+<a id="installing-pbxprojhelper" class="anchor" href="#installing-pbxprojhelper" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installing pbxprojHelper</h2>
+
+<h3>
+<a id="github" class="anchor" href="#github" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>GitHub</h3>
+
+<p>You can clone the <a href="https://github.com/yulingtianxia/pbxprojHelper/">source code</a> of pbxprojHelper, then compile and run it by Xcode.</p>
+
+<p>You can also download pbxprojHelper.app and pbxproj tool with its latest <a href="https://github.com/yulingtianxia/pbxprojHelper/releases">Releases</a> on GitHub.</p>
+
+<h3>
+<a id="app-store" class="anchor" href="#app-store" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>App Store</h3>
+
+<p>Mac App Store link: (Only pbxprojHelper.app)</p>
+
+<p><a href="https://itunes.apple.com/cn/app/pbxprojhelper/id1160801848">https://itunes.apple.com/cn/app/pbxprojhelper/id1160801848</a></p>
+
+<h2>
+<a id="quickstart" class="anchor" href="#quickstart" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quickstart</h2>
+
+<h3>
+<a id="use-pbxprojhelper-native-cocoa-ui-app" class="anchor" href="#use-pbxprojhelper-native-cocoa-ui-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use pbxprojHelper (Native Cocoa UI App)</h3>
+
+<ol>
+<li>Choose your project file by clicking "Select" button. Both <code>.xcodeproj</code> and <code>.pbxproj</code> file extensions are supported. The path of project file you selected will be displayed on the text field. The outline view shows data of project file.</li>
+<li>Choose configuration file by clicking "Choose JSON File". Configuration file contains changes you want to make to your project. You can create a configuration file with json format, or generate it using "JSON Configuration Generator" tool provided by pbxprojHelper. The outline view will refresh data after you choose a json file.</li>
+<li>Clicking "Apply" button will write changes made by json configuration to project file you selected.</li>
+<li>"Revert" button lets you revert your project file to latest version.</li>
+</ol>
+
+<h3>
+<a id="use-pbxproj-command-line-tool" class="anchor" href="#use-pbxproj-command-line-tool" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use pbxproj (Command Line Tool)</h3>
+
+<p>You should move pbxproj to <code>/usr/local/bin/</code>, so you can execute <code>pbxproj</code> command conveniently in terminal.</p>
+
+<p>Here is the Usage:</p>
+
+<pre><code>Usage: pbxproj [command_option] file
+Command options are (-convert is the default):
+-compare modified_file -o path          compare modified property list file with property list file and generate a json result at the given path
+-apply json_file                        apply a json file on property list file
+-revert                                 revert property list file to latest backup
+-convert                                rewrite property list files in xml format
+</code></pre>
+
+<h2>
+<a id="outline-view" class="anchor" href="#outline-view" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Outline View</h2>
+
+<p>The outline view shows entire data of project.pbxproj file. You can expand an item if it's type is collection(dictionary or array). For example, the value for key <code>objects</code> is an dictionary which contains 34 key-value pairs. You can expand <code>objects</code> to view its content. For key-value pairs of dictionary, the 1st/2nd column means "Key"/"Value". If the value is a collection(not String or Number.ect), the 2nd column shows a description of the collection; For elements of array, the 1st column means "Element", but the 2nd column contains nothing.</p>
+
+<p><strong>You can copy the text in outline view by just a click on the text. If you want to copy the whole keypath from root node, double click it.</strong></p>
+
+<h2>
+<a id="filter" class="anchor" href="#filter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Filter</h2>
+
+<p>You can filt the content of outline view by typing a string in the "Filter" Text Field. It's not case sensitive.</p>
+
+<h2>
+<a id="json-configuration-file" class="anchor" href="#json-configuration-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JSON Configuration File</h2>
+
+<h3>
+<a id="configuration-rules" class="anchor" href="#configuration-rules" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration Rules</h3>
+
+<p>The configuration file contains a list of rules. Here is an example of configuration: </p>
+
+<pre><code>{
+  "insert" : {
+    "objects.A45A665D1D98286400DBED04.children" : [
+      "a",
+      "b",
+      "c"
+    ],
+    "classes" : {
+      "xixihaha": 5,
+      "aaaaa" : "养小鱼"
+    }
+  },
+  "remove" : {
+    "objects.A45A666D1D98286400DBED04.buildSettings" : [
+      "ALWAYS_SEARCH_USER_PATHS"
+    ]
+  },
+  "modify" : {
+    "archiveVersion" : "2"
+  }
+}
+</code></pre>
+
+<p>The root object must be a dictionary with 3 key-value pairs. You can "insert", "remove" and "modify" values through their key paths in project.pbxproj file. </p>
+
+<h4>
+<a id="insert" class="anchor" href="#insert" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Insert</h4>
+
+<p>The example above inserts 3 elements(<code>"a"</code>,<code>"b"</code>,<code>"c"</code>) into the <code>children</code> array. Note that the keypath <code>"objects.A45A665D1D98286400DBED04.children"</code> must be valid. The value of <code>"children"</code> should be an array and the value of <code>"classes"</code> should be a dictionary. <strong>In a word, the type of incremental data should be same with original data in project.pbxproj file.</strong></p>
+
+<h4>
+<a id="remove" class="anchor" href="#remove" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove</h4>
+
+<p>The example above removes a key-value pair whose key equals <code>"ALWAYS_SEARCH_USER_PATHS"</code> from a dictionary named <code>buildSettings</code>. <strong>The value of keypath should always be an array.</strong> This array contains keys/elements you want to removed from dictionary/array.</p>
+
+<h4>
+<a id="modify" class="anchor" href="#modify" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Modify</h4>
+
+<p>Modify the value of keypath, so easy.</p>
+
+<h3>
+<a id="configuration-generator" class="anchor" href="#configuration-generator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration Generator</h3>
+
+<p>Programmer is lazy. I can't stand wasting my time on writing json files, so I create the powerful tool called "JSON Configuration Generator":</p>
+
+<p><img src="https://github.com/yulingtianxia/pbxprojHelper/blob/master/images/GeneratorWindow@2x.png?raw=true" alt="JSON Configuration Generator Window"></p>
+
+<p><strong>There are two ways to open the "Generator" window:</strong></p>
+
+<ol>
+<li>Menu -&gt; Window -&gt; JSON Configuration Generator</li>
+<li>Key Equivament: ⇧⌘0</li>
+</ol>
+
+<p>You can use it in an oversimplified and crude way. Just select two project files and json save path, then click the "Generate" button, and you will get a json file containing changes between modified and original project file.</p>
+
+<p>Conversely, you can use this json file when you want to apply these changes to certain project file again. Please take care of this json file.</p>
+
+<h2>
+<a id="backups" class="anchor" href="#backups" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backups</h2>
+
+<p>Each time you click "Apply" button on main window, pbxprojHelper will use original or last modified project file to create backup file with "backup" extension in "Documents" folder of sandbox first, and then apply changes on project file.</p>
+
+<p>"Revert" button uses these backups to revert project file to the latest version.</p>
+
+<h2>
+<a id="encoding" class="anchor" href="#encoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Encoding</h2>
+
+<p>When generating project.pbxproj file with xml format, chinese characters will be translated to Unicode mathematical symbols. For example, <code>"杨萧玉"</code> in OpenStep style file will be converted to <code>&lt;string&gt;&amp;#26472;&amp;#33831;&amp;#29577;&lt;/string&gt;</code> in XML style. This is because Xcode will encode XML content(regarded as ASCII encoding) into Unicode again when convert XML project file to OpenStep project file.</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LICENSE</h2>
+
+<p>These works are available under the GNU General Public License. See the <a href="https://github.com/yulingtianxia/pbxprojHelper/blob/master/LICENSE">LICENSE</a> file for more info.</p>
+        </section>
+
+        <footer>
+          pbxprojhelper is maintained by <a href="https://github.com/yulingtianxia">yulingtianxia</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
