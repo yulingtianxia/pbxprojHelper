@@ -7,8 +7,10 @@ pbxprojHelper lets you create and modify Xcode projects from Native UI App devel
 ![Main Window](images/MainWindow@2x.png)
 
 [![Language](https://img.shields.io/badge/language-Swift%203.0-orange.svg)](https://swift.org)
+[![Build Status](https://travis-ci.org/yulingtianxia/pbxprojHelper.svg?branch=master)](https://travis-ci.org/yulingtianxia/pbxprojHelper)
 
 ## Languages
+
 [中文](Documentation/README_ZH.md)
 
 ## Installing pbxprojHelper
@@ -24,6 +26,10 @@ You can also download pbxprojHelper.app and pbxproj tool with its latest [Releas
 Mac App Store link: (Only pbxprojHelper.app)
 
 https://itunes.apple.com/cn/app/pbxprojhelper/id1160801848
+
+### [Swift package manager](https://swift.org/package-manager)
+
+Add `.Package(url: "https://github.com/yulingtianxia/pbxprojHelper.git", majorVersion: 1)` to `dependencies` in your `Package.swift`.
 
 ## Quickstart
 

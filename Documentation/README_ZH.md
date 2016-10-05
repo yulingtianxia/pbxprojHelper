@@ -7,6 +7,7 @@ pbxprojHelper 可以让你通过原生 UI 应用来创建和修改 Xcode 工程�
 ![Main Window](../images/MainWindow@2x.png)
 
 [![Language](https://img.shields.io/badge/language-Swift%203.0-orange.svg)](https://swift.org)
+[![Build Status](https://travis-ci.org/yulingtianxia/pbxprojHelper.svg?branch=master)](https://travis-ci.org/yulingtianxia/pbxprojHelper)
 
 ## 语言
 
@@ -23,6 +24,10 @@ pbxprojHelper 可以让你通过原生 UI 应用来创建和修改 Xcode 工程�
 Mac App Store 链接: (只包含 pbxprojHelper.app)
 
 https://itunes.apple.com/cn/app/pbxprojhelper/id1160801848
+
+### [Swift package manager](https://swift.org/package-manager)
+
+在你的 `Package.swift` 文件的 `dependencies` 数组中添加 `.Package(url: "https://github.com/yulingtianxia/pbxprojHelper.git", majorVersion: 1)`。
 
 ## 快速入门
 
