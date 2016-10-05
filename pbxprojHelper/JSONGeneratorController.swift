@@ -14,7 +14,7 @@ class JSONGeneratorController: NSViewController {
     @IBOutlet weak var originalProjectFilePathTF: NSTextField!
     @IBOutlet weak var jsonFileSavePathTF: NSTextField!
     
-    var latestProjectURL: URL?
+    var modifiedProjectURL: URL?
     var originalProjectURL: URL?
     
     let openPanel = NSOpenPanel()
@@ -33,7 +33,7 @@ class JSONGeneratorController: NSViewController {
         if openPanel.runModal() == NSFileHandlingPanelOKButton {
             if let url = openPanel.url {
                 latestProjectFilePathTF.stringValue = url.path
-                latestProjectURL = url
+                modifiedProjectURL = url
             }
         }
 
@@ -66,23 +66,10 @@ class JSONGeneratorController: NSViewController {
     }
     
     @IBAction func generateJSONFile(_ sender: NSButton) {
-        guard latestProjectURL == nil || originalProjectURL == nil else {
+        guard modifiedProjectURL == nil || originalProjectURL == nil else {
             sender.title = "Generating"
             DispatchQueue.global().async {
-                if let latestPropertyList = PropertyListHandler.parseProject(fileURL: self.latestProjectURL!),
-                    let originalPropertyList = PropertyListHandler.parseProject(fileURL: self.originalProjectURL!) {
-                    let jsonObject = PropertyListHandler.compare(project: latestPropertyList, withOtherProject: originalPropertyList)
-                    do {
-                        let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
-                        var jsonURL = URL(fileURLWithPath: self.jsonFileSavePathTF.stringValue)
-                        if jsonURL.pathExtension != "json" {
-                            jsonURL.appendPathComponent("JsonConfiguration.json")
-                        }
-                        try jsonData.write(to: jsonURL, options: .atomic)
-                    } catch let error {
-                        print("generate json file error: \(error.localizedDescription)")
-                    }
-                }
+                PropertyListHandler.generateJSON(filePath: self.jsonFileSavePathTF.stringValue, withModifiedProject: self.modifiedProjectURL!, originalProject: self.originalProjectURL!)
                 DispatchQueue.main.async {
                     sender.title = "Generate"
                 }

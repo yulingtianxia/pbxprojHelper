@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A462C4DD1DA407C3002DD70B /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A462C4DC1DA407C3002DD70B /* main.swift */; };
+		A462C4E21DA408B6002DD70B /* PropertyListHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B82F441D96E38600141B8E /* PropertyListHandler.swift */; };
 		A4B82F361D96CC3700141B8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B82F351D96CC3700141B8E /* AppDelegate.swift */; };
 		A4B82F381D96CC3700141B8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B82F371D96CC3700141B8E /* ViewController.swift */; };
 		A4B82F3A1D96CC3700141B8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4B82F391D96CC3700141B8E /* Assets.xcassets */; };
@@ -15,8 +17,22 @@
 		A4BCBC2E1D9B7EE7007D5B19 /* JSONGeneratorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4BCBC2D1D9B7EE7007D5B19 /* JSONGeneratorController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A462C4D81DA407C2002DD70B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		A44D7BD71D97BE120090D2E6 /* pbxprojHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pbxprojHelper.entitlements; sourceTree = "<group>"; };
+		A462C4DA1DA407C2002DD70B /* pbxproj */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pbxproj; sourceTree = BUILT_PRODUCTS_DIR; };
+		A462C4DC1DA407C3002DD70B /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		A4B82F321D96CC3700141B8E /* pbxprojHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pbxprojHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4B82F351D96CC3700141B8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A4B82F371D96CC3700141B8E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -28,6 +44,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A462C4D71DA407C2002DD70B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A4B82F2F1D96CC3700141B8E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -38,10 +61,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A462C4DB1DA407C3002DD70B /* pbxproj */ = {
+			isa = PBXGroup;
+			children = (
+				A462C4DC1DA407C3002DD70B /* main.swift */,
+			);
+			path = pbxproj;
+			sourceTree = "<group>";
+		};
 		A4B82F291D96CC3700141B8E = {
 			isa = PBXGroup;
 			children = (
 				A4B82F341D96CC3700141B8E /* pbxprojHelper */,
+				A462C4DB1DA407C3002DD70B /* pbxproj */,
 				A4B82F331D96CC3700141B8E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				A4B82F321D96CC3700141B8E /* pbxprojHelper.app */,
+				A462C4DA1DA407C2002DD70B /* pbxproj */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -72,6 +105,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A462C4D91DA407C2002DD70B /* pbxproj */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A462C4DE1DA407C3002DD70B /* Build configuration list for PBXNativeTarget "pbxproj" */;
+			buildPhases = (
+				A462C4D61DA407C2002DD70B /* Sources */,
+				A462C4D71DA407C2002DD70B /* Frameworks */,
+				A462C4D81DA407C2002DD70B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pbxproj;
+			productName = pbxproj;
+			productReference = A462C4DA1DA407C2002DD70B /* pbxproj */;
+			productType = "com.apple.product-type.tool";
+		};
 		A4B82F311D96CC3700141B8E /* pbxprojHelper */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A4B82F411D96CC3700141B8E /* Build configuration list for PBXNativeTarget "pbxprojHelper" */;
@@ -99,6 +149,11 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "杨萧玉";
 				TargetAttributes = {
+					A462C4D91DA407C2002DD70B = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = D3RCVUP6VH;
+						ProvisioningStyle = Automatic;
+					};
 					A4B82F311D96CC3700141B8E = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = D3RCVUP6VH;
@@ -128,6 +183,7 @@
 			projectRoot = "";
 			targets = (
 				A4B82F311D96CC3700141B8E /* pbxprojHelper */,
+				A462C4D91DA407C2002DD70B /* pbxproj */,
 			);
 		};
 /* End PBXProject section */
@@ -145,6 +201,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A462C4D61DA407C2002DD70B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A462C4DD1DA407C3002DD70B /* main.swift in Sources */,
+				A462C4E21DA408B6002DD70B /* PropertyListHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A4B82F2E1D96CC3700141B8E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -170,6 +235,28 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A462C4DF1DA407C3002DD70B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = D3RCVUP6VH;
+				INFOPLIST_FILE = "$(SRCROOT)/pbxprojHelper/Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		A462C4E01DA407C3002DD70B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = D3RCVUP6VH;
+				INFOPLIST_FILE = "$(SRCROOT)/pbxprojHelper/Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		A4B82F3F1D96CC3700141B8E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -298,6 +385,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A462C4DE1DA407C3002DD70B /* Build configuration list for PBXNativeTarget "pbxproj" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A462C4DF1DA407C3002DD70B /* Debug */,
+				A462C4E01DA407C3002DD70B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A4B82F2D1D96CC3700141B8E /* Build configuration list for PBXProject "pbxprojHelper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

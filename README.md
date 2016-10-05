@@ -2,7 +2,7 @@
 
 # pbxprojHelper 
 
-pbxprojHelper lets you create and modify Xcode projects from Native UI App developed with Cocoa and Swift 3. 
+pbxprojHelper lets you create and modify Xcode projects from Native UI App developed with Cocoa and Swift 3. You can also  use pbxproj as a command line tool in terminal.
 
 ![Main Window](images/MainWindow@2x.png)
 
@@ -20,10 +20,23 @@ https://itunes.apple.com/cn/app/pbxprojhelper/id1160801848
 
 ## Quickstart
 
+### Use pbxprojHelper (Native Cocoa UI App)
+
 1. Choose your project file by clicking "Select" button. Both `.xcodeproj` and `.pbxproj` file extensions are supported. The path of project file you selected will be displayed on the text field. The outline view shows data of project file.
 2. Choose configuration file by clicking "Choose JSON File". Configuration file contains changes you want to make to your project. You can create a configuration file with json format, or generate it using "JSON Configuration Generator" tool provided by pbxprojHelper. The outline view will refresh data after you choose a json file.
 3. Clicking "Apply" button will write changes made by json configuration to project file you selected.
 4. "Revert" button lets you revert your project file to latest version.
+
+### Use pbxproj (Command Line Tool)
+
+```
+Usage: pbxproj [command_option] file
+Command options are (-convert is the default):
+-compare modified_file -o path          compare modified property list file with property list file and generate a json result at the given path
+-apply json_file                        apply a json file on property list file
+-revert                                 revert property list file to latest backup
+-convert                                rewrite property list files in xml format
+```
 
 ## Outline View
 

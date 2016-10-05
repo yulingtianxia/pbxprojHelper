@@ -50,47 +50,45 @@ class PropertyListHandler: NSObject {
     }
     
     class func generateProject(fileURL: URL, withPropertyList list: Any) {
-        DispatchQueue.global().async {
-            var url = fileURL
-            let backupURL = backupURLOf(projectURL: &url)
-            
-            func handleEncode(fileURL: URL) {
-                func encodeString(_ str: String) -> String {
-                    var result = ""
-                    for scalar in str.unicodeScalars {
-                        if scalar.value > 0x4e00 && scalar.value < 0x9fff {
-                            result += String(format: "&#%04d;", scalar.value)
-                        }
-                        else {
-                            result += scalar.description
-                        }
+        var url = fileURL
+        let backupURL = backupURLOf(projectURL: &url)
+        func handleEncode(fileURL: URL) {
+            func encodeString(_ str: String) -> String {
+                var result = ""
+                for scalar in str.unicodeScalars {
+                    if scalar.value > 0x4e00 && scalar.value < 0x9fff {
+                        result += String(format: "&#%04d;", scalar.value)
                     }
-                    return result
+                    else {
+                        result += scalar.description
+                    }
                 }
-                do {
-                    var txt = try String(contentsOf: fileURL, encoding: .utf8)
-                    txt = encodeString(txt)
-                    try txt.write(to: fileURL, atomically: true, encoding: .utf8)
-                } catch let error {
-                    print("translate chinese characters to mathematical symbols error: \(error.localizedDescription)")
-                }
+                return result
             }
-            
             do {
-                if FileManager().fileExists(atPath: backupURL.path) {
-                    try FileManager().removeItem(at: backupURL)
-                }
-                try FileManager().moveItem(at: url, to: backupURL)
-                let data = try PropertyListSerialization.data(fromPropertyList: list, format: .xml, options: 0)
-                try data.write(to: url, options: .atomic)
-                handleEncode(fileURL: url)
+                var txt = try String(contentsOf: fileURL, encoding: .utf8)
+                txt = encodeString(txt)
+                try txt.write(to: fileURL, atomically: true, encoding: .utf8)
             } catch let error {
-                do {
-                    print("generate new project file failed: \(error.localizedDescription), try to roll back project file!")
-                    try FileManager().moveItem(at: backupURL, to: url)
-                } catch _ {
-                    print("roll back project file failed! backup file url: \(backupURL), error: \(error.localizedDescription)")
-                }
+                print("translate chinese characters to mathematical symbols error: \(error.localizedDescription)")
+            }
+        }
+        
+        do {
+            if FileManager().fileExists(atPath: backupURL.path) {
+                try FileManager().removeItem(at: backupURL)
+            }
+            try FileManager().moveItem(at: url, to: backupURL)
+            print("backupURL: \(backupURL)")
+            let data = try PropertyListSerialization.data(fromPropertyList: list, format: .xml, options: 0)
+            try data.write(to: url, options: .atomic)
+            handleEncode(fileURL: url)
+        } catch let error {
+            do {
+                print("generate new project file failed: \(error.localizedDescription), try to roll back project file!")
+                try FileManager().moveItem(at: backupURL, to: url)
+            } catch _ {
+                print("roll back project file failed! backup file url: \(backupURL), error: \(error.localizedDescription)")
             }
         }
     }
@@ -106,11 +104,14 @@ class PropertyListHandler: NSObject {
                 try FileManager().moveItem(at: backupURL, to: url)
                 return true
             }
+            else {
+                print("could not find backups")
+                return false
+            }
         } catch let error {
             print("roll back project file failed! backup file url: \(backupURL), error: \(error.localizedDescription)")
             return false
         }
-        return false
     }
     
     class func parseJSON(fileURL url: URL) -> Any? {
@@ -288,5 +289,22 @@ class PropertyListHandler: NSObject {
         }
         compare(data: project1, withOtherData: project2, parentKeyPath: "")
         return difference
+    }
+    
+    class func generateJSON(filePath: String, withModifiedProject modified: URL, originalProject original: URL) {
+        if let modifiedPropertyList = PropertyListHandler.parseProject(fileURL: modified),
+            let originalPropertyList = PropertyListHandler.parseProject(fileURL: original) {
+            let jsonObject = PropertyListHandler.compare(project: modifiedPropertyList, withOtherProject: originalPropertyList)
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+                var jsonURL = URL(fileURLWithPath: filePath)
+                if jsonURL.pathExtension != "json" {
+                    jsonURL.appendPathComponent("JsonConfiguration.json")
+                }
+                try jsonData.write(to: jsonURL, options: .atomic)
+            } catch let error {
+                print("generate json file error: \(error.localizedDescription)")
+            }
+        }
     }
 }
