@@ -1,4 +1,4 @@
 language: objective-c
 xcode_project: pbxprojHelper.xcodeproj
 xcode_scheme: pbxprojHelper
-script: xctool build  CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+script: xctool -project pbxprojHelper.xcodeproj -scheme pbxprojHelper build  CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
