@@ -23,12 +23,6 @@ class ViewController: NSViewController {
     var originalPropertyList: [String: Any] = [:]
     var currentPropertyList: [String: Any] = [:]
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-    }
-
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
