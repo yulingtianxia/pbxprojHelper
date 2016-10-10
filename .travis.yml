@@ -1,5 +1,5 @@
 osx_image: xcode8
 os: osx
 language: objective-c
-xcode_project: pbxprojHelper.xcodeproj
-xcode_scheme: pbxprojHelper
+script: xcodebuild -project pbxprojHelper.xcodeproj -scheme pbxprojHelper
+  -configuration Release -sdk osx ONLY_ACTIVE_ARCH=NO
