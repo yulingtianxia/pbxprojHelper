@@ -76,15 +76,9 @@ class ViewController: NSViewController {
     }
     
     func elementsOfArray(_ array: [Any], containsKeyWord word: String) -> [Any] {
-        var filtResult = [Any]()
-        for value in array {
-            if isItem(Item(key: "", value: value, parent: nil), containsKeyWord: word) {
-                filtResult.append(value)
-            }
-        }
-        return filtResult
+        return array.filter { isItem(Item(key: "", value: $0, parent: nil), containsKeyWord: word) }
     }
-    
+
     func keyPath(forItem item: Any) -> String {
         let key: String
         let parent: Any?
