@@ -19,11 +19,6 @@ class JSONGeneratorController: NSViewController {
     
     let openPanel = NSOpenPanel()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do view setup here.
-    }
-    
     @IBAction func openLatestProject(_ sender: NSButton) {
         openPanel.prompt = "Select"
         openPanel.canChooseFiles = true
