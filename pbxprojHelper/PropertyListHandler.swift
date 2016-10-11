@@ -230,8 +230,8 @@ class PropertyListHandler: NSObject {
         
         func compare(data data1: Any, withOtherData data2: Any, parentKeyPath: String) {
             if let dictionary1 = data1 as? [String: Any], let dictionary2 = data2 as? [String: Any] {
-                let set1 = Set(dictionary1.map { $0.key })
-                let set2 = Set(dictionary2.map { $0.key })
+                let set1 = Set(dictionary1.keys)
+                let set2 = Set(dictionary2.keys)
                 for key in set1.subtracting(set2) {
                     if let value = dictionary1[key], difference["insert"]?[parentKeyPath] == nil {
                         difference["insert"]?[parentKeyPath] = [key: value]
@@ -265,8 +265,8 @@ class PropertyListHandler: NSObject {
                 }
             }
             if let array1 = data1 as? [String], let array2 = data2 as? [String] {
-                let set1 = Set(array1.map { $0 })
-                let set2 = Set(array2.map { $0 })
+                let set1 = Set(array1)
+                let set2 = Set(array2)
                 for element in set1.subtracting(set2) {
                     if difference["insert"]?[parentKeyPath] == nil {
                         difference["insert"]?[parentKeyPath] = [element]
