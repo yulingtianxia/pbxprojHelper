@@ -18,6 +18,7 @@ class ViewController: NSViewController {
     
     
     var propertyListURL: URL?
+    var jsonFileURL: URL?
     var filterKeyWord = ""
     
     var originalPropertyList: [String: Any] = [:]
@@ -79,7 +80,7 @@ class ViewController: NSViewController {
         return array.filter { isItem(Item(key: "", value: $0, parent: nil), containsKeyWord: word) }
     }
 
-    func keyPath(forItem item: Any) -> String {
+    func keyPath(forItem item: Any?) -> String {
         let key: String
         let parent: Any?
         if let tupleItem = item as? Item {
@@ -140,6 +141,7 @@ extension ViewController {
         if openPanel.runModal() == NSFileHandlingPanelOKButton {
             if let url = openPanel.url,
                 let data = PropertyListHandler.parseJSON(fileURL: url) as? [String: [String: Any]] {
+                jsonFileURL = url
                 currentPropertyList = PropertyListHandler.apply(json: data, onProjectData: originalPropertyList)
                 chooseJSONFileBtn.title = url.lastPathComponent
                 resultTable.reloadData()
@@ -148,9 +150,15 @@ extension ViewController {
     }
     
     @IBAction func applyJSONConfiguration(_ sender: NSButton) {
-        if let url = propertyListURL {
+        if let propertyURL = propertyListURL, let jsonURL = jsonFileURL {
+            if let propertyListData = PropertyListHandler.parseProject(fileURL: propertyURL),
+                let jsonFileData = PropertyListHandler.parseJSON(fileURL: jsonURL) as? [String: [String: Any]]{
+                originalPropertyList = propertyListData
+                currentPropertyList = PropertyListHandler.apply(json: jsonFileData, onProjectData: originalPropertyList)
+                resultTable.reloadData()
+            }
             DispatchQueue.global().async {
-                PropertyListHandler.generateProject(fileURL: url, withPropertyList: self.currentPropertyList)
+                PropertyListHandler.generateProject(fileURL: propertyURL, withPropertyList: self.currentPropertyList)
             }
         }
     }
