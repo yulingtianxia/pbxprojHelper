@@ -228,7 +228,7 @@ class PropertyListHandler: NSObject {
         
         var difference = ["insert": [String: Any](), "remove": [String: Any](), "modify": [String: Any]()]
         
-        func compare(data data1: Any, withOtherData data2: Any, parentKeyPath: String) {
+        func compare(data data1: Any?, withOtherData data2: Any?, parentKeyPath: String) {
             if let dictionary1 = data1 as? [String: Any], let dictionary2 = data2 as? [String: Any] {
                 let set1 = Set(dictionary1.keys)
                 let set2 = Set(dictionary2.keys)
