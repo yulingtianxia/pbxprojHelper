@@ -30,38 +30,40 @@ class ViewController: NSViewController {
         }
     }
     
-    func isItem(_ item: Any, containsKeyWord word: String) -> Bool {
-        func checkAny(value: Any, containsString string: String) -> Bool {
-            return ((value is String) && (value as! String).lowercased().contains(string.lowercased()))
+    func checkAny(value: Any, containsString string: String) -> Bool {
+        return ((value is String) && (value as! String).lowercased().contains(string.lowercased()))
+    }
+
+    func tfs(propertyList list: Any, word: String) -> Bool {
+        if let dictionary = list as? [String: Any] {
+            for (key, value) in dictionary {
+                if checkAny(value: key, containsString: word) || checkAny(value: value, containsString: word) {
+                    return true
+                }
+                else if tfs(propertyList: value, word: word) {
+                    return true
+                }
+            }
         }
+        if let array = list as? [Any] {
+            for value in array {
+                if checkAny(value: value, containsString: word) {
+                    return true
+                }
+                else if tfs(propertyList: value, word: word) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    func isItem(_ item: Any, containsKeyWord word: String) -> Bool {
         if let tupleItem = item as? Item {
             if checkAny(value: tupleItem.key, containsString: word) || checkAny(value: tupleItem.value, containsString: word) {
                 return true
             }
-            func tfs(propertyList list: Any) -> Bool {
-                if let dictionary = list as? [String: Any] {
-                    for (key, value) in dictionary {
-                        if checkAny(value: key, containsString: word) || checkAny(value: value, containsString: word) {
-                            return true
-                        }
-                        else if tfs(propertyList: value) {
-                            return true
-                        }
-                    }
-                }
-                if let array = list as? [Any] {
-                    for value in array {
-                        if checkAny(value: value, containsString: word) {
-                            return true
-                        }
-                        else if tfs(propertyList: value) {
-                            return true
-                        }
-                    }
-                }
-                return false
-            }
-            return tfs(propertyList: tupleItem.value)
+            return tfs(propertyList: tupleItem.value, word: word)
         }
         return false
     }
