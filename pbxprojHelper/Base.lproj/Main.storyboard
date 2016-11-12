@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -779,6 +780,9 @@
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <action selector="clickFilePath:" target="XfG-lQ-9wD" id="3WS-1s-XME"/>
+                                </connections>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ET9-qh-2Q4">
                                 <rect key="frame" x="375" y="262" width="55" height="19"/>
@@ -791,7 +795,7 @@
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="selectFile:" target="XfG-lQ-9wD" id="TxY-kt-4b4"/>
+                                    <action selector="selectProjectFile:" target="XfG-lQ-9wD" id="qbi-UW-4A7"/>
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="m3e-Kj-9pc">
@@ -847,11 +851,18 @@
                                     <action selector="revertPropertyList:" target="XfG-lQ-9wD" id="dNi-Jg-cgb"/>
                                 </connections>
                             </button>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="gKG-bY-ZLd">
+                                <rect key="frame" x="145" y="167" width="210" height="96"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="96" id="O4E-8J-v4g"/>
+                                </constraints>
+                            </customView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="m3e-Kj-9pc" firstAttribute="leading" secondItem="YLB-EZ-if5" secondAttribute="trailing" constant="20" id="0dL-If-asz"/>
                             <constraint firstItem="Mkr-Kx-LOE" firstAttribute="leading" secondItem="vPF-zN-MSc" secondAttribute="leading" constant="20" id="1XA-sO-4CD"/>
                             <constraint firstItem="ET9-qh-2Q4" firstAttribute="leading" secondItem="YuV-hF-qe6" secondAttribute="trailing" constant="20" id="3gA-3S-3Wv"/>
+                            <constraint firstItem="gKG-bY-ZLd" firstAttribute="trailing" secondItem="YuV-hF-qe6" secondAttribute="trailing" id="9Fn-Sc-xGZ"/>
                             <constraint firstItem="ET9-qh-2Q4" firstAttribute="centerY" secondItem="Mkr-Kx-LOE" secondAttribute="centerY" id="ABs-oZ-1tM"/>
                             <constraint firstItem="MWm-AP-Yed" firstAttribute="centerY" secondItem="m3e-Kj-9pc" secondAttribute="centerY" id="DTK-as-Djz"/>
                             <constraint firstItem="MWm-AP-Yed" firstAttribute="leading" secondItem="vPF-zN-MSc" secondAttribute="leading" constant="20" id="Hri-eS-nDc"/>
@@ -863,6 +874,8 @@
                             <constraint firstItem="m3e-Kj-9pc" firstAttribute="top" secondItem="YuV-hF-qe6" secondAttribute="bottom" constant="8" id="ZNy-6D-LKG"/>
                             <constraint firstAttribute="trailing" secondItem="2MK-B2-lCb" secondAttribute="trailing" constant="20" id="f0M-Oc-qev"/>
                             <constraint firstAttribute="trailing" secondItem="m3e-Kj-9pc" secondAttribute="trailing" constant="20" id="fzV-bD-ia6"/>
+                            <constraint firstItem="gKG-bY-ZLd" firstAttribute="top" secondItem="YuV-hF-qe6" secondAttribute="bottom" id="gC7-3O-SKM"/>
+                            <constraint firstItem="gKG-bY-ZLd" firstAttribute="leading" secondItem="YuV-hF-qe6" secondAttribute="leading" id="h03-g3-Zrj"/>
                             <constraint firstItem="YuV-hF-qe6" firstAttribute="centerY" secondItem="Mkr-Kx-LOE" secondAttribute="centerY" id="jiq-2T-cwu"/>
                             <constraint firstItem="YLB-EZ-if5" firstAttribute="centerY" secondItem="m3e-Kj-9pc" secondAttribute="centerY" id="law-FG-KZo"/>
                             <constraint firstItem="Mkr-Kx-LOE" firstAttribute="top" secondItem="vPF-zN-MSc" secondAttribute="top" constant="20" id="ogy-5T-mFZ"/>
@@ -873,6 +886,7 @@
                     </visualEffectView>
                     <connections>
                         <outlet property="chooseJSONFileBtn" destination="MWm-AP-Yed" id="y2m-jJ-TQ6"/>
+                        <outlet property="filePathListView" destination="gKG-bY-ZLd" id="PKt-yz-GWe"/>
                         <outlet property="filePathTF" destination="YuV-hF-qe6" id="fxZ-Mr-RIr"/>
                         <outlet property="resultTable" destination="vLd-t0-Omm" id="vlW-8y-Paf"/>
                     </connections>

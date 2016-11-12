@@ -12,14 +12,26 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     weak var initWindow: NSWindow?
+    let userDefaults = UserDefaults.standard
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
         initWindow = NSApplication.shared().windows.first
+        recentUsePaths = LRUCache <String, String>()
+        let pathsData = NSKeyedArchiver.archivedData(withRootObject: recentUsePaths)
+        
+        userDefaults.register(defaults: ["recentUsePaths":pathsData])
+        
+        if let data = userDefaults.object(forKey: "recentUsePaths") as? Data {
+            recentUsePaths = NSKeyedUnarchiver.unarchiveObject(with: data) as! LRUCache <String, String>
+        }
+        recentUsePaths.countLimit = 5
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+        let pathsData = NSKeyedArchiver.archivedData(withRootObject: recentUsePaths)
+        userDefaults.set(pathsData, forKey: "recentUsePaths")
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {

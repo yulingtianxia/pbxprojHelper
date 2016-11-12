@@ -15,6 +15,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var filePathTF: NSTextField!
     @IBOutlet weak var resultTable: NSOutlineView!
     @IBOutlet weak var chooseJSONFileBtn: NSButton!
+    @IBOutlet weak var filePathListView: NSView!
     
     
     var propertyListURL: URL?
@@ -24,10 +25,12 @@ class ViewController: NSViewController {
     var originalPropertyList: [String: Any] = [:]
     var currentPropertyList: [String: Any] = [:]
     
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
+    override func viewDidLoad() {
+        filePathListView.isHidden = true
+        let clickFilePathGesture = NSClickGestureRecognizer(target: self, action: #selector(ViewController.handleClickFilePath(_:)))
+        filePathTF.addGestureRecognizer(clickFilePathGesture)
+        let chooseFilePathGesture = NSClickGestureRecognizer(target: self, action: #selector(ViewController.chooseFilePathGesture(_:)))
+        filePathListView.addGestureRecognizer(chooseFilePathGesture)
     }
     
     func isItem(_ item: Any, containsKeyWord word: String) -> Bool {
@@ -109,7 +112,7 @@ class ViewController: NSViewController {
 
 extension ViewController {
     
-    @IBAction func selectFile(_ sender: NSButton) {
+    @IBAction func selectProjectFile(_ sender: NSButton) {
         let openPanel = NSOpenPanel()
         openPanel.prompt = "Select"
         openPanel.canChooseFiles = true
@@ -119,17 +122,58 @@ extension ViewController {
         
         if openPanel.runModal() == NSFileHandlingPanelOKButton {
             if let url = openPanel.url {
-                filePathTF.stringValue = url.path
-                propertyListURL = url
-                originalPropertyList = [:]
-                currentPropertyList = [:]
-                if let data = PropertyListHandler.parseProject(fileURL: url) {
-                    originalPropertyList = data
-                    currentPropertyList = data
-                    resultTable.reloadData()
-                }
+                handleSelectProjectFileURL(url)
             }
         }
+    }
+    
+    func handleSelectProjectFileURL(_ url: URL) {
+        filePathTF.stringValue = url.path
+        propertyListURL = url
+        originalPropertyList = [:]
+        currentPropertyList = [:]
+        if let data = PropertyListHandler.parseProject(fileURL: url) {
+            let shortURL: URL
+            if url.lastPathComponent == "project.pbxproj" {
+                shortURL = url.deletingLastPathComponent()
+            }
+            else {
+                shortURL = url
+            }
+            recentUsePaths[url.path] = shortURL.path
+            originalPropertyList = data
+            currentPropertyList = data
+            resultTable.reloadData()
+        }
+    }
+    
+    func handleClickFilePath(_ gesture: NSClickGestureRecognizer) {
+        filePathListView.isHidden = !filePathListView.isHidden
+        if !filePathListView.isHidden {
+            for view in filePathListView.subviews {
+                view.removeFromSuperview()
+            }
+            var nextOriginY: CGFloat = 0
+            for key in recentUsePaths {
+                let path = recentUsePaths[key]
+                let textField = NSTextField(string: path)
+                textField.frame = NSRect(x: CGFloat(0), y: nextOriginY, width: filePathListView.bounds.size.width, height: filePathTF.bounds.size.height)
+                filePathListView.addSubview(textField)
+                nextOriginY += textField.bounds.size.height
+            }
+        }
+    }
+    
+    func chooseFilePathGesture(_ gesture: NSClickGestureRecognizer) {
+        let clickPoint = gesture.location(in: gesture.view)
+        for (index, subview) in filePathListView.subviews.enumerated() {
+            let pointInSubview = subview.convert(clickPoint, from: filePathListView)
+            if subview.bounds.contains(pointInSubview) {
+                let path = recentUsePaths[index]
+                handleSelectProjectFileURL(URL(fileURLWithPath: path))
+            }
+        }
+        filePathListView.isHidden = true
     }
     
     @IBAction func chooseJSONFile(_ sender: NSButton) {
