@@ -886,6 +886,7 @@
                     </visualEffectView>
                     <connections>
                         <outlet property="chooseJSONFileBtn" destination="MWm-AP-Yed" id="y2m-jJ-TQ6"/>
+                        <outlet property="filePathListHeightConstraint" destination="O4E-8J-v4g" id="7bh-VL-2wy"/>
                         <outlet property="filePathListView" destination="gKG-bY-ZLd" id="PKt-yz-GWe"/>
                         <outlet property="filePathTF" destination="YuV-hF-qe6" id="fxZ-Mr-RIr"/>
                         <outlet property="resultTable" destination="vLd-t0-Omm" id="vlW-8y-Paf"/>

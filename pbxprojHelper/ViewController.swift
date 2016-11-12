@@ -8,15 +8,13 @@
 
 import Cocoa
 
-typealias Item = (key: String, value: Any, parent: Any?)
-
 class ViewController: NSViewController {
 
     @IBOutlet weak var filePathTF: NSTextField!
     @IBOutlet weak var resultTable: NSOutlineView!
     @IBOutlet weak var chooseJSONFileBtn: NSButton!
     @IBOutlet weak var filePathListView: NSView!
-    
+    @IBOutlet weak var filePathListHeightConstraint: NSLayoutConstraint!
     
     var propertyListURL: URL?
     var jsonFileURL: URL?
@@ -29,81 +27,50 @@ class ViewController: NSViewController {
         filePathListView.isHidden = true
         let clickFilePathGesture = NSClickGestureRecognizer(target: self, action: #selector(ViewController.handleClickFilePath(_:)))
         filePathTF.addGestureRecognizer(clickFilePathGesture)
+        
         let chooseFilePathGesture = NSClickGestureRecognizer(target: self, action: #selector(ViewController.chooseFilePathGesture(_:)))
         filePathListView.addGestureRecognizer(chooseFilePathGesture)
     }
     
-    func isItem(_ item: Any, containsKeyWord word: String) -> Bool {
-        func checkAny(value: Any, containsString string: String) -> Bool {
-            return ((value is String) && (value as! String).lowercased().contains(string.lowercased()))
-        }
-        if let tupleItem = item as? Item {
-            if checkAny(value: tupleItem.key, containsString: word) || checkAny(value: tupleItem.value, containsString: word) {
-                return true
+    func refreshFilePathListView() {
+        if !filePathListView.isHidden {
+            for view in filePathListView.subviews {
+                view.removeFromSuperview()
             }
-            func tfs(propertyList list: Any) -> Bool {
-                if let dictionary = list as? [String: Any] {
-                    for (key, value) in dictionary {
-                        if checkAny(value: key, containsString: word) || checkAny(value: value, containsString: word) {
-                            return true
-                        }
-                        else if tfs(propertyList: value) {
-                            return true
-                        }
-                    }
-                }
-                if let array = list as? [Any] {
-                    for value in array {
-                        if checkAny(value: value, containsString: word) {
-                            return true
-                        }
-                        else if tfs(propertyList: value) {
-                            return true
-                        }
-                    }
-                }
-                return false
-            }
-            return tfs(propertyList: tupleItem.value)
-        }
-        return false
-    }
-    
-    func elementsOfDictionary(_ dictionary: [String: Any], containsKeyWord word: String) -> [String: Any] {
-        var filtResult = [String: Any]()
-        for (key, value) in dictionary {
-            if isItem(Item(key: key, value: value, parent: nil), containsKeyWord: word) {
-                filtResult[key] = value
+            let textFieldHeight = filePathTF.bounds.size.height
+            filePathListHeightConstraint.constant = CGFloat(recentUsePaths.count) * textFieldHeight
+            var nextOriginY: CGFloat = CGFloat(recentUsePaths.count-1) * textFieldHeight
+            for key in recentUsePaths {
+                let path = recentUsePaths[key]
+                let textField = NSTextField(string: path)
+                textField.toolTip = key
+                textField.isBordered = false
+                textField.frame = NSRect(x: CGFloat(0), y: nextOriginY, width: filePathListView.bounds.size.width, height: textFieldHeight)
+                filePathListView.addSubview(textField)
+                nextOriginY -= textFieldHeight
             }
         }
-        return filtResult
     }
     
-    func elementsOfArray(_ array: [Any], containsKeyWord word: String) -> [Any] {
-        return array.filter { isItem(Item(key: "", value: $0, parent: nil), containsKeyWord: word) }
-    }
-
-    func keyPath(forItem item: Any?) -> String {
-        let key: String
-        let parent: Any?
-        if let tupleItem = item as? Item {
-            key = tupleItem.key
-            parent = tupleItem.parent
+    func handleSelectProjectFileURL(_ url: URL) {
+        filePathTF.stringValue = url.path
+        propertyListURL = url
+        originalPropertyList = [:]
+        currentPropertyList = [:]
+        if let data = PropertyListHandler.parseProject(fileURL: url) {
+            let shortURL: URL
+            if url.lastPathComponent == "project.pbxproj" {
+                shortURL = url.deletingLastPathComponent()
+            }
+            else {
+                shortURL = url
+            }
+            recentUsePaths[url.path] = shortURL.path
+            originalPropertyList = data
+            currentPropertyList = data
+            resultTable.reloadData()
+            refreshFilePathListView()
         }
-        else {
-            key = ""
-            parent = nil
-        }
-        
-        if let parentItem = parent {
-            return "\(keyPath(forItem: parentItem)).\(key)"
-        }
-        return "\(key)"
-    }
-    
-    func writePasteboard(_ location: String) {
-        NSPasteboard.general().declareTypes([NSStringPboardType], owner: nil)
-        NSPasteboard.general().setString(location, forType: NSStringPboardType)
     }
     
 }
@@ -127,41 +94,9 @@ extension ViewController {
         }
     }
     
-    func handleSelectProjectFileURL(_ url: URL) {
-        filePathTF.stringValue = url.path
-        propertyListURL = url
-        originalPropertyList = [:]
-        currentPropertyList = [:]
-        if let data = PropertyListHandler.parseProject(fileURL: url) {
-            let shortURL: URL
-            if url.lastPathComponent == "project.pbxproj" {
-                shortURL = url.deletingLastPathComponent()
-            }
-            else {
-                shortURL = url
-            }
-            recentUsePaths[url.path] = shortURL.path
-            originalPropertyList = data
-            currentPropertyList = data
-            resultTable.reloadData()
-        }
-    }
-    
     func handleClickFilePath(_ gesture: NSClickGestureRecognizer) {
         filePathListView.isHidden = !filePathListView.isHidden
-        if !filePathListView.isHidden {
-            for view in filePathListView.subviews {
-                view.removeFromSuperview()
-            }
-            var nextOriginY: CGFloat = 0
-            for key in recentUsePaths {
-                let path = recentUsePaths[key]
-                let textField = NSTextField(string: path)
-                textField.frame = NSRect(x: CGFloat(0), y: nextOriginY, width: filePathListView.bounds.size.width, height: filePathTF.bounds.size.height)
-                filePathListView.addSubview(textField)
-                nextOriginY += textField.bounds.size.height
-            }
-        }
+        refreshFilePathListView()
     }
     
     func chooseFilePathGesture(_ gesture: NSClickGestureRecognizer) {

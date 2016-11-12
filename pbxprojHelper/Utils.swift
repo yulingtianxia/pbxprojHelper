@@ -6,7 +6,77 @@
 //  Copyright © 2016年 杨萧玉. All rights reserved.
 //
 
-import Foundation
+import Cocoa
+
+typealias Item = (key: String, value: Any, parent: Any?)
+
+func isItem(_ item: Any, containsKeyWord word: String) -> Bool {
+    func checkAny(value: Any, containsString string: String) -> Bool {
+        return ((value is String) && (value as! String).lowercased().contains(string.lowercased()))
+    }
+    if let tupleItem = item as? Item {
+        if checkAny(value: tupleItem.key, containsString: word) || checkAny(value: tupleItem.value, containsString: word) {
+            return true
+        }
+        func tfs(propertyList list: Any) -> Bool {
+            if let dictionary = list as? [String: Any] {
+                for (key, value) in dictionary {
+                    if checkAny(value: key, containsString: word) || checkAny(value: value, containsString: word) {
+                        return true
+                    }
+                    else if tfs(propertyList: value) {
+                        return true
+                    }
+                }
+            }
+            if let array = list as? [Any] {
+                for value in array {
+                    if checkAny(value: value, containsString: word) {
+                        return true
+                    }
+                    else if tfs(propertyList: value) {
+                        return true
+                    }
+                }
+            }
+            return false
+        }
+        return tfs(propertyList: tupleItem.value)
+    }
+    return false
+}
+
+func elementsOfDictionary(_ dictionary: [String: Any], containsKeyWord word: String) -> [String: Any] {
+    var filtResult = [String: Any]()
+    for (key, value) in dictionary {
+        if isItem(Item(key: key, value: value, parent: nil), containsKeyWord: word) {
+            filtResult[key] = value
+        }
+    }
+    return filtResult
+}
+
+func elementsOfArray(_ array: [Any], containsKeyWord word: String) -> [Any] {
+    return array.filter { isItem(Item(key: "", value: $0, parent: nil), containsKeyWord: word) }
+}
+
+func keyPath(forItem item: Any?) -> String {
+    let key: String
+    let parent: Any?
+    if let tupleItem = item as? Item {
+        key = tupleItem.key
+        parent = tupleItem.parent
+    }
+    else {
+        key = ""
+        parent = nil
+    }
+    
+    if let parentItem = parent {
+        return "\(keyPath(forItem: parentItem)).\(key)"
+    }
+    return "\(key)"
+}
 
 var recentUsePaths = LRUCache <String, String>()
 
@@ -34,7 +104,12 @@ class LRUCache <K:Hashable, V> : NSObject, NSCoding, Sequence {
     fileprivate var _cache = [K:V]()
     fileprivate var _keys = [K]()
     
-    var countLimit:Int = 0
+    var countLimit: Int = 0
+    var count: Int {
+        get {
+            return _keys.count
+        }
+    }
     
     override init() {
         
@@ -96,4 +171,9 @@ class LRUCache <K:Hashable, V> : NSObject, NSCoding, Sequence {
         aCoder.encode(_cache, forKey: "cache")
     }
     
+}
+
+func writePasteboard(_ location: String) {
+    NSPasteboard.general().declareTypes([NSStringPboardType], owner: nil)
+    NSPasteboard.general().setString(location, forType: NSStringPboardType)
 }
