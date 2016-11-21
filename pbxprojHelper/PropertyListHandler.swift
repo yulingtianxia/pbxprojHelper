@@ -10,6 +10,10 @@ import Cocoa
 
 class PropertyListHandler: NSObject {
     
+    /// 将工程文件内容转为字典对象
+    ///
+    /// - Parameter fileURL: 文件路径 URL
+    /// - Returns: 字典对象，即转化后的内容
     class func parseProject(fileURL: URL) -> [String: Any]? {
         var url = fileURL
         if url.pathExtension == "xcodeproj" {
@@ -26,29 +30,11 @@ class PropertyListHandler: NSObject {
         }
     }
     
-    /// 返回指定文件对应的备份文件路径
+    /// 将数据内容生成为工程文件
     ///
-    /// - parameter url: 文件 URL，如果是工程文件，会被修改为 project.pbxproj 文件
-    ///
-    /// - returns: 备份文件路径
-    fileprivate class func backupURLOf(projectURL url: inout URL) -> URL {
-        var backupURL = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents")
-        if url.pathExtension == "xcodeproj" {
-            backupURL.appendPathComponent(url.lastPathComponent)
-            backupURL.appendPathExtension("project.pbxproj")
-            url.appendPathComponent("project.pbxproj")
-        }
-        else {
-            let count = url.pathComponents.count
-            if count > 1 {
-                backupURL.appendPathComponent(url.pathComponents[count-2])
-                backupURL.appendPathExtension(url.pathComponents[count-1])
-            }
-        }
-        backupURL.appendPathExtension("backup")
-        return backupURL
-    }
-    
+    /// - Parameters:
+    ///   - fileURL: 工程文件路径
+    ///   - list: 数据对象
     class func generateProject(fileURL: URL, withPropertyList list: Any) {
         var url = fileURL
         let backupURL = backupURLOf(projectURL: &url)
@@ -93,6 +79,34 @@ class PropertyListHandler: NSObject {
         }
     }
     
+    /// 返回指定文件对应的备份文件路径
+    ///
+    /// - parameter url: 文件 URL，如果是工程文件，会被修改为 project.pbxproj 文件
+    ///
+    /// - returns: 备份文件路径
+    fileprivate class func backupURLOf(projectURL url: inout URL) -> URL {
+        var backupURL = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents")
+        if url.pathExtension == "xcodeproj" {
+            backupURL.appendPathComponent(url.lastPathComponent)
+            backupURL.appendPathExtension("project.pbxproj")
+            url.appendPathComponent("project.pbxproj")
+        }
+        else {
+            let count = url.pathComponents.count
+            if count > 1 {
+                backupURL.appendPathComponent(url.pathComponents[count-2])
+                backupURL.appendPathExtension(url.pathComponents[count-1])
+            }
+        }
+        backupURL.appendPathExtension("backup")
+        return backupURL
+    }
+    
+    
+    /// 使用备份文件还原工程文件
+    ///
+    /// - Parameter fileURL: 要被还原的工程文件路径 URL
+    /// - Returns:  是否还原成功
     class func revertProject(fileURL: URL) -> Bool {
         var url = fileURL
         let backupURL = backupURLOf(projectURL: &url)
@@ -114,17 +128,6 @@ class PropertyListHandler: NSObject {
         }
     }
     
-    class func parseJSON(fileURL url: URL) -> Any? {
-        
-        do {
-            let jsonData = try Data(contentsOf: url)
-            let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
-            return json
-        } catch _ {
-            return nil
-        }
-    }
-    
     /// 这个方法可厉（dan）害（teng）咯，把 json 配置数据应用到工程文件数据上
     ///
     /// - parameter json:        配置文件数据，用于对工程文件的增删改操作
@@ -135,7 +138,7 @@ class PropertyListHandler: NSObject {
             for (keyPath, data) in arguments {
                 let keys = keyPath.components(separatedBy: ".")
                 
-                /// 沿着路径深入，使用闭包修改叶子节点的数据，递归过程中逐级向上返回修改结果，完成整个路径上数据的更新
+                /// 假如 command 为 @"modify" keyPath 为 @"A.B.C"，目的是让 value[A][B][C] = data。需要沿着路径深入，使用闭包修改叶子节点的数据，递归过程中逐级向上返回修改结果，完成整个路径上数据的更新。
                 ///
                 /// - parameter index:    路径深度
                 /// - parameter value:    当前路径对应的值
@@ -162,8 +165,9 @@ class PropertyListHandler: NSObject {
                 }
                 
                 if let result = walkIn(atIndex: 0, withCurrentValue: appliedData, complete: { (value) -> Any? in
-                    
+                    // value 为路径根节点的数据。根据 command 的不同，处理的规则也不一样：
                     switch command {
+                        // 添加数据时 data 和 value 类型要统一，要么都是数组，要么都是字典，否则不做变更
                     case "insert":
                         if var dictionary = value as? [String: Any],
                             let dicData = data as? [String: Any] {
@@ -178,6 +182,7 @@ class PropertyListHandler: NSObject {
                             return array
                         }
                         return value
+                        // 移除数据时被移除的 data 为包含数据或键的数组，否则不做变更
                     case "remove":
                         if var dictionary = value as? [String: Any],
                             let arrayData = data as? [Any] {
@@ -204,6 +209,7 @@ class PropertyListHandler: NSObject {
                             return array
                         }
                         return value
+                        // 直接用 data 替换 value
                     case "modify":
                         return data
                     default:
@@ -228,6 +234,12 @@ class PropertyListHandler: NSObject {
         
         var difference = ["insert": [String: Any](), "remove": [String: Any](), "modify": [String: Any]()]
         
+        /// 将两个数据对象作递归比较，将最深层次节点的差异保存到 difference 中。
+        ///
+        /// - Parameters:
+        ///   - data1: 第一个数据对象，数组或字典
+        ///   - data2: 第二个数据对象，数组或字典
+        ///   - parentKeyPath: 父路径
         func compare(data data1: Any?, withOtherData data2: Any?, parentKeyPath: String) {
             if let dictionary1 = data1 as? [String: Any], let dictionary2 = data2 as? [String: Any] {
                 let set1 = Set(dictionary1.keys)
@@ -291,6 +303,12 @@ class PropertyListHandler: NSObject {
         return difference
     }
     
+    /// 将两个工程文件的差异保存为 JSON 文件
+    ///
+    /// - Parameters:
+    ///   - filePath: json 文件路径
+    ///   - modified: 修改过的工程文件
+    ///   - original: 原始工程文件
     class func generateJSON(filePath: String, withModifiedProject modified: URL, originalProject original: URL) {
         if let modifiedPropertyList = PropertyListHandler.parseProject(fileURL: modified),
             let originalPropertyList = PropertyListHandler.parseProject(fileURL: original) {
@@ -305,6 +323,21 @@ class PropertyListHandler: NSObject {
             } catch let error {
                 print("generate json file error: \(error.localizedDescription)")
             }
+        }
+    }
+    
+    /// 读取 JSON 格式的文件
+    ///
+    /// - Parameter url: JSON 文件路径 URL
+    /// - Returns: 数据对象
+    class func parseJSON(fileURL url: URL) -> Any? {
+        
+        do {
+            let jsonData = try Data(contentsOf: url)
+            let json = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
+            return json
+        } catch _ {
+            return nil
         }
     }
 }
