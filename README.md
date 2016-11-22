@@ -65,6 +65,10 @@ The outline view shows entire data of project.pbxproj file. You can expand an it
 
 You can filt the content of outline view by typing a string in the "Filter" Text Field. It's not case sensitive.
 
+## Project File Path
+
+There is a pull-down menu which shows five latest used file paths when you click the path of your project file. So you can choose your project files in common use quickly.
+
 ## JSON Configuration File
 
 ### Configuration Rules
