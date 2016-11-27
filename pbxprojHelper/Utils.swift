@@ -18,13 +18,13 @@ func isItem(_ item: Any, containsKeyWord word: String) -> Bool {
         if checkAny(value: tupleItem.key, containsString: word) || checkAny(value: tupleItem.value, containsString: word) {
             return true
         }
-        func tfs(propertyList list: Any) -> Bool {
+        func dfs(propertyList list: Any) -> Bool {
             if let dictionary = list as? [String: Any] {
                 for (key, value) in dictionary {
                     if checkAny(value: key, containsString: word) || checkAny(value: value, containsString: word) {
                         return true
                     }
-                    else if tfs(propertyList: value) {
+                    else if dfs(propertyList: value) {
                         return true
                     }
                 }
@@ -34,14 +34,14 @@ func isItem(_ item: Any, containsKeyWord word: String) -> Bool {
                     if checkAny(value: value, containsString: word) {
                         return true
                     }
-                    else if tfs(propertyList: value) {
+                    else if dfs(propertyList: value) {
                         return true
                     }
                 }
             }
             return false
         }
-        return tfs(propertyList: tupleItem.value)
+        return dfs(propertyList: tupleItem.value)
     }
     return false
 }

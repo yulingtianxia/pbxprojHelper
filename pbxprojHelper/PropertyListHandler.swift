@@ -134,11 +134,13 @@ class PropertyListHandler: NSObject {
     /// - parameter projectData: 工程文件数据，project.pbxproj 的内容
     class func apply(json: [String: [String: Any]], onProjectData projectData: [String: Any]) -> [String: Any] {
         var appliedData = projectData
+        // 遍历 JSON 中的三个命令
         for (command, arguments) in json {
+            // 遍历每个命令中的路径
             for (keyPath, data) in arguments {
                 let keys = keyPath.components(separatedBy: ".")
                 
-                /// 假如 command 为 @"modify" keyPath 为 @"A.B.C"，目的是让 value[A][B][C] = data。需要沿着路径深入，使用闭包修改叶子节点的数据，递归过程中逐级向上返回修改结果，完成整个路径上数据的更新。
+                /// 假如 command 为 "modify" keyPath 为 "A.B.C"，目的是让 value[A][B][C] = data。需要沿着路径深入，使用闭包修改叶子节点的数据，递归过程中逐级向上返回修改后的结果，完成整个路径上数据的更新。
                 ///
                 /// - parameter index:    路径深度
                 /// - parameter value:    当前路径对应的值
@@ -151,6 +153,7 @@ class PropertyListHandler: NSObject {
                         if let dicValue = value as? [String: Any],
                             let nextValue = dicValue[key] {
                             var resultValue = dicValue
+                            // 将下一层级的修改应用到当前层级的数据
                             resultValue[key] = walkIn(atIndex: index + 1, withCurrentValue: nextValue, complete: complete)
                             return resultValue
                         }
@@ -164,8 +167,9 @@ class PropertyListHandler: NSObject {
                     return value
                 }
                 
+                // 调用 `walkIn` 方法，
                 if let result = walkIn(atIndex: 0, withCurrentValue: appliedData, complete: { (value) -> Any? in
-                    // value 为路径根节点的数据。根据 command 的不同，处理的规则也不一样：
+                    // value 为路径叶子节点的数据。根据 command 的不同，处理的规则也不一样：
                     switch command {
                         // 添加数据时 data 和 value 类型要统一，要么都是数组，要么都是字典，否则不做变更
                     case "insert":
