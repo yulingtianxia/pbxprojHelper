@@ -13,6 +13,12 @@ pbxprojHelper lets you create and modify Xcode projects from Native UI App devel
 
 [中文](Documentation/README_ZH.md)
 
+## Articles
+
+[pbxprojHelper--Xcode工程文件助手](http://yulingtianxia.com/blog/2016/11/28/pbxprojHelper/)
+
+[Let's Talk About project.pbxproj](http://yulingtianxia.com/blog/2016/09/28/Let-s-Talk-About-project-pbxproj/)
+
 ## Installing pbxprojHelper
 
 ### GitHub

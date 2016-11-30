@@ -13,6 +13,12 @@ pbxprojHelper 可以让你通过原生 UI 应用来创建和修改 Xcode 工程�
 
 [English](../README.md)
 
+## 文章
+
+[pbxprojHelper--Xcode工程文件助手](http://yulingtianxia.com/blog/2016/11/28/pbxprojHelper/)
+
+[Let's Talk About project.pbxproj](http://yulingtianxia.com/blog/2016/09/28/Let-s-Talk-About-project-pbxproj/)
+
 ## 安装 pbxprojHelper
 
 ### GitHub
