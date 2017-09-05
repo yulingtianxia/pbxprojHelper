@@ -42,7 +42,7 @@ class ViewController: NSViewController {
             var nextOriginY: CGFloat = CGFloat(recentUsePaths.count-1) * textFieldHeight
             for key in recentUsePaths {
                 let path = recentUsePaths[key]
-                let textField = NSTextField(string: path)
+                let textField = NSTextField(string: path!)
                 textField.toolTip = key
                 textField.isBordered = false
                 textField.frame = NSRect(x: CGFloat(0), y: nextOriginY, width: filePathListView.bounds.size.width, height: textFieldHeight)
@@ -87,19 +87,19 @@ extension ViewController {
         openPanel.allowsMultipleSelection = false
         openPanel.allowedFileTypes = ["pbxproj", "xcodeproj"]
         
-        if openPanel.runModal() == NSFileHandlingPanelOKButton {
+        if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
             if let url = openPanel.url {
                 handleSelectProjectFileURL(url)
             }
         }
     }
     
-    func handleClickFilePath(_ gesture: NSClickGestureRecognizer) {
+    @objc func handleClickFilePath(_ gesture: NSClickGestureRecognizer) {
         filePathListView.isHidden = !filePathListView.isHidden
         refreshFilePathListView()
     }
     
-    func chooseFilePathGesture(_ gesture: NSClickGestureRecognizer) {
+    @objc func chooseFilePathGesture(_ gesture: NSClickGestureRecognizer) {
         let clickPoint = gesture.location(in: gesture.view)
         for (index, subview) in filePathListView.subviews.enumerated() {
             let pointInSubview = subview.convert(clickPoint, from: filePathListView)
@@ -117,7 +117,7 @@ extension ViewController {
         openPanel.canChooseFiles = true
         openPanel.canChooseDirectories = false
         openPanel.allowsMultipleSelection = false
-        if openPanel.runModal() == NSFileHandlingPanelOKButton {
+        if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
             if let url = openPanel.url,
                 let data = PropertyListHandler.parseJSON(fileURL: url) as? [String: [String: Any]] {
                 jsonFileURL = url
@@ -229,10 +229,10 @@ extension ViewController: NSOutlineViewDataSource {
     
     func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
         if let pair = item as? Item {
-            if tableColumn?.identifier == "Key" {
+            if tableColumn?.identifier.rawValue == "Key" {
                 return pair.key
             }
-            if tableColumn?.identifier == "Value" {
+            if tableColumn?.identifier.rawValue == "Value" {
                 if let value = pair.value as? [String: Any] {
                     return "Dictionary (\(value.count) elements)"
                 }
@@ -259,11 +259,9 @@ extension ViewController: NSOutlineViewDelegate {
 extension ViewController: NSTextFieldDelegate {
     
     func control(_ control: NSControl, textShouldEndEditing fieldEditor: NSText) -> Bool {
-        if let text = fieldEditor.string {
-            filterKeyWord = text
-            resultTable.reloadData()
-            resultTable.expandItem(nil, expandChildren: true)
-        }
+        filterKeyWord = fieldEditor.string
+        resultTable.reloadData()
+        resultTable.expandItem(nil, expandChildren: true)
         return true
     }
 }

@@ -174,6 +174,6 @@ class LRUCache <K:Hashable, V> : NSObject, NSCoding, Sequence {
 }
 
 func writePasteboard(_ location: String) {
-    NSPasteboard.general().declareTypes([NSStringPboardType], owner: nil)
-    NSPasteboard.general().setString(location, forType: NSStringPboardType)
+    NSPasteboard.general.declareTypes([.string], owner: nil)
+    NSPasteboard.general.setString(location, forType: .string)
 }

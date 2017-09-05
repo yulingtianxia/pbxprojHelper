@@ -25,7 +25,7 @@ class JSONGeneratorController: NSViewController {
         openPanel.canChooseDirectories = false
         openPanel.allowsMultipleSelection = false
         openPanel.allowedFileTypes = ["pbxproj", "xcodeproj"]
-        if openPanel.runModal() == NSFileHandlingPanelOKButton {
+        if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
             if let url = openPanel.url {
                 latestProjectFilePathTF.stringValue = url.path
                 modifiedProjectURL = url
@@ -40,7 +40,7 @@ class JSONGeneratorController: NSViewController {
         openPanel.canChooseDirectories = false
         openPanel.allowsMultipleSelection = false
         openPanel.allowedFileTypes = ["pbxproj", "xcodeproj"]
-        if openPanel.runModal() == NSFileHandlingPanelOKButton {
+        if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
             if let url = openPanel.url {
                 originalProjectFilePathTF.stringValue = url.path
                 originalProjectURL = url
@@ -53,7 +53,7 @@ class JSONGeneratorController: NSViewController {
         openPanel.canChooseFiles = false
         openPanel.canChooseDirectories = true
         openPanel.allowsMultipleSelection = false
-        if openPanel.runModal() == NSFileHandlingPanelOKButton {
+        if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
             if let url = openPanel.url {
                 jsonFileSavePathTF.stringValue = url.path
             }
