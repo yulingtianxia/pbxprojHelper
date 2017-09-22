@@ -2,4 +2,4 @@ osx_image: xcode9
 os: osx
 language: objective-c
 script: xcodebuild -project pbxprojHelper.xcodeproj -scheme pbxprojHelper
-  -configuration Release -sdk macosx10.12 clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
+  -configuration Release -sdk macosx10.13 clean build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
