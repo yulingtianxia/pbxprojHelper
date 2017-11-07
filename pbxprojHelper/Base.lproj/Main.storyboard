@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -677,6 +677,9 @@
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="480" height="270"/>
                         <value key="minFullScreenContentSize" type="size" width="480" height="270"/>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="d5p-Cz-Zpo"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -758,7 +761,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Mkr-Kx-LOE">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mkr-Kx-LOE">
                                 <rect key="frame" x="20" y="263" width="105" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="105" id="C00-Tb-Lla"/>
@@ -770,7 +773,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YuV-hF-qe6">
+                            <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YuV-hF-qe6">
                                 <rect key="frame" x="145" y="263" width="210" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="17" id="map-3a-D7l"/>
@@ -795,7 +798,7 @@
                                     <action selector="selectProjectFile:" target="XfG-lQ-9wD" id="qbi-UW-4A7"/>
                                 </connections>
                             </button>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="m3e-Kj-9pc">
+                            <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m3e-Kj-9pc">
                                 <rect key="frame" x="294" y="233" width="136" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Filter" drawsBackground="YES" id="8vR-qg-CB7">
                                     <font key="font" metaFont="system"/>
@@ -845,7 +848,7 @@
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="revertPropertyList:" target="XfG-lQ-9wD" id="dNi-Jg-cgb"/>
+                                    <action selector="revertJSONConfiguration:" target="XfG-lQ-9wD" id="3No-Jh-g0F"/>
                                 </connections>
                             </button>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="gKG-bY-ZLd">
@@ -902,6 +905,9 @@
                         <rect key="contentRect" x="425" y="470" width="450" height="221"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
                         <value key="minSize" type="size" width="450" height="221"/>
+                        <connections>
+                            <outlet property="delegate" destination="yKK-lt-GaJ" id="tdt-J1-w2h"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="InE-2S-wJn" kind="relationship" relationship="window.shadowedContentViewController" id="Mh0-Uo-4Od"/>
@@ -919,7 +925,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="221"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8fC-K4-frN">
+                            <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8fC-K4-frN">
                                 <rect key="frame" x="199" y="142" width="231" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="m7U-8s-cYd">
                                     <font key="font" metaFont="system"/>
@@ -927,7 +933,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KgQ-W9-Klt">
+                            <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KgQ-W9-Klt">
                                 <rect key="frame" x="199" y="100" width="231" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="owu-Tz-M8K">
                                     <font key="font" metaFont="system"/>
@@ -975,7 +981,7 @@
                                     <action selector="chooseJSONSavePath:" target="InE-2S-wJn" id="Sg1-aI-DhV"/>
                                 </connections>
                             </button>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kwa-gj-KQD">
+                            <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kwa-gj-KQD">
                                 <rect key="frame" x="199" y="58" width="231" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="nhk-C0-vx9">
                                     <font key="font" metaFont="system"/>
@@ -983,7 +989,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dnc-5m-noa">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dnc-5m-noa">
                                 <rect key="frame" x="79" y="184" width="293" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Generate Differences between two project files" drawsBackground="YES" id="ja8-JG-Dw8">
                                     <font key="font" metaFont="system"/>

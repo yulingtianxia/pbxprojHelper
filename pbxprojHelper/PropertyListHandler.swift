@@ -130,12 +130,20 @@ class PropertyListHandler: NSObject {
     
     /// 这个方法可厉（dan）害（teng）咯，把 json 配置数据应用到工程文件数据上
     ///
-    /// - parameter json:        配置文件数据，用于对工程文件的增删改操作
-    /// - parameter projectData: 工程文件数据，project.pbxproj 的内容
-    class func apply(json: [String: [String: Any]], onProjectData projectData: [String: Any]) -> [String: Any] {
+    /// - Parameters:
+    ///   - json: 配置文件数据，用于对工程文件的增删改操作
+    ///   - projectData: 工程文件数据，project.pbxproj 的内容
+    ///   - isForward: 是否是正向操作
+    /// - Returns: 应用 json 配置后的结果
+    class func apply(json: [String: Any], onProjectData projectData: [String: Any], forward isForward: Bool = true) -> [String: Any] {
         var appliedData = projectData
+        
+        let jsonType = isForward ? "forward" : "backward"
+        guard let jsonCommands = json[jsonType] as? [String : [String : Any]] else {
+            return appliedData
+        }
         // 遍历 JSON 中的三个命令
-        for (command, arguments) in json {
+        for (command, arguments) in jsonCommands {
             // 遍历每个命令中的路径
             for (keyPath, data) in arguments {
                 let keys = keyPath.components(separatedBy: ".")
@@ -316,9 +324,11 @@ class PropertyListHandler: NSObject {
     class func generateJSON(filePath: String, withModifiedProject modified: URL, originalProject original: URL) {
         if let modifiedPropertyList = PropertyListHandler.parseProject(fileURL: modified),
             let originalPropertyList = PropertyListHandler.parseProject(fileURL: original) {
-            let jsonObject = PropertyListHandler.compare(project: modifiedPropertyList, withOtherProject: originalPropertyList)
+            let jsonObjectForward = PropertyListHandler.compare(project: modifiedPropertyList, withOtherProject: originalPropertyList)
+            let jsonObjectBackward = PropertyListHandler.compare(project: originalPropertyList, withOtherProject: modifiedPropertyList)
+            let jsonObjectUnion = ["forward": jsonObjectForward, "backward": jsonObjectBackward]
             do {
-                let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+                let jsonData = try JSONSerialization.data(withJSONObject: jsonObjectUnion, options: .prettyPrinted)
                 var jsonURL = URL(fileURLWithPath: filePath)
                 if jsonURL.pathExtension != "json" {
                     jsonURL.appendPathComponent("JsonConfiguration.json")

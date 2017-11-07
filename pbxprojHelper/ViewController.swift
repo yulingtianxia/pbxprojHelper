@@ -119,7 +119,7 @@ extension ViewController {
         openPanel.allowsMultipleSelection = false
         if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
             if let url = openPanel.url,
-                let data = PropertyListHandler.parseJSON(fileURL: url) as? [String: [String: Any]] {
+                let data = PropertyListHandler.parseJSON(fileURL: url) as? [String: Any] {
                 jsonFileURL = url
                 currentPropertyList = PropertyListHandler.apply(json: data, onProjectData: originalPropertyList)
                 chooseJSONFileBtn.title = url.lastPathComponent
@@ -128,12 +128,12 @@ extension ViewController {
         }
     }
     
-    @IBAction func applyJSONConfiguration(_ sender: NSButton) {
+    func handleApplyJson(forward isForward: Bool) {
         if let propertyURL = propertyListURL, let jsonURL = jsonFileURL {
             if let propertyListData = PropertyListHandler.parseProject(fileURL: propertyURL),
-                let jsonFileData = PropertyListHandler.parseJSON(fileURL: jsonURL) as? [String: [String: Any]]{
+                let jsonFileData = PropertyListHandler.parseJSON(fileURL: jsonURL) as? [String: Any]{
                 originalPropertyList = propertyListData
-                currentPropertyList = PropertyListHandler.apply(json: jsonFileData, onProjectData: originalPropertyList)
+                currentPropertyList = PropertyListHandler.apply(json: jsonFileData, onProjectData: originalPropertyList, forward: isForward)
                 resultTable.reloadData()
             }
             DispatchQueue.global().async {
@@ -142,18 +142,12 @@ extension ViewController {
         }
     }
     
-    @IBAction func revertPropertyList(_ sender: NSButton) {
-        if let url = propertyListURL {
-            if PropertyListHandler.revertProject(fileURL: url), let data = PropertyListHandler.parseProject(fileURL: url) {
-                originalPropertyList = data
-                currentPropertyList = data
-            }
-            else {
-                currentPropertyList = originalPropertyList
-            }
-            chooseJSONFileBtn.title = "Choose JSON File"
-            resultTable.reloadData()
-        }
+    @IBAction func applyJSONConfiguration(_ sender: NSButton) {
+        handleApplyJson(forward: true)
+    }
+    
+    @IBAction func revertJSONConfiguration(_ sender: NSButton) {
+        handleApplyJson(forward: false)
     }
     
     @IBAction func click(_ sender: NSOutlineView) {
