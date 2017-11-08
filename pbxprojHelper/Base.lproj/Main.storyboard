@@ -762,9 +762,9 @@
                                 </tableHeaderView>
                             </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mkr-Kx-LOE">
-                                <rect key="frame" x="20" y="263" width="105" height="17"/>
+                                <rect key="frame" x="20" y="263" width="107" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="105" id="C00-Tb-Lla"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="105" id="C00-Tb-Lla"/>
                                     <constraint firstAttribute="height" constant="17" id="Nvp-cS-umJ"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Project File Path" drawsBackground="YES" id="Lwc-ll-oqq">
@@ -774,9 +774,10 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YuV-hF-qe6">
-                                <rect key="frame" x="145" y="263" width="210" height="17"/>
+                                <rect key="frame" x="147" y="263" width="208" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="17" id="map-3a-D7l"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="208" id="sPX-G4-Fz0"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" placeholderString="no file selected" drawsBackground="YES" id="CLz-5Y-FKd">
                                     <font key="font" metaFont="system"/>
@@ -787,7 +788,7 @@
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ET9-qh-2Q4">
                                 <rect key="frame" x="375" y="262" width="55" height="19"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="55" id="NoF-Np-Rpx"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="NoF-Np-Rpx"/>
                                     <constraint firstAttribute="height" constant="18" id="bZp-ob-uaw"/>
                                 </constraints>
                                 <buttonCell key="cell" type="roundRect" title="Select" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rpq-Rf-n06">
@@ -812,7 +813,7 @@
                             <button toolTip="Choose JSON File" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MWm-AP-Yed">
                                 <rect key="frame" x="20" y="234" width="116" height="19"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="116" id="NCY-8d-Dbi"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="116" id="NCY-8d-Dbi"/>
                                     <constraint firstAttribute="height" constant="18" id="bZD-hG-ZT7"/>
                                 </constraints>
                                 <buttonCell key="cell" type="roundRect" title="Choose JSON File" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xyy-Mj-hsn">
@@ -826,7 +827,7 @@
                             <button toolTip="Apply JSON Configuration on project.pbxproj" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7X1-H4-mEk">
                                 <rect key="frame" x="156" y="234" width="47" height="19"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="47" id="Qfw-sm-9Rf"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="47" id="Qfw-sm-9Rf"/>
                                     <constraint firstAttribute="height" constant="18" id="m7A-2P-MGM"/>
                                 </constraints>
                                 <buttonCell key="cell" type="roundRect" title="Apply" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="GWI-Kl-xIU">
@@ -841,7 +842,7 @@
                                 <rect key="frame" x="223" y="234" width="51" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="bPL-nW-zX4"/>
-                                    <constraint firstAttribute="width" constant="51" id="tIW-Z2-J4e"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="51" id="tIW-Z2-J4e"/>
                                 </constraints>
                                 <buttonCell key="cell" type="roundRect" title="Revert" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hxs-Lz-JYq">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -852,7 +853,7 @@
                                 </connections>
                             </button>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="gKG-bY-ZLd">
-                                <rect key="frame" x="145" y="167" width="210" height="96"/>
+                                <rect key="frame" x="147" y="167" width="208" height="96"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="96" id="O4E-8J-v4g"/>
                                 </constraints>
@@ -945,7 +946,7 @@
                                 <rect key="frame" x="20" y="143" width="159" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="ary-e6-IrG"/>
-                                    <constraint firstAttribute="width" constant="159" id="hAt-yB-MTu"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="159" id="hAt-yB-MTu"/>
                                 </constraints>
                                 <buttonCell key="cell" type="roundRect" title="Modified Project File Path" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AeO-y4-3dE">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1001,7 +1002,7 @@
                                 <rect key="frame" x="180" y="19" width="91" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="CUW-41-Vc2"/>
-                                    <constraint firstAttribute="width" constant="91" id="Gth-YR-dtd"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="91" id="Gth-YR-dtd"/>
                                 </constraints>
                                 <buttonCell key="cell" type="roundRect" title="Generate" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="V26-X2-mAD">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1040,7 +1041,6 @@
                         </constraints>
                     </visualEffectView>
                     <connections>
-                        <outlet property="generateButton" destination="f3J-ZT-5rZ" id="Cfj-AX-aCq"/>
                         <outlet property="jsonFileSavePathTF" destination="Kwa-gj-KQD" id="HYy-dw-oSE"/>
                         <outlet property="latestProjectFilePathTF" destination="8fC-K4-frN" id="bq9-Rc-wOp"/>
                         <outlet property="originalProjectFilePathTF" destination="KgQ-W9-Klt" id="rbE-zk-OIx"/>

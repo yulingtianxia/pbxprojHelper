@@ -107,7 +107,7 @@ class PropertyListHandler: NSObject {
     ///
     /// - Parameter fileURL: 要被还原的工程文件路径 URL
     /// - Returns:  是否还原成功
-    class func revertProject(fileURL: URL) -> Bool {
+    class func recoverProject(fileURL: URL) -> Bool {
         var url = fileURL
         let backupURL = backupURLOf(projectURL: &url)
         do {

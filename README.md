@@ -58,7 +58,8 @@ Command options are (-convert is the default):
 -compare modified_file -o path          compare modified property list file with property list file and generate a json result at the given path
 -apply json_file                        apply a json file on property list file
 -revert                                 a json file on property list file
--convert                                rewrite property list files in xml format
+-recover                                recover a property list file from latest change
+-convert                                rewrite a property list file in xml format
 ```
 
 ## Outline View

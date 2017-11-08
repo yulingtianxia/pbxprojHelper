@@ -14,7 +14,8 @@ let help = "No files specified.\n" +
     "-compare modified_file -o path          compare modified property list file with property list file and generate a json result at the given path\n" +
     "-apply json_file                        apply a json file on property list file\n" +
     "-revert                                 revert a json file on property list file\n" +
-    "-convert                                rewrite property list files in xml format"
+    "-recover                                recover a property list file from latest change\n" +
+    "-convert                                rewrite a property list file in xml format"
 
 if CommandLine.arguments.count == 1 {
     print(help)
@@ -65,6 +66,16 @@ else {
                 let projectObject = PropertyListHandler.parseProject(fileURL: URL(fileURLWithPath: projectFile)) {
                 let appliedProjectObject = PropertyListHandler.apply(json: jsonObject, onProjectData: projectObject, forward: false)
                 PropertyListHandler.generateProject(fileURL: URL(fileURLWithPath: projectFile), withPropertyList: appliedProjectObject)
+            }
+        }
+        else {
+            print(help)
+        }
+    case "-recover":
+        if CommandLine.arguments.count == 3 {
+            let projectFile = CommandLine.arguments[2]
+            if PropertyListHandler.recoverProject(fileURL: URL(fileURLWithPath: projectFile)) {
+                print("recover project success!")
             }
         }
         else {
