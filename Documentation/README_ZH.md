@@ -42,7 +42,7 @@ https://itunes.apple.com/cn/app/pbxprojhelper/id1160801848
 1. 点击 "Select" 按钮选择工程文件，支持 `.xcodeproj` 和 `.pbxproj` 格式。文件路径会显示在旁边的文本框中。大纲视图展示了工程文件的内容。
 2. 点击 "Choose JSON File" 按钮选择配置文件。配置文件包含了你想对工程文件做出的修改。你可以自己创建 JSON 格式的配置文件，或者使用 pbxprojHelper 提供的 "JSON Configuration Generator" 工具来生成配置文件。在选择 JSON 文件之后，大纲视图会刷新数据。
 3. 点击 "Apply" 按钮可以将 JSON 文件中的配置信息应用（覆写）到工程文件中。
-4. 点击 "Revert" 按钮将工程文件回滚到上个版本。
+4. "Revert" 按钮是 "Apply" 的逆操作。
 
 ### 使用 pbxproj (命令行工具)
 
@@ -103,7 +103,9 @@ Command options are (-convert is the default):
 }
 ```
 
-根对象必须是一个含有三个键值对的字典。你可以通过 project.pbxproj 中的 keypath 来做 "insert", "remove" 和 "modify" 操作。
+配置规则含有三个键值对，分别对应增删改三种操作。可以通过 project.pbxproj 中的 keypath 来做 "insert", "remove" 和 "modify" 操作。
+
+最新版本的配置文件会包含两套配置规则 "forward" 和 "backward"，分别对应 "Apply" 和 "Revert" 两种操作。
 
 #### Insert
 
@@ -136,7 +138,7 @@ Command options are (-convert is the default):
 
 每当你点击主窗口的 "Apply" 按钮时，pbxprojHelper 都会先创建工程文件备份，然后再将变更应用到工程文件中。备份的后缀名为 "backup"，存储于应用的 "Documents" 文件夹。
 
-"Revert" 按钮会将工程文件回滚为上次的备份。
+~~"Revert" 按钮会将工程文件回滚为上次的备份。~~
 
 ## Encoding
 
@@ -145,3 +147,4 @@ Command options are (-convert is the default):
 ## LICENSE
 
 These works are available under the GNU General Public License. See the [LICENSE](../LICENSE) file for more info.
+

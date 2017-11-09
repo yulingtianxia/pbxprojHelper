@@ -108,6 +108,8 @@ The configuration file contains a list of rules. Here is an example of configura
 
 The root object must be a dictionary with 3 key-value pairs. You can "insert", "remove" and "modify" values through their key paths in project.pbxproj file. 
 
+There are two series of configuration rules in the newest configuration file: "forward" and "backward". They respectively corresponded to "Apply" and "Revert" Functions.
+
 #### Insert
 
 The example above inserts 3 elements(`"a"`,`"b"`,`"c"`) into the `children` array. Note that the keypath `"objects.A45A665D1D98286400DBED04.children"` must be valid. The value of `"children"` should be an array and the value of `"classes"` should be a dictionary. **In a word, the type of incremental data should be same with original data in project.pbxproj file.**
