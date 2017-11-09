@@ -61,10 +61,11 @@ class JSONGeneratorController: NSViewController {
     }
     
     @IBAction func generateJSONFile(_ sender: NSButton) {
-        guard modifiedProjectURL == nil || originalProjectURL == nil else {
+        let filePath = self.jsonFileSavePathTF.stringValue
+        guard modifiedProjectURL == nil || originalProjectURL == nil || filePath.count == 0 else {
             sender.title = "Generating"
             DispatchQueue.global().async {
-                PropertyListHandler.generateJSON(filePath: self.jsonFileSavePathTF.stringValue, withModifiedProject: self.modifiedProjectURL!, originalProject: self.originalProjectURL!)
+                PropertyListHandler.generateJSON(filePath: filePath, withModifiedProject: self.modifiedProjectURL!, originalProject: self.originalProjectURL!)
                 DispatchQueue.main.async {
                     sender.title = "Generate"
                 }

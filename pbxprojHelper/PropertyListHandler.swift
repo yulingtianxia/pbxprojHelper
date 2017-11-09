@@ -138,10 +138,21 @@ class PropertyListHandler: NSObject {
     class func apply(json: [String: Any], onProjectData projectData: [String: Any], forward isForward: Bool = true) -> [String: Any] {
         var appliedData = projectData
         
-        let jsonType = isForward ? "forward" : "backward"
-        guard let jsonCommands = json[jsonType] as? [String : [String : Any]] else {
+        let operation = isForward ? "forward" : "backward"
+        
+        let jsonCommands: [String : [String : Any]]
+        
+        if let jsonContent = json[operation] as? [String : [String : Any]] {
+            jsonCommands = jsonContent
+        }
+        else if let jsonContent = json as? [String : [String : Any]], isForward { // 兼容旧版本
+            jsonCommands = jsonContent
+        }
+        else {
+            print("json file format error! Can't support \(operation) operation! Please generate a new json file.")
             return appliedData
         }
+        
         // 遍历 JSON 中的三个命令
         for (command, arguments) in jsonCommands {
             // 遍历每个命令中的路径
@@ -326,7 +337,7 @@ class PropertyListHandler: NSObject {
             let originalPropertyList = PropertyListHandler.parseProject(fileURL: original) {
             let jsonObjectForward = PropertyListHandler.compare(project: modifiedPropertyList, withOtherProject: originalPropertyList)
             let jsonObjectBackward = PropertyListHandler.compare(project: originalPropertyList, withOtherProject: modifiedPropertyList)
-            let jsonObjectUnion = ["forward": jsonObjectForward, "backward": jsonObjectBackward]
+            let jsonObjectUnion = ["version": 1.0, "forward": jsonObjectForward, "backward": jsonObjectBackward]
             do {
                 let jsonData = try JSONSerialization.data(withJSONObject: jsonObjectUnion, options: .prettyPrinted)
                 var jsonURL = URL(fileURLWithPath: filePath)
