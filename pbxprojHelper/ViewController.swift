@@ -32,6 +32,13 @@ class ViewController: NSViewController {
         filePathListView.addGestureRecognizer(chooseFilePathGesture)
     }
     
+    override func viewDidAppear() {
+        if recentUsePaths.count > 0 {
+            let path = recentUsePaths[0]
+            handleSelectProjectFileURL(URL(fileURLWithPath: path))
+        }
+    }
+    
     func refreshFilePathListView() {
         if !filePathListView.isHidden {
             for view in filePathListView.subviews {
@@ -39,7 +46,7 @@ class ViewController: NSViewController {
             }
             let textFieldHeight = filePathTF.bounds.size.height
             filePathListHeightConstraint.constant = CGFloat(recentUsePaths.count) * textFieldHeight
-            var nextOriginY: CGFloat = CGFloat(recentUsePaths.count-1) * textFieldHeight
+            var nextOriginY: CGFloat = CGFloat(recentUsePaths.count - 1) * textFieldHeight
             for key in recentUsePaths {
                 let path = recentUsePaths[key]
                 let textField = NSTextField(string: path!)
@@ -87,9 +94,10 @@ extension ViewController {
         openPanel.allowsMultipleSelection = false
         openPanel.allowedFileTypes = ["pbxproj", "xcodeproj"]
         
-        if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
-            if let url = openPanel.url {
-                handleSelectProjectFileURL(url)
+        openPanel.begin { (result) in
+            if NSApplication.ModalResponse.OK == result, let url = openPanel.url {
+                storeBookmark(url: url)
+                self.handleSelectProjectFileURL(url)
             }
         }
     }
@@ -114,16 +122,17 @@ extension ViewController {
     @IBAction func chooseJSONFile(_ sender: NSButton) {
         let openPanel = NSOpenPanel()
         openPanel.prompt = "Select"
+        openPanel.allowsMultipleSelection = false
+        openPanel.canCreateDirectories = true
         openPanel.canChooseFiles = true
         openPanel.canChooseDirectories = false
-        openPanel.allowsMultipleSelection = false
-        if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
-            if let url = openPanel.url,
-                let data = PropertyListHandler.parseJSON(fileURL: url) as? [String: Any] {
-                jsonFileURL = url
-                currentPropertyList = PropertyListHandler.apply(json: data, onProjectData: originalPropertyList)
-                chooseJSONFileBtn.title = url.lastPathComponent
-                resultTable.reloadData()
+        openPanel.begin { (result) in
+            if NSApplication.ModalResponse.OK == result, let url = openPanel.url, let data = PropertyListHandler.parseJSON(fileURL: url) as? [String: Any] {
+                storeBookmark(url: url)
+                self.jsonFileURL = url
+                self.currentPropertyList = PropertyListHandler.apply(json: data, onProjectData: self.originalPropertyList)
+                self.chooseJSONFileBtn.title = url.lastPathComponent
+                self.resultTable.reloadData()
             }
         }
     }

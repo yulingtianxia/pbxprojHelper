@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A462C4DD1DA407C3002DD70B /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A462C4DC1DA407C3002DD70B /* main.swift */; };
 		A462C4E21DA408B6002DD70B /* PropertyListHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B82F441D96E38600141B8E /* PropertyListHandler.swift */; };
+		A4776A011FBB457900AA567D /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4776A001FBB457900AA567D /* Bookmark.swift */; };
 		A481B5171DD6E55800D4F2B7 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A481B5161DD6E55800D4F2B7 /* Utils.swift */; };
 		A4B82F361D96CC3700141B8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B82F351D96CC3700141B8E /* AppDelegate.swift */; };
 		A4B82F381D96CC3700141B8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B82F371D96CC3700141B8E /* ViewController.swift */; };
@@ -34,6 +35,7 @@
 		A44D7BD71D97BE120090D2E6 /* pbxprojHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pbxprojHelper.entitlements; sourceTree = "<group>"; };
 		A462C4DA1DA407C2002DD70B /* pbxproj */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pbxproj; sourceTree = BUILT_PRODUCTS_DIR; };
 		A462C4DC1DA407C3002DD70B /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		A4776A001FBB457900AA567D /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
 		A481B5161DD6E55800D4F2B7 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		A4B82F321D96CC3700141B8E /* pbxprojHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pbxprojHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4B82F351D96CC3700141B8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				A4BCBC2D1D9B7EE7007D5B19 /* JSONGeneratorController.swift */,
 				A4B82F441D96E38600141B8E /* PropertyListHandler.swift */,
 				A481B5161DD6E55800D4F2B7 /* Utils.swift */,
+				A4776A001FBB457900AA567D /* Bookmark.swift */,
 				A4B82F391D96CC3700141B8E /* Assets.xcassets */,
 				A4B82F3B1D96CC3700141B8E /* Main.storyboard */,
 				A4B82F3E1D96CC3700141B8E /* Info.plist */,
@@ -224,6 +227,7 @@
 				A4BCBC2E1D9B7EE7007D5B19 /* JSONGeneratorController.swift in Sources */,
 				A4B82F381D96CC3700141B8E /* ViewController.swift in Sources */,
 				A4B82F361D96CC3700141B8E /* AppDelegate.swift in Sources */,
+				A4776A011FBB457900AA567D /* Bookmark.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

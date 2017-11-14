@@ -17,13 +17,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
         initWindow = NSApplication.shared.windows.first
+        loadBookmarks()
         recentUsePaths = LRUCache <String, String>()
         let pathsData = NSKeyedArchiver.archivedData(withRootObject: recentUsePaths)
         
         userDefaults.register(defaults: ["recentUsePaths":pathsData])
         
-        if let data = userDefaults.object(forKey: "recentUsePaths") as? Data {
-            recentUsePaths = NSKeyedUnarchiver.unarchiveObject(with: data) as! LRUCache <String, String>
+        if let data = userDefaults.object(forKey: "recentUsePaths") as? Data,
+            let unarchiveData = NSKeyedUnarchiver.unarchiveObject(with: data) as? LRUCache <String, String> {
+            recentUsePaths = unarchiveData
         }
         recentUsePaths.countLimit = 5
     }
@@ -32,6 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
         let pathsData = NSKeyedArchiver.archivedData(withRootObject: recentUsePaths)
         userDefaults.set(pathsData, forKey: "recentUsePaths")
+        saveBookmarks()
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
