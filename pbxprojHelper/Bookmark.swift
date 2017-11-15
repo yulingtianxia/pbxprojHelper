@@ -9,7 +9,7 @@
 import Foundation
 import Cocoa
 
-var bookmarks = [URL: Data]()
+var bookmarks = [URL : Data]()
 
 var applicationDocumentsDirectory: URL? {
     return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last

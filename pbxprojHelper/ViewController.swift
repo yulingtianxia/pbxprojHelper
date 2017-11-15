@@ -32,13 +32,6 @@ class ViewController: NSViewController {
         filePathListView.addGestureRecognizer(chooseFilePathGesture)
     }
     
-    override func viewDidAppear() {
-        if recentUsePaths.count > 0 {
-            let path = recentUsePaths[0]
-            handleSelectProjectFileURL(URL(fileURLWithPath: path))
-        }
-    }
-    
     func refreshFilePathListView() {
         if !filePathListView.isHidden {
             for view in filePathListView.subviews {
@@ -80,6 +73,17 @@ class ViewController: NSViewController {
         }
     }
     
+    func handleSelectJSONFileURL(_ url: URL) {
+        if let data = PropertyListHandler.parseJSON(fileURL: url) as? [String: Any] {
+            self.jsonFileURL = url
+            self.currentPropertyList = PropertyListHandler.apply(json: data, onProjectData: self.originalPropertyList)
+            self.chooseJSONFileBtn.title = url.lastPathComponent
+            if let projectPath = self.propertyListURL?.path {
+                projectConfigurationPathPairs[projectPath] = url
+            }
+            self.resultTable.reloadData()
+        }
+    }
 }
 
 //MARK: - User Action
@@ -127,12 +131,9 @@ extension ViewController {
         openPanel.canChooseFiles = true
         openPanel.canChooseDirectories = false
         openPanel.begin { (result) in
-            if NSApplication.ModalResponse.OK == result, let url = openPanel.url, let data = PropertyListHandler.parseJSON(fileURL: url) as? [String: Any] {
+            if NSApplication.ModalResponse.OK == result, let url = openPanel.url {
                 storeBookmark(url: url)
-                self.jsonFileURL = url
-                self.currentPropertyList = PropertyListHandler.apply(json: data, onProjectData: self.originalPropertyList)
-                self.chooseJSONFileBtn.title = url.lastPathComponent
-                self.resultTable.reloadData()
+                self.handleSelectJSONFileURL(url)
             }
         }
     }

@@ -80,14 +80,16 @@ func keyPath(forItem item: Any?) -> String {
 
 var recentUsePaths = LRUCache <String, String>()
 
-class CacheGenerator<T:Hashable> : IteratorProtocol {
+var projectConfigurationPathPairs = [String : URL]()
+
+class CacheGenerator<T: Hashable> : IteratorProtocol {
     
     typealias Element = T
     
     var counter: Int
-    let array:[T]
+    let array: [T]
     
-    init(keys:[T]) {
+    init(keys: [T]) {
         counter = 0
         array = keys
     }
@@ -99,9 +101,9 @@ class CacheGenerator<T:Hashable> : IteratorProtocol {
     }
 }
 
-class LRUCache <K:Hashable, V> : NSObject, NSCoding, Sequence {
+class LRUCache <K: Hashable, V> : NSObject, NSCoding, Sequence {
     
-    fileprivate var _cache = [K:V]()
+    fileprivate var _cache = [K : V]()
     fileprivate var _keys = [K]()
     
     var countLimit: Int = 0
@@ -115,13 +117,13 @@ class LRUCache <K:Hashable, V> : NSObject, NSCoding, Sequence {
         
     }
     
-    subscript(index:Int) -> K {
+    subscript(index: Int) -> K {
         get {
             return _keys[index]
         }
     }
     
-    subscript(key:K) -> V? {
+    subscript(key: K) -> V? {
         get {
             return _cache[key]
         }
@@ -152,7 +154,7 @@ class LRUCache <K:Hashable, V> : NSObject, NSCoding, Sequence {
     typealias Iterator = CacheGenerator<K>
     
     func makeIterator() -> Iterator {
-        return CacheGenerator(keys:_keys)
+        return CacheGenerator(keys: _keys)
     }
     
     func cleanCache() {
