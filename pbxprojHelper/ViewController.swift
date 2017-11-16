@@ -127,7 +127,6 @@ extension ViewController {
         let openPanel = NSOpenPanel()
         openPanel.prompt = "Select"
         openPanel.allowsMultipleSelection = false
-        openPanel.canCreateDirectories = true
         openPanel.canChooseFiles = true
         openPanel.canChooseDirectories = false
         openPanel.begin { (result) in

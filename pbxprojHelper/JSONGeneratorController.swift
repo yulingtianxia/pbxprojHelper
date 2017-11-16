@@ -25,13 +25,12 @@ class JSONGeneratorController: NSViewController {
         openPanel.canChooseDirectories = false
         openPanel.allowsMultipleSelection = false
         openPanel.allowedFileTypes = ["pbxproj", "xcodeproj"]
-        if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
-            if let url = openPanel.url {
-                latestProjectFilePathTF.stringValue = url.path
-                modifiedProjectURL = url
+        openPanel.begin { (result) in
+            if NSApplication.ModalResponse.OK == result, let url = self.openPanel.url {
+                self.latestProjectFilePathTF.stringValue = url.path
+                self.modifiedProjectURL = url
             }
         }
-
     }
     
     @IBAction func openOriginalProject(_ sender: NSButton) {
@@ -40,10 +39,10 @@ class JSONGeneratorController: NSViewController {
         openPanel.canChooseDirectories = false
         openPanel.allowsMultipleSelection = false
         openPanel.allowedFileTypes = ["pbxproj", "xcodeproj"]
-        if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
-            if let url = openPanel.url {
-                originalProjectFilePathTF.stringValue = url.path
-                originalProjectURL = url
+        openPanel.begin { (result) in
+            if NSApplication.ModalResponse.OK == result, let url = self.openPanel.url {
+                self.originalProjectFilePathTF.stringValue = url.path
+                self.originalProjectURL = url
             }
         }
     }
@@ -53,9 +52,10 @@ class JSONGeneratorController: NSViewController {
         openPanel.canChooseFiles = false
         openPanel.canChooseDirectories = true
         openPanel.allowsMultipleSelection = false
-        if openPanel.runModal().rawValue == NSFileHandlingPanelOKButton {
-            if let url = openPanel.url {
-                jsonFileSavePathTF.stringValue = url.path
+        openPanel.canCreateDirectories = true
+        openPanel.begin { (result) in
+            if NSApplication.ModalResponse.OK == result, let url = self.openPanel.url {
+                self.jsonFileSavePathTF.stringValue = url.path
             }
         }
     }

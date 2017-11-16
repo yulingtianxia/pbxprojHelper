@@ -85,7 +85,7 @@ class PropertyListHandler: NSObject {
     ///
     /// - returns: 备份文件路径
     fileprivate class func backupURLOf(projectURL url: inout URL) -> URL {
-        var backupURL = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents")
+        var backupURL = applicationDocumentsDirectory ?? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Documents")
         if url.pathExtension == "xcodeproj" {
             backupURL.appendPathComponent(url.lastPathComponent)
             backupURL.appendPathExtension("project.pbxproj")
@@ -101,7 +101,6 @@ class PropertyListHandler: NSObject {
         backupURL.appendPathExtension("backup")
         return backupURL
     }
-    
     
     /// 使用备份文件还原工程文件
     ///
