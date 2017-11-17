@@ -8,6 +8,10 @@
 
 import Cocoa
 
+var applicationDocumentsDirectory: URL? {
+    return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
+}
+
 class PropertyListHandler: NSObject {
     
     /// 将工程文件内容转为字典对象

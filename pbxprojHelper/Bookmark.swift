@@ -11,10 +11,6 @@ import Cocoa
 
 var bookmarks = [URL : Data]()
 
-var applicationDocumentsDirectory: URL? {
-    return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
-}
-
 func bookmarkPath() -> String? {
     return applicationDocumentsDirectory?.appendingPathComponent("Bookmarks.dict").path
 }
