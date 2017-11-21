@@ -1,4 +1,4 @@
-![](images/appIcon.png)
+![](https://github.com/yulingtianxia/pbxprojHelper/blob/master/images/appIcon.png)
 
 [![Language](https://img.shields.io/badge/language-Swift%204.0-orange.svg)](https://swift.org)
 [![Build Status](https://travis-ci.org/yulingtianxia/pbxprojHelper.svg?branch=master)](https://travis-ci.org/yulingtianxia/pbxprojHelper)
@@ -7,7 +7,7 @@
 
 pbxprojHelper is a GUI tool developed with Cocoa and Swift 4 for parsing and changing Xcode projects configuration. You can also use `pbxproj` as a command line tool in terminal.
 
-![Main Window](images/MainWindow@2x.png)
+![Main Window](https://github.com/yulingtianxia/pbxprojHelper/blob/master/images/MainWindow@2x.png)
 
 ## Languages
 
