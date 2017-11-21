@@ -126,7 +126,7 @@ Modify the value of keypath, so easy.
 
 Programmer is lazy. I can't stand wasting my time on writing json files, so I create the powerful tool called "JSON Configuration Generator":
 
-![JSON Configuration Generator Window](images/GeneratorWindow@2x.png)
+![JSON Configuration Generator Window](https://github.com/yulingtianxia/pbxprojHelper/blob/master/images/GeneratorWindow@2x.png)
 
 **There are two ways to open the "Generator" window:**
 
