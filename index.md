@@ -1,16 +1,23 @@
-![](https://github.com/yulingtianxia/pbxprojHelper/blob/master/images/appIcon.png?raw=true)
+![](images/appIcon.png)
+
+[![Language](https://img.shields.io/badge/language-Swift%204.0-orange.svg)](https://swift.org)
+[![Build Status](https://travis-ci.org/yulingtianxia/pbxprojHelper.svg?branch=master)](https://travis-ci.org/yulingtianxia/pbxprojHelper)
 
 # pbxprojHelper 
 
-pbxprojHelper lets you create and modify Xcode projects from Native UI App developed with Cocoa and Swift 3. You can also  use `pbxproj` as a command line tool in terminal.
+pbxprojHelper is a GUI tool developed with Cocoa and Swift 4 for parsing and changing Xcode projects configuration. You can also use `pbxproj` as a command line tool in terminal.
 
-![Main Window](https://github.com/yulingtianxia/pbxprojHelper/blob/master/images/MainWindow@2x.png?raw=true)
-
-[![Language](https://img.shields.io/badge/language-Swift%203.0-orange.svg)](https://swift.org)
-[![Build Status](https://travis-ci.org/yulingtianxia/pbxprojHelper.svg?branch=master)](https://travis-ci.org/yulingtianxia/pbxprojHelper)
+![Main Window](images/MainWindow@2x.png)
 
 ## Languages
-[中文](https://github.com/yulingtianxia/pbxprojHelper/blob/master/Documentation/README_ZH.md)
+
+[中文](Documentation/README_ZH.md)
+
+## Articles
+
+[pbxprojHelper--Xcode工程文件助手](http://yulingtianxia.com/blog/2016/11/28/pbxprojHelper/)
+
+[Let's Talk About project.pbxproj](http://yulingtianxia.com/blog/2016/09/28/Let-s-Talk-About-project-pbxproj/)
 
 ## Installing pbxprojHelper
 
@@ -37,7 +44,7 @@ Add `.Package(url: "https://github.com/yulingtianxia/pbxprojHelper.git", majorVe
 1. Choose your project file by clicking "Select" button. Both `.xcodeproj` and `.pbxproj` file extensions are supported. The path of project file you selected will be displayed on the text field. The outline view shows data of project file.
 2. Choose configuration file by clicking "Choose JSON File". Configuration file contains changes you want to make to your project. You can create a configuration file with json format, or generate it using "JSON Configuration Generator" tool provided by pbxprojHelper. The outline view will refresh data after you choose a json file.
 3. Clicking "Apply" button will write changes made by json configuration to project file you selected.
-4. "Revert" button lets you revert your project file to latest version.
+4. "Revert" button does a reverse operation of "Apply" button.
 
 ### Use pbxproj (Command Line Tool)
 
@@ -50,8 +57,9 @@ Usage: pbxproj [command_option] file
 Command options are (-convert is the default):
 -compare modified_file -o path          compare modified property list file with property list file and generate a json result at the given path
 -apply json_file                        apply a json file on property list file
--revert                                 revert property list file to latest backup
--convert                                rewrite property list files in xml format
+-revert                                 a json file on property list file
+-recover                                recover a property list file from latest change
+-convert                                rewrite a property list file in xml format
 ```
 
 ## Outline View
@@ -63,6 +71,10 @@ The outline view shows entire data of project.pbxproj file. You can expand an it
 ## Filter
 
 You can filt the content of outline view by typing a string in the "Filter" Text Field. It's not case sensitive.
+
+## Project File Path
+
+There is a pull-down menu which shows five latest used file paths when you click the path of your project file. So you can choose your project files in common use quickly.
 
 ## JSON Configuration File
 
@@ -96,6 +108,8 @@ The configuration file contains a list of rules. Here is an example of configura
 
 The root object must be a dictionary with 3 key-value pairs. You can "insert", "remove" and "modify" values through their key paths in project.pbxproj file. 
 
+There are two series of configuration rules in the newest configuration file: "forward" and "backward". They respectively corresponded to "Apply" and "Revert" Functions.
+
 #### Insert
 
 The example above inserts 3 elements(`"a"`,`"b"`,`"c"`) into the `children` array. Note that the keypath `"objects.A45A665D1D98286400DBED04.children"` must be valid. The value of `"children"` should be an array and the value of `"classes"` should be a dictionary. **In a word, the type of incremental data should be same with original data in project.pbxproj file.**
@@ -112,7 +126,7 @@ Modify the value of keypath, so easy.
 
 Programmer is lazy. I can't stand wasting my time on writing json files, so I create the powerful tool called "JSON Configuration Generator":
 
-![JSON Configuration Generator Window](https://github.com/yulingtianxia/pbxprojHelper/blob/master/images/GeneratorWindow@2x.png?raw=true)
+![JSON Configuration Generator Window](images/GeneratorWindow@2x.png)
 
 **There are two ways to open the "Generator" window:**
 
@@ -127,7 +141,7 @@ Conversely, you can use this json file when you want to apply these changes to c
 
 Each time you click "Apply" button on main window, pbxprojHelper will use original or last modified project file to create backup file with "backup" extension in "Documents" folder of sandbox first, and then apply changes on project file.
 
-"Revert" button uses these backups to revert project file to the latest version.
+~~"Revert" button uses these backups to revert project file to the latest version.~~
 
 ## Encoding
 
@@ -135,4 +149,4 @@ When generating project.pbxproj file with xml format, chinese characters will be
 
 ## LICENSE
 
-These works are available under the GNU General Public License. See the [LICENSE](https://github.com/yulingtianxia/pbxprojHelper/blob/master/LICENSE) file for more info.
+These works are available under the GNU General Public License. See the [LICENSE](LICENSE) file for more info.
