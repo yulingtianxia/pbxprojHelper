@@ -2,6 +2,8 @@
 
 [![Language](https://img.shields.io/badge/language-Swift%204.0-orange.svg)](https://swift.org)
 [![Build Status](https://travis-ci.org/yulingtianxia/pbxprojHelper.svg?branch=master)](https://travis-ci.org/yulingtianxia/pbxprojHelper)
+[![GitHub release](https://img.shields.io/github/release/yulingtianxia/pbxprojHelper.svg)](https://github.com/yulingtianxia/pbxprojHelper/releases)
+[![Twitter Follow](https://img.shields.io/twitter/follow/yulingtianxia.svg?style=social&label=Follow)](https://twitter.com/yulingtianxia)
 
 # pbxprojHelper 
 
