@@ -1,4 +1,4 @@
-osx_image: xcode9.1
+osx_image: xcode9.3
 os: osx
 language: objective-c
 script: xcodebuild -project pbxprojHelper.xcodeproj -scheme pbxprojHelper
