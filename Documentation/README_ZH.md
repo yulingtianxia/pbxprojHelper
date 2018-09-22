@@ -2,7 +2,7 @@
 
 # pbxprojHelper 
 
-pbxprojHelper 可以让你通过原生 UI 应用来创建和修改 Xcode 工程，使用 Cocoa 和 Swift 3 开发。你也可以把 `pbxproj` 当做命令行工具来在终端中使用。
+pbxprojHelper 可以让你通过原生 UI 应用来创建和修改 Xcode 工程，使用 Cocoa 和 Swift 4 开发。你也可以把 `pbxproj` 当做命令行工具来在终端中使用。
 
 ![Main Window](../images/MainWindow@2x.png)
 
