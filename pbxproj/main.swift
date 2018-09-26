@@ -13,7 +13,7 @@ let help = "No files specified.\n" +
     "Command options are (-convert is the default):\n" +
     "-compare modified_file -o path          compare modified property list file with property list file and generate a json result at the given path\n" +
     "-apply json_file                        apply a json file on property list file\n" +
-    "-revert                                 revert a json file on property list file\n" +
+    "-revert json_file                       revert a json file on property list file\n" +
     "-recover                                recover a property list file from latest change\n" +
     "-convert                                rewrite a property list file in xml format"
 
@@ -59,7 +59,7 @@ else {
             print(help)
         }
     case "-revert":
-        if CommandLine.arguments.count == 3 {
+        if CommandLine.arguments.count == 4 {
             let jsonFile = CommandLine.arguments[2]
             let projectFile = CommandLine.arguments[3]
             if let jsonObject = PropertyListHandler.parseJSON(fileURL: URL(fileURLWithPath: jsonFile)) as? [String: Any],
