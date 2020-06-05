@@ -228,7 +228,7 @@ class PropertyListHandler: NSObject {
                                     }
                                 }
                                 if let removeElement = removeData as? String,
-                                    let removeIndex = array.index(of: removeElement) {
+                                    let removeIndex = array.firstIndex(of: removeElement) {
                                     array.remove(at: removeIndex)
                                 }
                             }

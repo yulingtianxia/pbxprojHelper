@@ -139,7 +139,7 @@ class LRUCache <K: Hashable, V> : NSObject, NSCoding, Sequence {
     }
     
     fileprivate func useKey(_ key: K) {
-        if let index = _keys.index(of: key) {// key 已存在数组中，只需要将其挪至 index 0
+        if let index = _keys.firstIndex(of: key) {// key 已存在数组中，只需要将其挪至 index 0
             _keys.insert(_keys.remove(at: index), at: 0)
         }
         else {// key 不存在数组中，需要将其插入 index 0，并在超出缓存大小阈值时移走最后面的元素
