@@ -1,13 +1,15 @@
 ![](../images/appIcon.png)
 
+[![Language](https://img.shields.io/badge/language-Swift%205.0-orange.svg)](https://swift.org)
+[![Build Status](https://travis-ci.org/yulingtianxia/pbxprojHelper.svg?branch=master)](https://travis-ci.org/yulingtianxia/pbxprojHelper)
+[![GitHub release](https://img.shields.io/github/release/yulingtianxia/pbxprojHelper.svg)](https://github.com/yulingtianxia/pbxprojHelper/releases)
+[![Twitter Follow](https://img.shields.io/twitter/follow/yulingtianxia.svg?style=social&label=Follow)](https://twitter.com/yulingtianxia)
+
 # pbxprojHelper 
 
-pbxprojHelper 可以让你通过原生 UI 应用来创建和修改 Xcode 工程，使用 Cocoa 和 Swift 4 开发。你也可以把 `pbxproj` 当做命令行工具来在终端中使用。
+pbxprojHelper 可以让你通过原生 UI 应用来创建和修改 Xcode 工程，使用 Cocoa 和 Swift 5 开发。你也可以把 `pbxproj` 当做命令行工具来在终端中使用。
 
 ![Main Window](../images/MainWindow@2x.png)
-
-[![Language](https://img.shields.io/badge/language-Swift%203.0-orange.svg)](https://swift.org)
-[![Build Status](https://travis-ci.org/yulingtianxia/pbxprojHelper.svg?branch=master)](https://travis-ci.org/yulingtianxia/pbxprojHelper)
 
 ## 语言
 
