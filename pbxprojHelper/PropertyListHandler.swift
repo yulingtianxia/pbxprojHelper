@@ -307,6 +307,11 @@ class PropertyListHandler: NSObject {
                     difference["modify"]?[parentKeyPath] = array2
                 }
             }
+            if let array1 = data1 as? [[String: String]], let array2 = data2 as? [[String: String]] {
+                if array1 != array2 {
+                    difference["modify"]?[parentKeyPath] = array2
+                }
+            }
         }
         compare(data: project1, withOtherData: project2, parentKeyPath: "")
         return difference
