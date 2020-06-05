@@ -303,25 +303,8 @@ class PropertyListHandler: NSObject {
                 }
             }
             if let array1 = data1 as? [String], let array2 = data2 as? [String] {
-                let set1 = Set(array1)
-                let set2 = Set(array2)
-                for element in set1.subtracting(set2) {
-                    if difference["insert"]?[parentKeyPath] == nil {
-                        difference["insert"]?[parentKeyPath] = [element]
-                    }
-                    else if var insertArray = difference["insert"]?[parentKeyPath] as? [Any] {
-                        insertArray.append(element)
-                        difference["insert"]?[parentKeyPath] = insertArray
-                    }
-                }
-                for element in set2.subtracting(set1) {
-                    if difference["remove"]?[parentKeyPath] == nil {
-                        difference["remove"]?[parentKeyPath] = [element]
-                    }
-                    else if var removeArray = difference["remove"]?[parentKeyPath] as? [Any] {
-                        removeArray.append(element)
-                        difference["remove"]?[parentKeyPath] = removeArray
-                    }
+                if array1 != array2 {
+                    difference["modify"]?[parentKeyPath] = array2
                 }
             }
         }
