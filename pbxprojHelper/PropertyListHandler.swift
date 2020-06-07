@@ -12,6 +12,10 @@ var applicationDocumentsDirectory: URL? {
     return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
 }
 
+let insertKey = "insert"
+let removeKey = "remove"
+let modifyKey = "modify"
+
 class PropertyListHandler: NSObject {
     
     /// 将工程文件内容转为字典对象
@@ -162,7 +166,7 @@ class PropertyListHandler: NSObject {
             for (keyPath, data) in arguments {
                 let keys = keyPath.components(separatedBy: ".")
                 
-                /// 假如 command 为 "modify" keyPath 为 "A.B.C"，目的是让 value[A][B][C] = data。需要沿着路径深入，使用闭包修改叶子节点的数据，递归过程中逐级向上返回修改后的结果，完成整个路径上数据的更新。
+                /// 假如 command 为 modifyKey keyPath 为 "A.B.C"，目的是让 value[A][B][C] = data。需要沿着路径深入，使用闭包修改叶子节点的数据，递归过程中逐级向上返回修改后的结果，完成整个路径上数据的更新。
                 ///
                 /// - parameter index:    路径深度
                 /// - parameter value:    当前路径对应的值
@@ -194,7 +198,7 @@ class PropertyListHandler: NSObject {
                     // value 为路径叶子节点的数据。根据 command 的不同，处理的规则也不一样：
                     switch command {
                         // 添加数据时 data 和 value 类型要统一，要么都是数组，要么都是字典，否则不做变更
-                    case "insert":
+                    case insertKey:
                         if var dictionary = value as? [String: Any],
                             let dicData = data as? [String: Any] {
                             for (dataKey, dataValue) in dicData {
@@ -209,7 +213,7 @@ class PropertyListHandler: NSObject {
                         }
                         return value
                         // 移除数据时被移除的 data 为包含数据或键的数组，否则不做变更
-                    case "remove":
+                    case removeKey:
                         if var dictionary = value as? [String: Any],
                             let arrayData = data as? [Any] {
                             for removeData in arrayData {
@@ -236,7 +240,7 @@ class PropertyListHandler: NSObject {
                         }
                         return value
                         // 直接用 data 替换 value
-                    case "modify":
+                    case modifyKey:
                         return data
                     default:
                         return value
@@ -258,7 +262,7 @@ class PropertyListHandler: NSObject {
     /// - returns: project1 相对于 project2 的变化
     class func compare(project project1: [String: Any], withOtherProject project2: [String: Any]) -> Any {
         
-        var difference = ["insert": [String: Any](), "remove": [String: Any](), "modify": [String: Any]()]
+        var difference = [insertKey: [String: Any](), removeKey: [String: Any](), modifyKey: [String: Any]()]
         
         /// 将两个数据对象作递归比较，将最深层次节点的差异保存到 difference 中。
         ///
@@ -271,21 +275,21 @@ class PropertyListHandler: NSObject {
                 let set1 = Set(dictionary1.keys)
                 let set2 = Set(dictionary2.keys)
                 for key in set1.subtracting(set2) {
-                    if let value = dictionary1[key], difference["insert"]?[parentKeyPath] == nil {
-                        difference["insert"]?[parentKeyPath] = [key: value]
+                    if let value = dictionary1[key], difference[insertKey]?[parentKeyPath] == nil {
+                        difference[insertKey]?[parentKeyPath] = [key: value]
                     }
-                    else if let value = dictionary1[key], var insertDictionary = difference["insert"]?[parentKeyPath] as? [String: Any] {
+                    else if let value = dictionary1[key], var insertDictionary = difference[insertKey]?[parentKeyPath] as? [String: Any] {
                         insertDictionary[key] = value
-                        difference["insert"]?[parentKeyPath] = insertDictionary
+                        difference[insertKey]?[parentKeyPath] = insertDictionary
                     }
                 }
                 for key in set2.subtracting(set1) {
-                    if difference["remove"]?[parentKeyPath] == nil {
-                        difference["remove"]?[parentKeyPath] = [key]
+                    if difference[removeKey]?[parentKeyPath] == nil {
+                        difference[removeKey]?[parentKeyPath] = [key]
                     }
-                    else if var removeArray = difference["remove"]?[parentKeyPath] as? [Any] {
+                    else if var removeArray = difference[removeKey]?[parentKeyPath] as? [Any] {
                         removeArray.append(key)
-                        difference["remove"]?[parentKeyPath] = removeArray
+                        difference[removeKey]?[parentKeyPath] = removeArray
                     }
                 }
                 for key in set1.intersection(set2) {
@@ -294,7 +298,7 @@ class PropertyListHandler: NSObject {
                     if let str1 = dictionary1[key] as? String,
                         let str2 = dictionary2[key] as? String {
                         if str1 != str2 {
-                            difference["modify"]?[keyPath] = str1
+                            difference[modifyKey]?[keyPath] = str1
                         }
                     }
                     else { // continue compare subtrees
@@ -302,14 +306,24 @@ class PropertyListHandler: NSObject {
                     }
                 }
             }
+            
             if let array1 = data1 as? [String], let array2 = data2 as? [String] {
-                if array1 != array2 {
-                    difference["modify"]?[parentKeyPath] = array1
+                let diff = array2.difference(from: array1)
+                if let insert = diff?[insertKey] {
+                    difference[insertKey]?[parentKeyPath] = insert
+                }
+                if let remove = diff?[removeKey] {
+                    difference[removeKey]?[parentKeyPath] = remove
                 }
             }
+            
             if let array1 = data1 as? [[String: String]], let array2 = data2 as? [[String: String]] {
-                if array1 != array2 {
-                    difference["modify"]?[parentKeyPath] = array1
+                let diff = array2.difference(from: array1)
+                if let insert = diff?[insertKey] {
+                    difference[insertKey]?[parentKeyPath] = insert
+                }
+                if let remove = diff?[removeKey] {
+                    difference[removeKey]?[parentKeyPath] = remove
                 }
             }
         }
@@ -355,5 +369,28 @@ class PropertyListHandler: NSObject {
         } catch _ {
             return nil
         }
+    }
+}
+
+extension Array where Element: Hashable {
+    func difference(from other: [Element]) -> [String: [Element]]? {
+        if self != other {
+            var insert = other
+            var remove = self
+            
+            for element in other {
+                if let index = remove.firstIndex(of: element) {
+                    remove.remove(at: index)
+                }
+            }
+            
+            for element in self {
+                if let index = insert.firstIndex(of: element) {
+                    insert.remove(at: index)
+                }
+            }
+            return [insertKey: insert, removeKey: remove]
+        }
+        return nil
     }
 }
