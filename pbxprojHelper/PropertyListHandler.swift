@@ -304,12 +304,12 @@ class PropertyListHandler: NSObject {
             }
             if let array1 = data1 as? [String], let array2 = data2 as? [String] {
                 if array1 != array2 {
-                    difference["modify"]?[parentKeyPath] = array2
+                    difference["modify"]?[parentKeyPath] = array1
                 }
             }
             if let array1 = data1 as? [[String: String]], let array2 = data2 as? [[String: String]] {
                 if array1 != array2 {
-                    difference["modify"]?[parentKeyPath] = array2
+                    difference["modify"]?[parentKeyPath] = array1
                 }
             }
         }
